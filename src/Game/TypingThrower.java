@@ -25,9 +25,13 @@ public class TypingThrower {
 		} catch (FileNotFoundException e) {
 			// ignore it and try other way
 		}
+		// if (in == null) {
+		// ClassLoader loader = TypingThrower.class.getClassLoader();
+		// in = loader.getResourceAsStream(fileName);
+		// }
 		if (in == null) {
-			ClassLoader loader = TypingThrower.class.getClassLoader();
-			in = loader.getResourceAsStream(fileName);
+			in = this.getClass().getResourceAsStream(
+					"/wordsFile/dictionary.txt");
 		}
 		if (in == null)
 			throw new RuntimeException();
@@ -71,4 +75,13 @@ public class TypingThrower {
 	public boolean isP2Die() {
 		return p2.getHP() <= 0;
 	}
+
+	public Player getP1() {
+		return p1;
+	}
+
+	public Player getP2() {
+		return p2;
+	}
+
 }
