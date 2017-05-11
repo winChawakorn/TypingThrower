@@ -162,6 +162,7 @@ public class GameUI {
 			}
 		});
 	}
+	
 
 	public void Attack() {
 		ImageIcon weaponPic = new ImageIcon("Kunai.png");

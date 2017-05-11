@@ -4,6 +4,7 @@ public class Player {
 	private String name;
 	private int HP;
 	private int damage;
+	
 
 	public Player(String name, int HP, int damage) {
 		this.name = name;
