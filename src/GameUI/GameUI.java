@@ -8,30 +8,25 @@ import javax.swing.JFrame;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import java.awt.GridBagLayout;
-
 import javax.swing.JProgressBar;
 
 import Game.Player;
 import Game.TypingThrower;
 
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.Image;
-import java.awt.Insets;
 import java.awt.Color;
-import java.awt.Panel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.awt.Rectangle;
 import java.awt.Font;
 import java.awt.Component;
-import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.SwingConstants;
 
@@ -44,6 +39,11 @@ public class GameUI {
 	private JProgressBar HP2;
 	private JPanel playing;
 	private JLabel word;
+	private JLabel p1;
+	private Timer timer;
+	private JLabel weapon;
+
+	private List<JLabel> bullets = new ArrayList<JLabel>();
 
 	/**
 	 * Launch the application.
@@ -86,15 +86,15 @@ public class GameUI {
 			@Override
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				try {
-					BufferedImage img = ImageIO.read(this.getClass()
-							.getResourceAsStream("/res/BG.png"));
-					g.drawImage(img, 0, 0, frame.getSize().width,
-							frame.getSize().height, null);
-					// Graphics asdf = img.getGraphics();
-					// asdf.drawRect(0, 0, 30, 30);
-				} catch (IOException e) {
-				}
+				// try {
+				// BufferedImage img = ImageIO.read(this.getClass()
+				// .getResourceAsStream("/res/BG.png"));
+				// g.drawImage(img, 0, 0, frame.getSize().width,
+				// frame.getSize().height, null);
+				// // Graphics asdf = img.getGraphics();
+				// // asdf.drawRect(0, 0, 30, 30);
+				// } catch (IOException e) {
+				// }
 			}
 		};
 		playing.setLayout(null);
@@ -106,6 +106,12 @@ public class GameUI {
 		HP1.setValue(100);
 		HP1.setForeground(Color.RED);
 		playing.add(HP1);
+
+		ImageIcon ninja1 = new ImageIcon("ninja1.png");
+		p1 = new JLabel(ninja1);
+		p1.setLocation(250, 350);
+		p1.setSize(ninja1.getIconWidth(), ninja1.getIconHeight());
+		playing.add(p1);
 
 		HP2 = new JProgressBar();
 		HP2.setValue(100);
@@ -125,12 +131,86 @@ public class GameUI {
 					currentWord = currentWord.substring(1, currentWord.length());
 					if (currentWord.length() == 0) {
 						game.P1Attack();
-						HP2.setValue(game.getP2().getHP());
+
+						ImageIcon weaponPic = new ImageIcon("Kunai.png");
+						weapon = new JLabel(weaponPic);
+						weapon.setLocation(300, 500);
+						weapon.setSize(weaponPic.getIconWidth(),
+								weaponPic.getIconHeight());
+						playing.add(weapon);
+
+						// ImageIcon weaponPic = new ImageIcon("Kunai.png");
+						// JLabel bullet = new JLabel(weaponPic);
+						// bullet.setLocation(300, 350);
+						// bullet.setSize(weaponPic.getIconWidth(),
+						// weaponPic.getIconHeight());
+						// bullets.add(bullet);
+
+						p1Attack();
+
 						currentWord = game.getWord();
 					}
-					word.setText(currentWord);
+					if (game.isP2Die())
+						word.setText("");
+					else
+						word.setText(currentWord);
+
 				}
 			}
 		});
+	}
+
+	private void p1Attack() {
+		timer = new Timer();
+		// new javax.swing.Timer(500, new ActionListener() {
+		//
+		// @Override
+		// public void actionPerformed(ActionEvent e) {
+		// // for () {
+		// // update x
+		// // }
+		// // System.out.println("test");
+		// // System.out.println(bullets.size());
+		// for (JLabel b : bullets) {
+		// playing.add(b);
+		// b.setLocation(b.getX() + 10, b.getY());
+		// }
+		// // bullets = new ArrayList<JLabel>();
+		// }
+		// }).start();
+
+		// ImageIcon weaponPic = new ImageIcon("Kunai.png");
+		// JLabel weapon = new JLabel(weaponPic);
+		// weapon.setLocation(300, 350);
+		// weapon.setSize(weaponPic.getIconWidth(), weaponPic.getIconHeight());
+		// bullets.add(weapon);
+		// timer.schedule(new TimerTask() {
+		// @Override
+		// public synchronized void run() {
+		// for (JLabel b : bullets) {
+		// playing.add(b);
+		// b.setLocation(b.getX() + 30, b.getY());
+		// if (b.getX() >= 1200) {
+		// timer.cancel();
+		// playing.remove(b);
+		// HP2.setValue(game.getP2().getHP());
+		// }
+		// }
+		// }
+		// }, 0, 1);
+		timer.schedule(new TimerTask() {
+
+			@Override
+			public void run() {
+				playing.add(weapon);
+				weapon.setLocation(weapon.getX() + 30, weapon.getY());
+				if (weapon.getX() >= 1200) {
+					timer.cancel();
+					playing.remove(weapon);
+					HP2.setValue(game.getP2().getHP());
+				}
+			}
+		}, 0, 1);
+
 	}
 }
