@@ -134,7 +134,8 @@ public class GameUI {
 		word = new JLabel(currentWord, SwingConstants.CENTER);
 		word.setAlignmentX(Component.CENTER_ALIGNMENT);
 		word.setFont(new Font("Tahoma", Font.BOLD, 99));
-		word.setBounds(0, 65, (int) frame.getSize().getWidth(), 136);
+		word.setBounds(0, 65, (int) frame.getSize().getWidth(), word.getFont()
+				.getSize() * 2);
 		playing.add(word);
 
 		p2Name = new JLabel(game.getP2().toString(), SwingConstants.RIGHT);
@@ -170,11 +171,11 @@ public class GameUI {
 		weapon.setSize(weaponPic.getIconWidth(), weaponPic.getIconHeight());
 		playing.add(weapon);
 		weapon.setLocation(300, 500);
-		javax.swing.Timer timer2 = new javax.swing.Timer(10, null);
+		javax.swing.Timer timer2 = new javax.swing.Timer(0, null);
 		timer2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				weapon.setLocation(weapon.getX() + 30, weapon.getY());
+				weapon.setLocation(weapon.getX() + 100, weapon.getY());
 				if (weapon.getX() >= 1200) {
 					HP2.setValue(game.getP2().getHP());
 					playing.remove(weapon);
