@@ -68,11 +68,11 @@ public class TypingThrower {
 		p1.setHP(p1.getHP() - p2.getDamage());
 	}
 
-	public boolean isP1Die() {
+	public boolean isP1Lose() {
 		return p1.getHP() <= 0;
 	}
 
-	public boolean isP2Die() {
+	public boolean isP2Lose() {
 		return p2.getHP() <= 0;
 	}
 
