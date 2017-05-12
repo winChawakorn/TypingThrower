@@ -67,8 +67,7 @@ public class GameUI {
 	public GameUI() {
 		frame = new JFrame("TypingThrower");
 		game = new TypingThrower(new Player("Aom", 100, 10), new Player("Win",
-				100, 1), "dictionary.txt");
-
+				100, 1));
 		initComponent();
 	}
 
@@ -122,13 +121,15 @@ public class GameUI {
 		HP1.setForeground(Color.RED);
 		playing.add(HP1);
 
-		ImageIcon p1Pic = new ImageIcon("ninja1.png");
+		ImageIcon p1Pic = new ImageIcon(this.getClass().getResource(
+				"/res/ninja1.png"));
 		p1 = new JLabel(p1Pic);
 		p1.setLocation(frame.getWidth() / 8, (int) (frame.getHeight() / 2.5));
 		p1.setSize(p1Pic.getIconWidth(), p1Pic.getIconHeight());
 		playing.add(p1);
 
-		ImageIcon p2Pic = new ImageIcon("robot1.png");
+		ImageIcon p2Pic = new ImageIcon(this.getClass().getResource(
+				"/res/robot1.png"));
 		p2 = new JLabel(p2Pic);
 		p2.setLocation(frame.getWidth() - (int) (frame.getWidth() / 4.5),
 				(int) (frame.getHeight() / 2.5));
@@ -182,7 +183,8 @@ public class GameUI {
 				}
 			}
 		});
-		p1Throw = new JLabel(new ImageIcon("ninja2.png"));
+		p1Throw = new JLabel(new ImageIcon(this.getClass().getResource(
+				"/res/ninja2.png")));
 		p1Throw.setSize(p1.getSize());
 		p1Throw.setLocation(p1.getLocation());
 		p1Throw.setVisible(false);
@@ -190,7 +192,8 @@ public class GameUI {
 	}
 
 	public void p1Attack() {
-		ImageIcon weaponPic = new ImageIcon("Kunai.png");
+		ImageIcon weaponPic = new ImageIcon(this.getClass().getResource(
+				"/res/Kunai.png"));
 		JLabel weapon = new JLabel(weaponPic);
 		weapon.setSize(weaponPic.getIconWidth(), weaponPic.getIconHeight());
 		weapon.setLocation(frame.getWidth() / 7,
@@ -240,7 +243,8 @@ public class GameUI {
 	}
 
 	public void p2Lose() {
-		ImageIcon p2LosePic1 = new ImageIcon("robotDead1.png");
+		ImageIcon p2LosePic1 = new ImageIcon(this.getClass().getResource(
+				"/res/robotDead1.png"));
 		JLabel p2Lose1 = new JLabel(p2LosePic1);
 		p2Lose1.setSize(p2LosePic1.getIconWidth(), p2LosePic1.getIconHeight());
 		p2Lose1.setLocation(p2.getX() - 150, p2.getY() + 75);
@@ -248,7 +252,8 @@ public class GameUI {
 		p2.setVisible(false);
 		p2Lose1.setVisible(true);
 
-		ImageIcon p2LosePic2 = new ImageIcon("robotDead2.png");
+		ImageIcon p2LosePic2 = new ImageIcon(this.getClass().getResource(
+				"/res/robotDead2.png"));
 		JLabel p2Lose2 = new JLabel(p2LosePic2);
 		p2Lose2.setSize(p2LosePic2.getIconWidth(), p2LosePic2.getIconHeight());
 		p2Lose2.setLocation(p2Lose1.getX() - 150, p2Lose1.getY());

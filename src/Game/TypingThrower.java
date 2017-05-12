@@ -16,22 +16,12 @@ public class TypingThrower {
 	private InputStream in;
 	private List<String> words;
 
-	public TypingThrower(Player player1, Player player2, String fileName) {
+	public TypingThrower(Player player1, Player player2) {
 		this.p1 = player1;
 		this.p2 = player2;
 		in = null;
-		try {
-			in = new FileInputStream(fileName);
-		} catch (FileNotFoundException e) {
-			// ignore it and try other way
-		}
-		// if (in == null) {
-		// ClassLoader loader = TypingThrower.class.getClassLoader();
-		// in = loader.getResourceAsStream(fileName);
-		// }
 		if (in == null) {
-			in = this.getClass().getResourceAsStream(
-					"/wordsFile/dictionary.txt");
+			in = this.getClass().getResourceAsStream("/res/dictionary.txt");
 		}
 		if (in == null)
 			throw new RuntimeException();
