@@ -1,36 +1,35 @@
 package gameui;
 
-import javax.imageio.ImageIO;
+import game.TypingThrower;
+
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-import Game.Player;
-import game.TypingThrower;
-
 import java.awt.Dimension;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
 import java.awt.Font;
 import java.awt.Component;
-import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.SwingConstants;
 
+import connection.Controller;
+
 public class GameUI {
 
 	private JFrame frame;
+	private Controller controller;
 	private String currentWord;
 	private TypingThrower game;
 	private JProgressBar HP1;
@@ -42,32 +41,31 @@ public class GameUI {
 	private JLabel p1Name;
 	private JLabel p2Name;
 	private JLabel p1Throw;
+	private JPanel menu;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		// EventQueue.invokeLater(new Runnable() {
-		// public void run() {
-		// try {
-		// GameUI window = new GameUI();
-		// window.frame.setVisible(true);
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
-		// }
-		// });
-		GameUI ui = new GameUI();
-		ui.run();
-	}
+	// public static void main(String[] args) {
+	// EventQueue.invokeLater(new Runnable() {
+	// public void run() {
+	// try {
+	// GameUI window = new GameUI();
+	// window.frame.setVisible(true);
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// }
+	// });
+	// }
 
 	/**
 	 * Create the application.
 	 */
-	public GameUI() {
+	public GameUI(TypingThrower game) {
 		frame = new JFrame("TypingThrower");
-		game = new TypingThrower(new Player("Aom", 100, 10), new Player("Win",
-				100, 1));
+		controller = new Controller();
+		this.game = game;
 		initComponent();
 	}
 
@@ -92,7 +90,28 @@ public class GameUI {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(
 				new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
-		playing = new JPanel();
+		initMenuUI();
+	}
+
+	public void initMenuUI() {
+		menu = new JPanel();
+		menu.setSize(frame.getSize());
+		JButton start = new JButton("Start");
+		start.addActionListener((e) -> initStartUI());
+		menu.add(start);
+		frame.add(menu);
+	}
+
+	public void initStartUI() {
+		initPlayingUI();
+	}
+
+	public void initPlayingUI() {
+		menu.setVisible(false);
+		frame.remove(menu);
+		frame.setVisible(false);
+		frame.setVisible(true);
+
 		// JLabel background = new JLabel(new ImageIcon("BG.png"));
 		// playing = new JPanel() {
 		// @Override
@@ -110,6 +129,7 @@ public class GameUI {
 		// }
 		// }
 		// };
+		playing = new JPanel();
 		playing.setLayout(null);
 		playing.setSize(frame.getSize());
 		frame.getContentPane().add(playing);
@@ -117,7 +137,8 @@ public class GameUI {
 		HP1 = new JProgressBar();
 		HP1.setBounds(frame.getWidth() / 18,
 				frame.getHeight() - frame.getHeight() / 10, 670, 25);
-		HP1.setValue(100);
+		HP1.setMaximum(1000);
+		HP1.setValue(HP1.getMaximum());
 		HP1.setForeground(Color.RED);
 		playing.add(HP1);
 
@@ -145,7 +166,8 @@ public class GameUI {
 		playing.add(p1Name);
 
 		HP2 = new JProgressBar();
-		HP2.setValue(100);
+		HP2.setMaximum(1000);
+		HP2.setValue(HP2.getMaximum());
 		HP2.setForeground(Color.RED);
 		HP2.setBounds(frame.getWidth() - (int) (frame.getWidth() / 2.5),
 				frame.getHeight() - frame.getHeight() / 10, 670, 25);
@@ -167,6 +189,7 @@ public class GameUI {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyChar() == currentWord.charAt(0)) {
+
 					currentWord = currentWord.substring(1, currentWord.length());
 					game.P1Attack();
 
@@ -179,7 +202,6 @@ public class GameUI {
 						frame.removeKeyListener(this);
 					} else
 						word.setText(currentWord);
-
 				}
 			}
 		});

@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import Game.Player;
-
 public class TypingThrower {
 	private Player p1;
 	private Player p2;
