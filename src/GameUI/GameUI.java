@@ -1,7 +1,5 @@
 package gameUI;
 
-import java.awt.EventQueue;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -13,8 +11,10 @@ import javax.swing.JProgressBar;
 import Game.Player;
 import Game.TypingThrower;
 
-import java.awt.Graphics;
+import java.awt.Dimension;
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -23,8 +23,6 @@ import java.awt.image.BufferedImage;
 import java.awt.Font;
 import java.awt.Component;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -40,177 +38,236 @@ public class GameUI {
 	private JPanel playing;
 	private JLabel word;
 	private JLabel p1;
-	private Timer timer;
-	private JLabel weapon;
-
-	private List<JLabel> bullets = new ArrayList<JLabel>();
+	private JLabel p2;
+	private JLabel p1Name;
+	private JLabel p2Name;
+	private JLabel p1Throw;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GameUI window = new GameUI();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		// EventQueue.invokeLater(new Runnable() {
+		// public void run() {
+		// try {
+		// GameUI window = new GameUI();
+		// window.frame.setVisible(true);
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
+		// }
+		// });
+		GameUI ui = new GameUI();
+		ui.run();
 	}
 
 	/**
 	 * Create the application.
 	 */
 	public GameUI() {
-		frame = new JFrame();
-		game = new TypingThrower(new Player(100, 10), new Player(100, 10),
-				"dictionary.txt");
+		frame = new JFrame("TypingThrower");
+		game = new TypingThrower(new Player("Aom", 100, 10), new Player("Win",
+				100, 1));
 		initComponent();
+	}
+
+	public void run() {
+		frame.setVisible(true);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initComponent() {
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		frame.setBounds(100, 100, (int) d.getWidth(), (int) d.getHeight());
+		// System.out.println(frame.getSize());
+		// frame.setLocationRelativeTo(null);
 		// frame.setResizable(false);
-		frame.setTitle("Typing Thrower");
-		frame.setBounds(100, 100, 1600, 900);
+		// frame.setBounds(100, 100, 1600, 900);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setUndecorated(true);
+		frame.setVisible(true);
+		frame.setVisible(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(
 				new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
-		playing = new JPanel() {
-			// JLabel playing = new JLabel(new ImageIcon("BG.jpg"));
-			@Override
-			protected void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				// try {
-				// BufferedImage img = ImageIO.read(this.getClass()
-				// .getResourceAsStream("/res/BG.png"));
-				// g.drawImage(img, 0, 0, frame.getSize().width,
-				// frame.getSize().height, null);
-				// // Graphics asdf = img.getGraphics();
-				// // asdf.drawRect(0, 0, 30, 30);
-				// } catch (IOException e) {
-				// }
-			}
-		};
+		playing = new JPanel();
+		// JLabel background = new JLabel(new ImageIcon("BG.png"));
+		// playing = new JPanel() {
+		// @Override
+		// protected void paintComponent(Graphics g) {
+		// super.paintComponent(g);
+		// try {
+		// BufferedImage img = ImageIO.read(this.getClass()
+		// .getResourceAsStream("/res/BG.png"));
+		// g.drawImage(img, 0, 0, frame.getSize().width,
+		// frame.getSize().height, null);
+		// Graphics asdf = img.getGraphics();
+		// asdf.drawRect(0, 0, 30, 30);
+		// } catch (IOException e) {
+		// // do nothing
+		// }
+		// }
+		// };
 		playing.setLayout(null);
 		playing.setSize(frame.getSize());
 		frame.getContentPane().add(playing);
 
 		HP1 = new JProgressBar();
-		HP1.setBounds(42, 750, 670, 25);
+		HP1.setBounds(frame.getWidth() / 18,
+				frame.getHeight() - frame.getHeight() / 10, 670, 25);
 		HP1.setValue(100);
 		HP1.setForeground(Color.RED);
 		playing.add(HP1);
 
-		ImageIcon ninja1 = new ImageIcon("ninja1.png");
-		p1 = new JLabel(ninja1);
-		p1.setLocation(250, 350);
-		p1.setSize(ninja1.getIconWidth(), ninja1.getIconHeight());
+		ImageIcon p1Pic = new ImageIcon(this.getClass().getResource(
+				"/res/ninja1.png"));
+		p1 = new JLabel(p1Pic);
+		p1.setLocation(frame.getWidth() / 8, (int) (frame.getHeight() / 2.5));
+		p1.setSize(p1Pic.getIconWidth(), p1Pic.getIconHeight());
 		playing.add(p1);
+
+		ImageIcon p2Pic = new ImageIcon(this.getClass().getResource(
+				"/res/robot1.png"));
+		p2 = new JLabel(p2Pic);
+		p2.setLocation(frame.getWidth() - (int) (frame.getWidth() / 4.5),
+				(int) (frame.getHeight() / 2.5));
+		p2.setSize(p2Pic.getIconWidth(), p2Pic.getIconHeight());
+		playing.add(p2);
+
+		p1Name = new JLabel(game.getP1().toString());
+		p1Name.setFont(new Font("Trebuchet MS", Font.BOLD, 47));
+		p1Name.setLocation(42, 650);
+		p1Name.setBounds((int) frame.getWidth() / 7, (int) frame.getHeight()
+				- (frame.getHeight() / 5), 670, 100);
+
+		playing.add(p1Name);
 
 		HP2 = new JProgressBar();
 		HP2.setValue(100);
 		HP2.setForeground(Color.RED);
-		HP2.setBounds(870, 750, 670, 25);
+		HP2.setBounds(frame.getWidth() - (int) (frame.getWidth() / 2.5),
+				frame.getHeight() - frame.getHeight() / 10, 670, 25);
 		playing.add(HP2);
 		currentWord = game.getWord();
 		word = new JLabel(currentWord, SwingConstants.CENTER);
 		word.setAlignmentX(Component.CENTER_ALIGNMENT);
 		word.setFont(new Font("Tahoma", Font.BOLD, 99));
-		word.setBounds(0, 65, (int) frame.getSize().getWidth(), 136);
+		word.setBounds(0, 65, (int) frame.getSize().getWidth(), word.getFont()
+				.getSize() * 2);
 		playing.add(word);
+
+		p2Name = new JLabel(game.getP2().toString(), SwingConstants.RIGHT);
+		p2Name.setFont(new Font("Trebuchet MS", Font.BOLD, 47));
+		p2Name.setBounds((frame.getWidth() / 2),
+				frame.getHeight() - (frame.getHeight() / 5), 670, 100);
+		playing.add(p2Name);
 		frame.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyChar() == currentWord.charAt(0)) {
 					currentWord = currentWord.substring(1, currentWord.length());
+					game.P1Attack();
+
+					p1Attack();
 					if (currentWord.length() == 0) {
-						game.P1Attack();
-
-						ImageIcon weaponPic = new ImageIcon("Kunai.png");
-						weapon = new JLabel(weaponPic);
-						weapon.setLocation(300, 500);
-						weapon.setSize(weaponPic.getIconWidth(),
-								weaponPic.getIconHeight());
-						playing.add(weapon);
-
-						// ImageIcon weaponPic = new ImageIcon("Kunai.png");
-						// JLabel bullet = new JLabel(weaponPic);
-						// bullet.setLocation(300, 350);
-						// bullet.setSize(weaponPic.getIconWidth(),
-						// weaponPic.getIconHeight());
-						// bullets.add(bullet);
-
-						p1Attack();
-
 						currentWord = game.getWord();
 					}
-					if (game.isP2Die())
+					if (game.isP2Lose()) {
 						word.setText("");
-					else
+						frame.removeKeyListener(this);
+					} else
 						word.setText(currentWord);
 
 				}
 			}
 		});
+		p1Throw = new JLabel(new ImageIcon(this.getClass().getResource(
+				"/res/ninja2.png")));
+		p1Throw.setSize(p1.getSize());
+		p1Throw.setLocation(p1.getLocation());
+		p1Throw.setVisible(false);
+		playing.add(p1Throw);
 	}
 
-	private void p1Attack() {
-		timer = new Timer();
-		// new javax.swing.Timer(500, new ActionListener() {
-		//
-		// @Override
-		// public void actionPerformed(ActionEvent e) {
-		// // for () {
-		// // update x
-		// // }
-		// // System.out.println("test");
-		// // System.out.println(bullets.size());
-		// for (JLabel b : bullets) {
-		// playing.add(b);
-		// b.setLocation(b.getX() + 10, b.getY());
-		// }
-		// // bullets = new ArrayList<JLabel>();
-		// }
-		// }).start();
+	public void p1Attack() {
+		ImageIcon weaponPic = new ImageIcon(this.getClass().getResource(
+				"/res/Kunai.png"));
+		JLabel weapon = new JLabel(weaponPic);
+		weapon.setSize(weaponPic.getIconWidth(), weaponPic.getIconHeight());
+		weapon.setLocation(frame.getWidth() / 7,
+				(int) (frame.getHeight() / 1.9));
+		playing.add(weapon);
 
-		// ImageIcon weaponPic = new ImageIcon("Kunai.png");
-		// JLabel weapon = new JLabel(weaponPic);
-		// weapon.setLocation(300, 350);
-		// weapon.setSize(weaponPic.getIconWidth(), weaponPic.getIconHeight());
-		// bullets.add(weapon);
-		// timer.schedule(new TimerTask() {
-		// @Override
-		// public synchronized void run() {
-		// for (JLabel b : bullets) {
-		// playing.add(b);
-		// b.setLocation(b.getX() + 30, b.getY());
-		// if (b.getX() >= 1200) {
-		// timer.cancel();
-		// playing.remove(b);
-		// HP2.setValue(game.getP2().getHP());
-		// }
-		// }
-		// }
-		// }, 0, 1);
+		p1.setVisible(false);
+		p1Throw.setVisible(true);
+		Timer timer = new Timer();
 		timer.schedule(new TimerTask() {
 
 			@Override
 			public void run() {
-				playing.add(weapon);
+				p1Throw.setVisible(false);
+				p1.setVisible(true);
+				timer.cancel();
+			}
+		}, 100);
+
+		javax.swing.Timer timer2 = new javax.swing.Timer(10, null);
+		timer2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
 				weapon.setLocation(weapon.getX() + 30, weapon.getY());
-				if (weapon.getX() >= 1200) {
-					timer.cancel();
-					playing.remove(weapon);
+				if (weapon.getX() >= 1500) {
 					HP2.setValue(game.getP2().getHP());
+					playing.remove(weapon);
+					timer2.stop();
+					p2.setVisible(false);
+					if (game.isP2Lose()) {
+						p2Lose();
+					} else {
+						Timer timer3 = new Timer();
+						timer3.schedule(new TimerTask() {
+
+							@Override
+							public void run() {
+								p2.setVisible(true);
+								timer.cancel();
+							}
+						}, 100);
+					}
 				}
 			}
-		}, 0, 1);
+		});
+		timer2.start();
+	}
 
+	public void p2Lose() {
+		ImageIcon p2LosePic1 = new ImageIcon(this.getClass().getResource(
+				"/res/robotDead1.png"));
+		JLabel p2Lose1 = new JLabel(p2LosePic1);
+		p2Lose1.setSize(p2LosePic1.getIconWidth(), p2LosePic1.getIconHeight());
+		p2Lose1.setLocation(p2.getX() - 150, p2.getY() + 75);
+		playing.add(p2Lose1);
+		p2.setVisible(false);
+		p2Lose1.setVisible(true);
+
+		ImageIcon p2LosePic2 = new ImageIcon(this.getClass().getResource(
+				"/res/robotDead2.png"));
+		JLabel p2Lose2 = new JLabel(p2LosePic2);
+		p2Lose2.setSize(p2LosePic2.getIconWidth(), p2LosePic2.getIconHeight());
+		p2Lose2.setLocation(p2Lose1.getX() - 150, p2Lose1.getY());
+		p2Lose2.setVisible(false);
+		playing.add(p2Lose2);
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+
+			@Override
+			public void run() {
+				p2Lose1.setVisible(false);
+				p2Lose2.setVisible(true);
+				timer.cancel();
+			}
+		}, 1000);
 	}
 }
