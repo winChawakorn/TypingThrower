@@ -1,4 +1,4 @@
-package Game;
+package game;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -9,6 +9,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import Game.Player;
 
 public class TypingThrower {
 	private Player p1;

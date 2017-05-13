@@ -11,7 +11,6 @@ import com.j256.ormlite.table.TableUtils;
 public class Main {
 	public static void main(String[] args) throws Exception {
 		// Accessing driver from the JAR file
-<<<<<<< HEAD
 //		 Class.forName("com.mysql.jdbc.Driver");
 
 		// Creating a variable for the connection called "con"
@@ -78,7 +77,6 @@ public class Main {
 		UserTable getDetailUser = userDao.queryForId("Vittunyuta");
 		System.out.println(getDetailUser.getHP());
 		
-=======
 		Class.forName("com.mysql.jdbc.Driver");
 
 		// Creating a variable for the connection called "con"
@@ -105,7 +103,6 @@ public class Main {
 			// 1 is the first field in the table
 			// 2 is the second field
 		}
->>>>>>> 016172894305787c82218f80339db3437c08e581
 
 	}
 

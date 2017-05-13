@@ -1,4 +1,4 @@
-package gameUI;
+package gameui;
 
 import javax.swing.JPanel;
 

@@ -1,19 +1,12 @@
-package Game;
+package game;
 
 public class Player {
-	private String name;
 	private int HP;
 	private int damage;
 
-	public Player(String name, int HP, int damage) {
-		this.name = name;
+	public Player(int HP, int damage) {
 		this.HP = HP;
 		this.damage = damage;
-	}
-
-	@Override
-	public String toString() {
-		return name;
 	}
 
 	public int getHP() {

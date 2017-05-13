@@ -1,4 +1,4 @@
-package gameUI;
+package gameui;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
 import Game.Player;
-import Game.TypingThrower;
+import game.TypingThrower;
 
 import java.awt.Dimension;
 import java.awt.Color;
