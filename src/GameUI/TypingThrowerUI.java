@@ -1,4 +1,4 @@
-package GameUI;
+package gameUI;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -14,6 +14,7 @@ import javax.swing.border.EmptyBorder;
 
 import Game.Player;
 import Game.TypingThrower;
+import gameUI.TypingThrowerUI;
 
 public class TypingThrowerUI extends JFrame implements KeyListener {
 	private JLabel word;

@@ -1,4 +1,4 @@
-package GameUI;
+package gameUI;
 
 import java.awt.EventQueue;
 
