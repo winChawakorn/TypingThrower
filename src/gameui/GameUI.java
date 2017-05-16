@@ -29,7 +29,6 @@ import connection.Controller;
 public class GameUI {
 
 	private JFrame frame;
-	private Controller controller;
 	private String currentWord;
 	private TypingThrower game;
 	private JProgressBar HP1;
@@ -40,7 +39,7 @@ public class GameUI {
 	private JLabel p2;
 	private JLabel p1Name;
 	private JLabel p2Name;
-	private JLabel p1Throw;
+	// private JLabel p1Throw;
 	private JPanel menu;
 
 	/**
@@ -64,7 +63,6 @@ public class GameUI {
 	 */
 	public GameUI(TypingThrower game) {
 		frame = new JFrame("TypingThrower");
-		controller = new Controller();
 		this.game = game;
 		initComponent();
 	}
@@ -189,11 +187,12 @@ public class GameUI {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyChar() == currentWord.charAt(0)) {
+					Controller ctrl = Controller.getInstance();
+					ctrl.attack();
 
 					currentWord = currentWord.substring(1, currentWord.length());
-					game.P1Attack();
-
-					p1Attack();
+					// game.P1Attack();
+					// p1Attack();
 					if (currentWord.length() == 0) {
 						currentWord = game.getWord();
 					}
@@ -205,12 +204,6 @@ public class GameUI {
 				}
 			}
 		});
-		p1Throw = new JLabel(new ImageIcon(this.getClass().getResource(
-				"/res/ninja2.png")));
-		p1Throw.setSize(p1.getSize());
-		p1Throw.setLocation(p1.getLocation());
-		p1Throw.setVisible(false);
-		playing.add(p1Throw);
 	}
 
 	public void p1Attack() {
@@ -222,6 +215,12 @@ public class GameUI {
 				(int) (frame.getHeight() / 1.9));
 		playing.add(weapon);
 
+		JLabel p1Throw = new JLabel(new ImageIcon(this.getClass().getResource(
+				"/res/ninja2.png")));
+		p1Throw.setSize(p1.getSize());
+		p1Throw.setLocation(p1.getLocation());
+		p1Throw.setVisible(false);
+		playing.add(p1Throw);
 		p1.setVisible(false);
 		p1Throw.setVisible(true);
 		Timer timer = new Timer();
@@ -241,6 +240,7 @@ public class GameUI {
 			public void actionPerformed(ActionEvent e) {
 				weapon.setLocation(weapon.getX() + 30, weapon.getY());
 				if (weapon.getX() >= 1500) {
+					game.P1Attack();
 					HP2.setValue(game.getP2().getHP());
 					playing.remove(weapon);
 					timer2.stop();
@@ -291,5 +291,17 @@ public class GameUI {
 				timer.cancel();
 			}
 		}, 1000);
+	}
+
+	public void p2Attack() {
+
+	}
+
+	public void p1Lose() {
+
+	}
+
+	public void cantConnectToServer() {
+
 	}
 }
