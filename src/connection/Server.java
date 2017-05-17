@@ -1,5 +1,7 @@
 package connection;
 
+import game.Player;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,6 +14,7 @@ import com.lloseng.ocsf.server.ConnectionToClient;
 public class Server extends AbstractServer {
 	private List<Thread> ipChecker;
 	private List<ConnectionToClient> room;
+	private List<Player> player = new ArrayList<>();
 
 	public Server(int port) {
 		super(port);
@@ -35,6 +38,7 @@ public class Server extends AbstractServer {
 			}
 			return;
 		}
+		// client.sendToClient(new Player(name, HP, damage));
 		ipChecker = Arrays.asList(this.getClientConnections());
 		System.out.println("Someone connected");
 		System.out.println("Current client : " + this.getNumberOfClients());
@@ -53,6 +57,7 @@ public class Server extends AbstractServer {
 		// + Arrays.toString(this.getClientConnections()));
 		System.out.println();
 		System.out.println("Menu : (p)rint detail");
+		ipChecker = Arrays.asList(this.getClientConnections());
 	}
 
 	@Override

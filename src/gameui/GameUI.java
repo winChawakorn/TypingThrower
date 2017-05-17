@@ -63,6 +63,7 @@ public class GameUI {
 	 */
 	public GameUI(TypingThrower game) {
 		frame = new JFrame("TypingThrower");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.game = game;
 		initComponent();
 	}
@@ -76,16 +77,16 @@ public class GameUI {
 	 */
 	private void initComponent() {
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-		frame.setBounds(100, 100, (int) d.getWidth(), (int) d.getHeight());
+		frame.setBounds(100, 100, (int) (d.getWidth() / 1.25),
+				(int) (d.getHeight() / 1.25));
 		// System.out.println(frame.getSize());
 		// frame.setLocationRelativeTo(null);
 		// frame.setResizable(false);
 		// frame.setBounds(100, 100, 1600, 900);
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		frame.setUndecorated(true);
-		frame.setVisible(true);
-		frame.setVisible(false);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		// frame.setUndecorated(true);
+		// frame.setVisible(true);
+		// frame.setVisible(false);
 		frame.getContentPane().setLayout(
 				new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
 		initMenuUI();
