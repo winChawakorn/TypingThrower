@@ -6,8 +6,8 @@ import gameui.GameUI;
 
 public class GameMain {
 	public static void main(String[] args) {
-		GameUI ui = new GameUI(new TypingThrower(new Player("Aom", 1000, 100),
-				new Player("Win", 1000, 100)));
+		GameUI ui = new GameUI(new TypingThrower(new Player("Aom", 1000, 20),
+				new Player("Win", 1000, 20)));
 		ui.run();
 		Controller ctrl = Controller.getInstance();
 		ctrl.setUI(ui);

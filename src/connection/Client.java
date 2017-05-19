@@ -1,11 +1,14 @@
 package connection;
 
+import game.Player;
+
 import java.io.IOException;
 import java.util.Scanner;
 
 import com.lloseng.ocsf.client.AbstractClient;
 
 public class Client extends AbstractClient {
+	private Player player;
 
 	public Client(String host, int port) {
 		super(host, port);
@@ -13,9 +16,14 @@ public class Client extends AbstractClient {
 
 	@Override
 	protected void handleMessageFromServer(Object msg) {
+		if (msg instanceof Player) {
+
+		}
 		String message = (String) msg;
 		System.out.println(message);
+		if (message.contains("player")) {
 
+		}
 		Controller ctrl = Controller.getInstance();
 		if (message.equals("Attacked")) {
 			ctrl.attacked();

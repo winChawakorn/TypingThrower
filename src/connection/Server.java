@@ -1,7 +1,5 @@
 package connection;
 
-import game.Player;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,34 +10,38 @@ import com.lloseng.ocsf.server.AbstractServer;
 import com.lloseng.ocsf.server.ConnectionToClient;
 
 public class Server extends AbstractServer {
-	private List<Thread> ipChecker;
-	private List<ConnectionToClient> room;
-	private List<Player> player = new ArrayList<>();
+	// private List<Thread> ipChecker;
+	// private List<ConnectionToClient> room;
+	private List<GameRoom> rooms;
+	private GameRoom room;
+
+	// private List<Player> player = new ArrayList<>();
 
 	public Server(int port) {
 		super(port);
 		this.setBacklog(3);
-		this.ipChecker = new ArrayList<Thread>();
-		this.room = new ArrayList<ConnectionToClient>();
+		// this.ipChecker = new ArrayList<Thread>();
+		// this.room = new ArrayList<ConnectionToClient>();
+		this.rooms = new ArrayList<GameRoom>();
 	}
 
 	@Override
 	protected void clientConnected(ConnectionToClient client) {
-		if (ipChecker.size() > 0) {
-			for (Thread th : ipChecker) {
-				if (((ConnectionToClient) th).getInetAddress().equals(
-						client.getInetAddress())) {
-					try {
-						client.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-			return;
-		}
+		// if (ipChecker.size() > 0) {
+		// for (Thread th : ipChecker) {
+		// if (((ConnectionToClient) th).getInetAddress().equals(
+		// client.getInetAddress())) {
+		// try {
+		// client.close();
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// }
+		// }
+		// }
+		// return;
+		// }
 		// client.sendToClient(new Player(name, HP, damage));
-		ipChecker = Arrays.asList(this.getClientConnections());
+		// ipChecker = Arrays.asList(this.getClientConnections());
 		System.out.println("Someone connected");
 		System.out.println("Current client : " + this.getNumberOfClients());
 		System.out.println("this user : " + client.getInetAddress());
@@ -57,7 +59,7 @@ public class Server extends AbstractServer {
 		// + Arrays.toString(this.getClientConnections()));
 		System.out.println();
 		System.out.println("Menu : (p)rint detail");
-		ipChecker = Arrays.asList(this.getClientConnections());
+		// ipChecker = Arrays.asList(this.getClientConnections());
 	}
 
 	@Override
@@ -74,13 +76,14 @@ public class Server extends AbstractServer {
 		}
 
 		if (message.equals("play")) {
-			room.add(client);
-			if (room.size() == 2) {
-				room.get(0).setInfo(room.get(1).getInfo("Name") + "", "vs");
-				room.get(1).setInfo(room.get(0).getInfo("Name") + "", "vs");
-				room.remove(1);
-				room.remove(0);
-			}
+
+			// room.add(client);
+			// if (room.size() == 2) {
+			// room.get(0).setInfo(room.get(1).getInfo("Name") + "", "vs");
+			// room.get(1).setInfo(room.get(0).getInfo("Name") + "", "vs");
+			// room.remove(1);
+			// room.remove(0);
+			// }
 		} else if (message.contains("Login")) {
 			String[] split = message.split(" ");
 			client.setInfo(split[1], "Name");
