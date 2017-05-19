@@ -1,8 +1,10 @@
 package connection;
 
+import java.lang.annotation.Retention;
+
 import com.lloseng.ocsf.server.ConnectionToClient;
 
-public class gameRoom {
+public class GameRoom {
 	private ConnectionToClient c1 = null;
 	private ConnectionToClient c2 = null;
 	private int count = 0;
@@ -31,6 +33,12 @@ public class gameRoom {
 		if (c2 != null)
 			count++;
 		return count;
+	}
+
+	public boolean isFull() {
+		if (count == 2)
+			return true;
+		return false;
 	}
 
 	public ConnectionToClient getC1() {

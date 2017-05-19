@@ -2,6 +2,7 @@ package gameui;
 
 import game.TypingThrower;
 
+import javax.crypto.KeyAgreement;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -39,30 +40,14 @@ public class GameUI {
 	private JLabel p2;
 	private JLabel p1Name;
 	private JLabel p2Name;
-	// private JLabel p1Throw;
 	private JPanel menu;
-
-	/**
-	 * Launch the application.
-	 */
-	// public static void main(String[] args) {
-	// EventQueue.invokeLater(new Runnable() {
-	// public void run() {
-	// try {
-	// GameUI window = new GameUI();
-	// window.frame.setVisible(true);
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// });
-	// }
 
 	/**
 	 * Create the application.
 	 */
 	public GameUI(TypingThrower game) {
 		frame = new JFrame("TypingThrower");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.game = game;
 		initComponent();
 	}
@@ -75,17 +60,17 @@ public class GameUI {
 	 * Initialize the contents of the frame.
 	 */
 	private void initComponent() {
-		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-		frame.setBounds(100, 100, (int) d.getWidth(), (int) d.getHeight());
+		// Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		// frame.setBounds(100, 100, (int) (d.getWidth() / 1.25),
+		// (int) (d.getHeight() / 1.25));
 		// System.out.println(frame.getSize());
 		// frame.setLocationRelativeTo(null);
 		// frame.setResizable(false);
-		// frame.setBounds(100, 100, 1600, 900);
+		frame.setBounds(100, 100, 1600, 900);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setUndecorated(true);
-		frame.setVisible(true);
-		frame.setVisible(false);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// frame.setVisible(true);
+		// frame.setVisible(false);
 		frame.getContentPane().setLayout(
 				new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
 		initMenuUI();
@@ -93,22 +78,28 @@ public class GameUI {
 
 	public void initMenuUI() {
 		menu = new JPanel();
-		menu.setSize(frame.getSize());
+		menu.setPreferredSize(frame.getSize());
 		JButton start = new JButton("Start");
-		start.addActionListener((e) -> initStartUI());
+		start.setFont(new Font(Font.MONOSPACED, Font.BOLD, 300));
+		start.setContentAreaFilled(false);
+		start.setPreferredSize(frame.getSize());
+		start.addActionListener((e) -> initPlayingUI());
+		start.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyChar() == KeyEvent.VK_ENTER)
+					initPlayingUI();
+			}
+		});
 		menu.add(start);
 		frame.add(menu);
-	}
-
-	public void initStartUI() {
-		initPlayingUI();
 	}
 
 	public void initPlayingUI() {
 		menu.setVisible(false);
 		frame.remove(menu);
-		frame.setVisible(false);
-		frame.setVisible(true);
+		// frame.setVisible(false);
+		// frame.setVisible(true);
 
 		// JLabel background = new JLabel(new ImageIcon("BG.png"));
 		// playing = new JPanel() {
@@ -134,8 +125,8 @@ public class GameUI {
 
 		HP1 = new JProgressBar();
 		HP1.setBounds(frame.getWidth() / 18,
-				frame.getHeight() - frame.getHeight() / 10, 670, 25);
-		HP1.setMaximum(1000);
+				frame.getHeight() - frame.getHeight() / 10, 650, 25);
+		HP1.setMaximum(game.getP1().getHP());
 		HP1.setValue(HP1.getMaximum());
 		HP1.setForeground(Color.RED);
 		playing.add(HP1);
@@ -150,8 +141,8 @@ public class GameUI {
 		ImageIcon p2Pic = new ImageIcon(this.getClass().getResource(
 				"/res/robot1.png"));
 		p2 = new JLabel(p2Pic);
-		p2.setLocation(frame.getWidth() - (int) (frame.getWidth() / 4.5),
-				(int) (frame.getHeight() / 2.5));
+		p2.setLocation((frame.getWidth() - (int) (frame.getWidth() / 8))
+				- p2Pic.getIconWidth(), (int) (frame.getHeight() / 2.5));
 		p2.setSize(p2Pic.getIconWidth(), p2Pic.getIconHeight());
 		playing.add(p2);
 
@@ -164,11 +155,11 @@ public class GameUI {
 		playing.add(p1Name);
 
 		HP2 = new JProgressBar();
-		HP2.setMaximum(1000);
+		HP2.setMaximum(game.getP2().getHP());
 		HP2.setValue(HP2.getMaximum());
 		HP2.setForeground(Color.RED);
-		HP2.setBounds(frame.getWidth() - (int) (frame.getWidth() / 2.5),
-				frame.getHeight() - frame.getHeight() / 10, 670, 25);
+		HP2.setBounds((frame.getWidth() - (frame.getWidth() / 18) - 650),
+				frame.getHeight() - frame.getHeight() / 10, 650, 25);
 		playing.add(HP2);
 		currentWord = game.getWord();
 		word = new JLabel(currentWord, SwingConstants.CENTER);
@@ -189,14 +180,12 @@ public class GameUI {
 				if (e.getKeyChar() == currentWord.charAt(0)) {
 					Controller ctrl = Controller.getInstance();
 					ctrl.attack();
-
 					currentWord = currentWord.substring(1, currentWord.length());
-					// game.P1Attack();
-					// p1Attack();
+					p1Attack();
 					if (currentWord.length() == 0) {
 						currentWord = game.getWord();
 					}
-					if (game.isP2Lose()) {
+					if (game.isP2Lose() || game.isP1Lose()) {
 						word.setText("");
 						frame.removeKeyListener(this);
 					} else
@@ -204,64 +193,82 @@ public class GameUI {
 				}
 			}
 		});
+		botAttack();
+		frame.requestFocus();
+	}
+
+	public void botAttack() {
+		javax.swing.Timer timer = new javax.swing.Timer(500, null);
+		timer.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				p2Attack();
+				if (game.isP1Lose() || game.isP2Lose())
+					timer.stop();
+			}
+		});
+		timer.start();
 	}
 
 	public void p1Attack() {
-		ImageIcon weaponPic = new ImageIcon(this.getClass().getResource(
-				"/res/Kunai.png"));
-		JLabel weapon = new JLabel(weaponPic);
-		weapon.setSize(weaponPic.getIconWidth(), weaponPic.getIconHeight());
-		weapon.setLocation(frame.getWidth() / 7,
-				(int) (frame.getHeight() / 1.9));
-		playing.add(weapon);
+		if (!(game.isP2Lose() || game.isP1Lose())) {
+			game.P1Attack();
+			ImageIcon weaponPic = new ImageIcon(this.getClass().getResource(
+					"/res/Kunai.png"));
+			JLabel weapon = new JLabel(weaponPic);
+			weapon.setSize(weaponPic.getIconWidth(), weaponPic.getIconHeight());
+			weapon.setLocation(frame.getWidth() / 7,
+					(int) (frame.getHeight() / 1.9));
+			playing.add(weapon);
 
-		JLabel p1Throw = new JLabel(new ImageIcon(this.getClass().getResource(
-				"/res/ninja2.png")));
-		p1Throw.setSize(p1.getSize());
-		p1Throw.setLocation(p1.getLocation());
-		p1Throw.setVisible(false);
-		playing.add(p1Throw);
-		p1.setVisible(false);
-		p1Throw.setVisible(true);
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
+			JLabel p1Throw = new JLabel(new ImageIcon(this.getClass()
+					.getResource("/res/ninja2.png")));
+			p1Throw.setSize(p1.getSize());
+			p1Throw.setLocation(p1.getLocation());
+			p1Throw.setVisible(false);
+			playing.add(p1Throw);
+			p1.setVisible(false);
+			p1Throw.setVisible(true);
+			Timer timer = new Timer();
+			timer.schedule(new TimerTask() {
 
-			@Override
-			public void run() {
-				p1Throw.setVisible(false);
-				p1.setVisible(true);
-				timer.cancel();
-			}
-		}, 100);
+				@Override
+				public void run() {
+					p1Throw.setVisible(false);
+					p1.setVisible(true);
+					timer.cancel();
+				}
+			}, 100);
 
-		javax.swing.Timer timer2 = new javax.swing.Timer(10, null);
-		timer2.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				weapon.setLocation(weapon.getX() + 30, weapon.getY());
-				if (weapon.getX() >= 1500) {
-					game.P1Attack();
-					HP2.setValue(game.getP2().getHP());
-					playing.remove(weapon);
-					timer2.stop();
-					p2.setVisible(false);
-					if (game.isP2Lose()) {
-						p2Lose();
-					} else {
-						Timer timer3 = new Timer();
-						timer3.schedule(new TimerTask() {
+			javax.swing.Timer timer2 = new javax.swing.Timer(10, null);
+			timer2.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					weapon.setLocation(weapon.getX() + 30, weapon.getY());
+					if (weapon.getX() >= p2.getX() - weapon.getWidth()) {
+						HP2.setValue(game.getP2().getHP());
+						playing.remove(weapon);
+						timer2.stop();
+						p2.setVisible(false);
+						if (game.isP2Lose()) {
+							p2Lose();
+						} else {
+							Timer timer3 = new Timer();
+							timer3.schedule(new TimerTask() {
 
-							@Override
-							public void run() {
-								p2.setVisible(true);
-								timer.cancel();
-							}
-						}, 100);
+								@Override
+								public void run() {
+									p2.setVisible(true);
+									timer.cancel();
+								}
+							}, 100);
+						}
 					}
 				}
-			}
-		});
-		timer2.start();
+			});
+			timer2.start();
+		}
 	}
 
 	public void p2Lose() {
@@ -294,7 +301,63 @@ public class GameUI {
 	}
 
 	public void p2Attack() {
+		if (!(game.isP2Lose() || game.isP1Lose())) {
+			game.P2Attack();
+			ImageIcon weaponPic = new ImageIcon(this.getClass().getResource(
+					"/res/fire.png"));
+			JLabel weapon = new JLabel(weaponPic);
+			weapon.setSize(weaponPic.getIconWidth(), weaponPic.getIconHeight());
+			weapon.setLocation(frame.getWidth() - (int) (frame.getWidth() / 7)
+					- weaponPic.getIconWidth(), (int) (frame.getHeight() / 1.9));
+			playing.add(weapon);
 
+			JLabel p2Throw = new JLabel(new ImageIcon(this.getClass()
+					.getResource("/res/robot2.png")));
+			p2Throw.setSize(p2.getSize());
+			p2Throw.setLocation(p2.getLocation());
+			p2Throw.setVisible(false);
+			playing.add(p2Throw);
+			p2.setVisible(false);
+			p2Throw.setVisible(true);
+			Timer timer = new Timer();
+			timer.schedule(new TimerTask() {
+
+				@Override
+				public void run() {
+					p2Throw.setVisible(false);
+					p2.setVisible(true);
+					timer.cancel();
+				}
+			}, 100);
+
+			javax.swing.Timer timer2 = new javax.swing.Timer(10, null);
+			timer2.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					weapon.setLocation(weapon.getX() - 30, weapon.getY());
+					if (weapon.getX() <= p1.getX() + p1.getWidth()) {
+						HP1.setValue(game.getP1().getHP());
+						playing.remove(weapon);
+						timer2.stop();
+						p1.setVisible(false);
+						if (game.isP1Lose()) {
+							p1Lose();
+						} else {
+							Timer timer3 = new Timer();
+							timer3.schedule(new TimerTask() {
+
+								@Override
+								public void run() {
+									p1.setVisible(true);
+									timer.cancel();
+								}
+							}, 100);
+						}
+					}
+				}
+			});
+			timer2.start();
+		}
 	}
 
 	public void p1Lose() {
