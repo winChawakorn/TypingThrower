@@ -37,7 +37,7 @@ public class Main {
 
 		// Using ORMLite to connect to the database
 		// Creating a variable for the connection called "conectionSource"
-		ConnectionSource connectionSource = new JdbcConnectionSource("jdbc:mysql://localhost:3306/names", "root", "WinAom555");
+		ConnectionSource connectionSource = new JdbcConnectionSource("jdbc:mysql://104.198.173.104:3306/names", "root", "WinAom555");
 		// "jdbc:mysql://localhost:3306/names" -> names is database's names
 
 		// Creating a table of Account class if the table hasn't already exist.
@@ -77,32 +77,32 @@ public class Main {
 		UserTable getDetailUser = userDao.queryForId("Vittunyuta");
 		System.out.println(getDetailUser.getHP());
 		
-		Class.forName("com.mysql.jdbc.Driver");
-
-		// Creating a variable for the connection called "con"
-		Connection con = DriverManager.getConnection(
-				"jdbc:mysql://localhost:3306/tested", "root", "");
-		// jdbc:mysql://localhost:3306/tested --> This is the database
-		// root is the database
-		// root is the password
-		if (con != null) {
-			System.out.println("Success");
-		}
-
-		// Here we create our query
-		// select * from 'tablename'
-		PreparedStatement statement = con
-				.prepareStatement("select * from names");
-
-		// Creating a variable to execute query
-		ResultSet result = statement.executeQuery();
-
-		while (result.next()) {
-			System.out.println(result.getString(1) + " " + result.getString(2));
-			// getString return the data
-			// 1 is the first field in the table
-			// 2 is the second field
-		}
+//		Class.forName("com.mysql.jdbc.Driver");
+//
+//		// Creating a variable for the connection called "con"
+//		Connection con = DriverManager.getConnection(
+//				"jdbc:mysql://104.198.173.104:3306/names", "root", "WinAom555");
+//		// jdbc:mysql://localhost:3306/tested --> This is the database
+//		// root is the database
+//		// root is the password
+//		if (con != null) {
+//			System.out.println("Success");
+//		}
+//
+//		// Here we create our query
+//		// select * from 'tablename'
+//		PreparedStatement statement = con
+//				.prepareStatement("select * from names");
+//
+//		// Creating a variable to execute query
+//		ResultSet result = statement.executeQuery();
+//
+//		while (result.next()) {
+//			System.out.println(result.getString(1) + " " + result.getString(2));
+//			// getString return the data
+//			// 1 is the first field in the table
+//			// 2 is the second field
+//		}
 
 	}
 
