@@ -8,8 +8,7 @@ public class Controller {
 	private static Controller ctrl = null;
 	private Client c;
 	private GameUI ui;
-
-	// private boolean isJoin = false;
+	private boolean isJoin = false;
 
 	private Controller() {
 	}
@@ -28,16 +27,16 @@ public class Controller {
 		this.c = c;
 	}
 
-	// public void join() {
-	// if (!isJoin) {
-	// try {
-	// c.openConnection();
-	// } catch (IOException e) {
-	// ui.cantConnectToServer();
-	// }
-	// isJoin = true;
-	// }
-	// }
+	public void join() {
+		if (!isJoin) {
+			try {
+				c.openConnection();
+			} catch (IOException e) {
+				ui.cantConnectToServer();
+			}
+			isJoin = true;
+		}
+	}
 
 	public void attack() {
 		try {
