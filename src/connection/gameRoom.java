@@ -2,17 +2,31 @@ package connection;
 
 import com.lloseng.ocsf.server.ConnectionToClient;
 
-public class gameRoom {
+public class GameRoom {
 	private ConnectionToClient c1 = null;
 	private ConnectionToClient c2 = null;
 	private int count = 0;
 
-	public void addPlayer(ConnectionToClient c) {
+	/**
+	 * Add client to null slot
+	 * 
+	 * @param c
+	 *            is the ConnectionToClient to be added.
+	 */
+	public void add(ConnectionToClient c) {
 		if (c1 == null) {
 			c1 = c;
 			return;
 		}
 		c2 = c;
+	}
+
+	public ConnectionToClient getOpponent(ConnectionToClient c) {
+		if (c == c1)
+			return c2;
+		if (c == c2)
+			return c1;
+		return null;
 	}
 
 	public void p1Disconnected() {
@@ -31,6 +45,12 @@ public class gameRoom {
 		if (c2 != null)
 			count++;
 		return count;
+	}
+
+	public boolean isFull() {
+		if (count == 2)
+			return true;
+		return false;
 	}
 
 	public ConnectionToClient getC1() {

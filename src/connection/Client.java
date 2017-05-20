@@ -15,15 +15,20 @@ public class Client extends AbstractClient {
 	protected void handleMessageFromServer(Object msg) {
 		String message = (String) msg;
 		System.out.println(message);
-
 		Controller ctrl = Controller.getInstance();
-		if (message.equals("Attacked")) {
-			ctrl.attacked();
+		if (message.equals("attacked")) {
+			ctrl.attackedUI();
+		} else if (message.equals("attack")) {
+			ctrl.attackUI();
+		} else if (message.equals("wait")) {
+			ctrl.waitingUI();
+		} else if (message.equals("start")) {
+			ctrl.start();
 		}
 	}
 
 	public static void main(String[] args) {
-		Client c = new Client("", 3001);
+		Client c = new Client("35.185.188.93", 3001);
 		try {
 			c.openConnection();
 			System.out.println("Connected");

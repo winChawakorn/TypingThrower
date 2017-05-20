@@ -10,32 +10,38 @@ import com.lloseng.ocsf.server.AbstractServer;
 import com.lloseng.ocsf.server.ConnectionToClient;
 
 public class Server extends AbstractServer {
-	private List<Thread> ipChecker;
-	private List<ConnectionToClient> room;
+	// private List<Thread> ipChecker;
+	// private List<ConnectionToClient> room;
+	private List<GameRoom> rooms;
+	private GameRoom room;
+
+	// private List<Player> player = new ArrayList<>();
 
 	public Server(int port) {
 		super(port);
 		this.setBacklog(3);
-		this.ipChecker = new ArrayList<Thread>();
-		this.room = new ArrayList<ConnectionToClient>();
+		// this.ipChecker = new ArrayList<Thread>();
+		// this.room = new ArrayList<ConnectionToClient>();
+		this.rooms = new ArrayList<GameRoom>();
 	}
 
 	@Override
 	protected void clientConnected(ConnectionToClient client) {
-		if (ipChecker.size() > 0) {
-			for (Thread th : ipChecker) {
-				if (((ConnectionToClient) th).getInetAddress().equals(
-						client.getInetAddress())) {
-					try {
-						client.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-			return;
-		}
-		ipChecker = Arrays.asList(this.getClientConnections());
+		// if (ipChecker.size() > 0) {
+		// for (Thread th : ipChecker) {
+		// if (((ConnectionToClient) th).getInetAddress().equals(
+		// client.getInetAddress())) {
+		// try {
+		// client.close();
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// }
+		// }
+		// }
+		// return;
+		// }
+		// client.sendToClient(new Player(name, HP, damage));
+		// ipChecker = Arrays.asList(this.getClientConnections());
 		System.out.println("Someone connected");
 		System.out.println("Current client : " + this.getNumberOfClients());
 		System.out.println("this user : " + client.getInetAddress());
@@ -53,45 +59,73 @@ public class Server extends AbstractServer {
 		// + Arrays.toString(this.getClientConnections()));
 		System.out.println();
 		System.out.println("Menu : (p)rint detail");
+
+		for (GameRoom r : rooms) {
+			if (r.getC1() == client)
+				room.p1Disconnected();
+			else if (r.getC2() == client)
+				room.p2Disconnected();
+		}
 	}
 
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		String message = (String) msg;
 		// Controller ctrl = Controller.getInstance();
-		if (message.equals("Attack")) {
-			try {
-				client.sendToClient("Attacked");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+		// if (message.equals("Attack")) {
+		// try {
+		// client.sendToClient("Attacked");
+		// } catch (IOException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+		// }
 
-		if (message.equals("play")) {
-			room.add(client);
-			if (room.size() == 2) {
-				room.get(0).setInfo(room.get(1).getInfo("Name") + "", "vs");
-				room.get(1).setInfo(room.get(0).getInfo("Name") + "", "vs");
-				room.remove(1);
-				room.remove(0);
-			}
-		} else if (message.contains("Login")) {
-			String[] split = message.split(" ");
-			client.setInfo(split[1], "Name");
-		} else if (message.contains("Attack")) {
-			for (ConnectionToClient cl : (ConnectionToClient[]) this
-					.getClientConnections()) {
-				if (cl.getInfo("vs").equals(message.substring(7))) {
+		if (message.equals("find room")) {
+			for (GameRoom r : rooms) {
+				if (!r.isFull()) {
+					r.add(client);
 					try {
-						cl.sendToClient("Attacked");
+						client.sendToClient("start");
+						r.getOpponent(client).sendToClient("start");
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-					break;
+				} else {
+					GameRoom r2 = new GameRoom();
+					r2.add(client);
+					try {
+						client.sendToClient("wait");
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		} else if (message.equals("finish")) {
+			GameRoom r = findRoom(client);
+			if (r != null) {
+				if (rooms.contains(r))
+					rooms.remove(r);
+			}
+		} else if (message.equals("attack")) {
+			GameRoom r = findRoom(client);
+			if (r != null) {
+				try {
+					client.sendToClient("attack");
+					r.getOpponent(client).sendToClient("attacked");
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 			}
 		}
+	}
+
+	public GameRoom findRoom(ConnectionToClient client) {
+		for (GameRoom r : rooms) {
+			if (r.getC1() == client || r.getC2() == client)
+				return r;
+		}
+		return null;
 	}
 
 	public static void main(String[] args) {
