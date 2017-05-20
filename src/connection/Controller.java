@@ -8,7 +8,8 @@ public class Controller {
 	private static Controller ctrl = null;
 	private Client c;
 	private GameUI ui;
-	private boolean isJoin = false;
+
+	// private boolean isJoin = false;
 
 	private Controller() {
 	}
@@ -19,11 +20,6 @@ public class Controller {
 		return ctrl;
 	}
 
-	//
-	// public static void setController(Controller controller) {
-	// ctrl = controller;
-	// }
-
 	public void setUI(GameUI ui) {
 		this.ui = ui;
 	}
@@ -32,37 +28,46 @@ public class Controller {
 		this.c = c;
 	}
 
-	public void join() {
-		if (!isJoin) {
-			try {
-				c.openConnection();
-			} catch (IOException e) {
-				ui.cantConnectToServer();
-			}
-			isJoin = true;
-		}
-	}
+	// public void join() {
+	// if (!isJoin) {
+	// try {
+	// c.openConnection();
+	// } catch (IOException e) {
+	// ui.cantConnectToServer();
+	// }
+	// isJoin = true;
+	// }
+	// }
 
 	public void attack() {
 		try {
-			c.sendToServer("Attack");
+			c.sendToServer("attack");
 		} catch (IOException e) {
 			ui.cantConnectToServer();
 		}
-		// ui.p1Attack();
 	}
 
-	public void attacked() {
+	public void findGame() {
+		try {
+			c.sendToServer("find room");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void attackedUI() {
 		ui.p2Attack();
+	}
+
+	public void attackUI() {
 		ui.p1Attack();
 	}
-	//
-	// public void p2Attack() {
-	// try {
-	// c.sendToServer("P2Attack");
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// }
-	// }
 
+	public void waitingUI() {
+		ui.waiting();
+	}
+
+	public void start() {
+		ui.initPlayingUI();
+	}
 }

@@ -2,7 +2,6 @@ package gameui;
 
 import game.TypingThrower;
 
-import javax.crypto.KeyAgreement;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,9 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-import java.awt.Dimension;
 import java.awt.Color;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -79,17 +76,21 @@ public class GameUI {
 	public void initMenuUI() {
 		menu = new JPanel();
 		menu.setPreferredSize(frame.getSize());
-		JButton start = new JButton("Start");
+		JButton start = new JButton("Play");
 		start.setFont(new Font(Font.MONOSPACED, Font.BOLD, 300));
 		start.setContentAreaFilled(false);
 		start.setPreferredSize(frame.getSize());
-		start.addActionListener((e) -> initPlayingUI());
 		start.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyChar() == KeyEvent.VK_ENTER)
 					initPlayingUI();
 			}
+		});
+		start.addActionListener((e) -> {
+			Controller.getInstance().findGame();
+			start.removeKeyListener(start.getKeyListeners()[0]);
+			start.setEnabled(false);
 		});
 		menu.add(start);
 		frame.add(menu);
@@ -204,8 +205,10 @@ public class GameUI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				p2Attack();
-				if (game.isP1Lose() || game.isP2Lose())
+				if (game.isP1Lose() || game.isP2Lose()) {
+					word.setText("");
 					timer.stop();
+				}
 			}
 		});
 		timer.start();
@@ -310,7 +313,6 @@ public class GameUI {
 			weapon.setLocation(frame.getWidth() - (int) (frame.getWidth() / 7)
 					- weaponPic.getIconWidth(), (int) (frame.getHeight() / 1.9));
 			playing.add(weapon);
-
 			JLabel p2Throw = new JLabel(new ImageIcon(this.getClass()
 					.getResource("/res/robot2.png")));
 			p2Throw.setSize(p2.getSize());
@@ -361,10 +363,39 @@ public class GameUI {
 	}
 
 	public void p1Lose() {
+		ImageIcon p2LosePic1 = new ImageIcon(this.getClass().getResource(
+				"/res/ninjaDead1.png"));
+		JLabel p2Lose1 = new JLabel(p2LosePic1);
+		p2Lose1.setSize(p2LosePic1.getIconWidth(), p2LosePic1.getIconHeight());
+		p2Lose1.setLocation(p1.getX() + 150, p1.getY() + 75);
+		playing.add(p2Lose1);
+		p1.setVisible(false);
+		p2Lose1.setVisible(true);
 
+		ImageIcon p2LosePic2 = new ImageIcon(this.getClass().getResource(
+				"/res/ninjaDead2.png"));
+		JLabel p2Lose2 = new JLabel(p2LosePic2);
+		p2Lose2.setSize(p2LosePic2.getIconWidth(), p2LosePic2.getIconHeight());
+		p2Lose2.setLocation(p2Lose1.getX() + 100, p2Lose1.getY() + 75);
+		p2Lose2.setVisible(false);
+		playing.add(p2Lose2);
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+
+			@Override
+			public void run() {
+				p2Lose1.setVisible(false);
+				p2Lose2.setVisible(true);
+				timer.cancel();
+			}
+		}, 1000);
 	}
 
 	public void cantConnectToServer() {
+		// Can't connect to server. Please try again or contact game master
+	}
 
+	public void waiting() {
+		// Please wait message
 	}
 }
