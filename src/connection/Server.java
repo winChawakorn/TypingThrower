@@ -13,7 +13,8 @@ public class Server extends AbstractServer {
 	// private List<Thread> ipChecker;
 	// private List<ConnectionToClient> room;
 	private List<GameRoom> rooms;
-	private GameRoom room;
+
+	// private GameRoom room;
 
 	// private List<Player> player = new ArrayList<>();
 
@@ -62,15 +63,17 @@ public class Server extends AbstractServer {
 
 		for (GameRoom r : rooms) {
 			if (r.getC1() == client)
-				room.p1Disconnected();
+				r.p1Disconnected();
 			else if (r.getC2() == client)
-				room.p2Disconnected();
+				r.p2Disconnected();
 		}
 	}
 
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		String message = (String) msg;
+		System.out.println(client);
+		System.out.println("From client: " + message);
 		// Controller ctrl = Controller.getInstance();
 		// if (message.equals("Attack")) {
 		// try {
@@ -82,23 +85,41 @@ public class Server extends AbstractServer {
 		// }
 
 		if (message.equals("find room")) {
-			for (GameRoom r : rooms) {
-				if (!r.isFull()) {
-					r.add(client);
-					try {
-						client.sendToClient("start");
-						r.getOpponent(client).sendToClient("start");
-					} catch (IOException e) {
-						e.printStackTrace();
+			if (rooms.size() > 0) {
+				for (GameRoom r : rooms) {
+					if (!r.isFull()) {
+						r.add(client);
+						if (r.isFull()) {
+							try {
+								client.sendToClient("start");
+								r.getOpponent(client).sendToClient("start");
+								System.out.println("start");
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+					} else {
+						GameRoom r2 = new GameRoom();
+						r2.add(client);
+						rooms.add(r2);
+						try {
+							client.sendToClient("wait");
+							System.out.println("wait");
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 					}
-				} else {
-					GameRoom r2 = new GameRoom();
-					r2.add(client);
-					try {
-						client.sendToClient("wait");
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+				}
+			} else {
+				System.out.println("create new room");
+				GameRoom r2 = new GameRoom();
+				r2.add(client);
+				rooms.add(r2);
+				try {
+					client.sendToClient("wait");
+					System.out.println("wait");
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 			}
 		} else if (message.equals("finish")) {
@@ -113,11 +134,14 @@ public class Server extends AbstractServer {
 				try {
 					client.sendToClient("attack");
 					r.getOpponent(client).sendToClient("attacked");
+					System.out.println("attack");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
 		}
+		System.out.println(rooms.size() + " rooms here : "
+				+ Arrays.toString(rooms.toArray(new GameRoom[0])));
 	}
 
 	public GameRoom findRoom(ConnectionToClient client) {
@@ -143,12 +167,19 @@ public class Server extends AbstractServer {
 							+ s.getNumberOfClients());
 					System.out.println("All users : "
 							+ Arrays.toString(s.getClientConnections()));
+					System.out
+							.println(s.rooms.size()
+									+ " rooms here : "
+									+ Arrays.toString(s.rooms
+											.toArray(new GameRoom[0])));
 					System.out.println();
+					if (s.rooms.size() > 0)
+						System.out.println("There is " + s.rooms.get(0).count()
+								+ " in the first room");
 				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-
 }
