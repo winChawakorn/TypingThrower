@@ -14,7 +14,6 @@ public class Client extends AbstractClient {
 	@Override
 	protected void handleMessageFromServer(Object msg) {
 		String message = (String) msg;
-		System.out.println(message);
 		Controller ctrl = Controller.getInstance();
 		if (message.equals("attacked")) {
 			ctrl.attackedUI();

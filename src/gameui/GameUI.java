@@ -57,15 +57,15 @@ public class GameUI {
 	 * Initialize the contents of the frame.
 	 */
 	private void initComponent() {
-		// Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-		// frame.setBounds(100, 100, (int) (d.getWidth() / 1.25),
-		// (int) (d.getHeight() / 1.25));
-		// System.out.println(frame.getSize());
-		// frame.setLocationRelativeTo(null);
-		// frame.setResizable(false);
-		frame.setBounds(100, 100, 1600, 900);
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		frame.setUndecorated(true);
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		frame.setBounds(100, 100, (int) (d.getWidth() / 1.25),
+				(int) (d.getHeight() / 1.25));
+		System.out.println(frame.getSize());
+		frame.setLocationRelativeTo(null);
+		frame.setResizable(false);
+		// frame.setBounds(100, 100, 1600, 900);
+		// frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		// frame.setUndecorated(true);
 		// frame.setVisible(true);
 		// frame.setVisible(false);
 		frame.getContentPane().setLayout(
@@ -194,8 +194,10 @@ public class GameUI {
 				}
 			}
 		});
-		botAttack();
+		// botAttack();
 		frame.requestFocus();
+		frame.setVisible(false);
+		frame.setVisible(true);
 	}
 
 	public void botAttack() {
