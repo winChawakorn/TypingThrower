@@ -43,7 +43,8 @@ public class Login extends AbstractFont {
 				try {
 					Login window = new Login();
 					window.frame.setVisible(true);
-					UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+					UIManager.setLookAndFeel(UIManager
+							.getCrossPlatformLookAndFeelClassName());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -66,7 +67,8 @@ public class Login extends AbstractFont {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(250, 240, 230));
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		frame.setBounds(((int) dim.getWidth() - 1024) / 2, ((int) dim.getHeight() - 768) / 2, 1024, 768);
+		frame.setBounds(((int) dim.getWidth() - 1024) / 2,
+				((int) dim.getHeight() - 768) / 2, 1024, 768);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
@@ -75,7 +77,8 @@ public class Login extends AbstractFont {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				try {
-					BufferedImage img = ImageIO.read(this.getClass().getResourceAsStream("/res/LoginBackground.jpg"));
+					BufferedImage img = ImageIO.read(this.getClass()
+							.getResourceAsStream("/res/LoginBackground.jpg"));
 					// g.drawImage(img, 0, 0, frame.getSize().width,
 					// frame.getSize().height, null);
 					g.drawImage(img, 0, 0, 1024, 768, null);
@@ -109,7 +112,8 @@ public class Login extends AbstractFont {
 
 		userField = new JTextField();
 		try {
-			userField.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.PLAIN, 20));
+			userField.setFont(getFont("ProFont For Powerline.ttf").deriveFont(
+					Font.PLAIN, 20));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -147,7 +151,8 @@ public class Login extends AbstractFont {
 		btnSignUp = new JButton("Sign Up");
 		btnSignUp.setBounds(428, 437, 135, 44);
 		try {
-			btnSignUp.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.PLAIN, 25));
+			btnSignUp.setFont(getFont("ProFont For Powerline.ttf").deriveFont(
+					Font.PLAIN, 25));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -213,7 +218,8 @@ public class Login extends AbstractFont {
 		String password = new String(passwordField.getPassword());
 		boolean success = false;
 		for (UserTable user : getDetailUser) {
-			if (username.equals(user.getUsername()) && password.equals(user.getPassword())) {
+			if (username.equals(user.getUsername())
+					&& password.equals(user.getPassword())) {
 				lblStatus.setForeground(new Color(17, 178, 19));
 				lblStatus.setText("Login successed");
 				System.err.println("Login successed");
