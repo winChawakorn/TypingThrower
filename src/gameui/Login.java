@@ -38,12 +38,6 @@ public class Login extends AbstractFont {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		// JFrame frame2 = new JFrame("");
-		// JLabel bg = new JLabel(new
-		// ImageIcon(frame2.getClass().getResource("/res/LoginBackground.jpg")));
-		// frame2.add(bg);
-		// frame2.pack();
-		// frame2.setVisible(true);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -62,13 +56,7 @@ public class Login extends AbstractFont {
 	 */
 	public Login() {
 		initialize();
-		try {
-			source = DatabaseConnect.getInstance();
-			userDao = DaoManager.createDao(source, UserTable.class);
-			getDetailUser = userDao.queryForAll();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+
 	}
 
 	/**
@@ -88,7 +76,10 @@ public class Login extends AbstractFont {
 				super.paintComponent(g);
 				try {
 					BufferedImage img = ImageIO.read(this.getClass().getResourceAsStream("/res/LoginBackground.jpg"));
-					g.drawImage(img, 0, 0, frame.getSize().width, frame.getSize().height, null);
+					// g.drawImage(img, 0, 0, frame.getSize().width,
+					// frame.getSize().height, null);
+					g.drawImage(img, 0, 0, 1024, 768, null);
+
 				} catch (IOException e) {
 					// do nothing
 				}
@@ -143,6 +134,7 @@ public class Login extends AbstractFont {
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
+		btnLogin.setBackground(Color.ORANGE);
 		btnLogin.addActionListener(new ActionListener() {
 
 			@Override
@@ -166,8 +158,13 @@ public class Login extends AbstractFont {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				getDetailUser = null;
 				backgroundPanel.setVisible(false);
-//				new SignUpUI().run();
+				frame.getContentPane().removeAll();
+				JPanel signUpPanel = new SignUpUI().initialize();
+				signUpPanel.setBounds(0, 0, 1024, 768);
+				frame.getContentPane().add(signUpPanel);
+				signUpPanel.setVisible(true);
 
 			}
 		});
@@ -203,12 +200,21 @@ public class Login extends AbstractFont {
 	}
 
 	public void loginAction() {
+		if (getDetailUser == null) {
+			try {
+				source = DatabaseConnect.getInstance();
+				userDao = DaoManager.createDao(source, UserTable.class);
+				getDetailUser = userDao.queryForAll();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		String username = userField.getText();
 		String password = new String(passwordField.getPassword());
 		boolean success = false;
 		for (UserTable user : getDetailUser) {
 			if (username.equals(user.getUsername()) && password.equals(user.getPassword())) {
-				lblStatus.setForeground(new Color(17,178,19));
+				lblStatus.setForeground(new Color(17, 178, 19));
 				lblStatus.setText("Login successed");
 				System.err.println("Login successed");
 				success = true;
