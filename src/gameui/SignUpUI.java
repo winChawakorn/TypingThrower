@@ -2,7 +2,6 @@ package gameui;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -14,7 +13,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -29,7 +27,6 @@ import com.j256.ormlite.support.ConnectionSource;
 
 import connection.DatabaseConnect;
 import connection.UserTable;
-import gameui.Login.LoginKeyAdapter;
 
 public class SignUpUI extends AbstractFont {
 
@@ -43,6 +40,7 @@ public class SignUpUI extends AbstractFont {
 	private Dao<UserTable, String> userDao;
 	private java.util.List<UserTable> getDetailUser;
 	private JLabel passStatus;
+	private JButton btnCancel;
 
 	/**
 	 * Create the panel.
@@ -165,12 +163,20 @@ public class SignUpUI extends AbstractFont {
 		panel.add(characterField);
 
 		backgroundPanel.add(panel);
-
-		passStatus = new JLabel("");
-		passStatus.setForeground(Color.RED);
-		passStatus.setFont(new Font("Courier New", Font.PLAIN, 12));
-		passStatus.setBounds(353, 309, 284, 16);
-		panel.add(passStatus);
+		
+		btnCancel = new JButton("Cancel");
+		btnCancel.setFont(new Font("ProFont for Powerline", Font.PLAIN, 40));
+		btnCancel.setBackground(new Color(255, 99, 71));
+		btnCancel.setBounds(540, 414, 174, 66);
+		btnCancel.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		panel.add(btnCancel);
 
 		JLabel lblGameName = new JLabel("TypingThrower");
 		lblGameName.setHorizontalAlignment(SwingConstants.CENTER);
