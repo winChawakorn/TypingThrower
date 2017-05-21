@@ -5,6 +5,10 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -25,58 +29,34 @@ import com.j256.ormlite.support.ConnectionSource;
 
 import connection.DatabaseConnect;
 import connection.UserTable;
+import gameui.Login.LoginKeyAdapter;
 
 public class SignUpUI extends AbstractFont {
 
-	private JFrame frame;
+	// private JFrame frame;
 	private JPanel backgroundPanel;
-	private JPasswordField ConfirmPasswordField;
-	private JTextField usernameField;
-	private JPasswordField passwordField;
-	private JTextField characterField;
-	private JLabel lblCharacter;
-	private JLabel lblUsername;
-	private JLabel lblPass;
-	private JLabel lblConfirmPass;
+	private JPasswordField passwordField, ConfirmPasswordField;
+	private JTextField usernameField, characterField;
+	private JLabel lblUsername, lblCharacter, lblPass, lblConfirmPass, status;
 	private JButton btnConfirm;
 	private ConnectionSource source;
 	private Dao<UserTable, String> userDao;
 	private java.util.List<UserTable> getDetailUser;
-	private JLabel status;
+	private JLabel passStatus;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SignUpUI window = new SignUpUI();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
+	 * Create the panel.
 	 */
 	public SignUpUI() {
 		getDetailUser = null;
-		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
+	 * 
+	 * @wbp.parser.entryPoint
 	 */
-	private void initialize() {
-		frame = new JFrame();
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		frame.setBounds(((int) dim.getWidth() - 1024) / 2, ((int) dim.getHeight() - 768) / 2, 1024, 768);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+	public JPanel initialize() {
 
 		backgroundPanel = new JPanel() {
 			@Override
@@ -84,21 +64,23 @@ public class SignUpUI extends AbstractFont {
 				super.paintComponent(g);
 				try {
 					BufferedImage img = ImageIO.read(this.getClass().getResourceAsStream("/res/LoginBackground.jpg"));
-					g.drawImage(img, 0, 0, frame.getSize().width, frame.getSize().height, null);
+					Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+					;
+					// g.drawImage(img, ((int) dim.getWidth() - 1024) / 2,
+					// ((int) dim.getHeight() - 768) / 2, 1024, 768,null);
+					g.drawImage(img, 0, 0, 1024, 768, null);
+
 				} catch (IOException e) {
 					// do nothing
 				}
 			}
 		};
-		backgroundPanel.setBounds(0, 0, frame.getWidth(), frame.getHeight());
 		backgroundPanel.setLayout(null);
-		frame.getContentPane().add(backgroundPanel);
 
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBackground(new Color(211, 211, 211));
-		panel.setBounds(130, 156, 750, 498);
-		backgroundPanel.add(panel);
+		panel.setBounds(135, 145, 750, 498);
 
 		JLabel lblTitle = new JLabel("Create your own character");
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
@@ -120,6 +102,7 @@ public class SignUpUI extends AbstractFont {
 		}
 		usernameField.setColumns(10);
 		usernameField.setBounds(343, 180, 300, 50);
+		usernameField.addKeyListener(new ConfirmKeyAdapter());
 		panel.add(usernameField);
 
 		lblPass = new JLabel("Password");
@@ -130,6 +113,7 @@ public class SignUpUI extends AbstractFont {
 
 		passwordField = new JPasswordField();
 		passwordField.setBounds(343, 250, 300, 50);
+		passwordField.addKeyListener(new ConfirmKeyAdapter());
 		panel.add(passwordField);
 
 		lblConfirmPass = new JLabel("Confirm password");
@@ -140,6 +124,7 @@ public class SignUpUI extends AbstractFont {
 
 		ConfirmPasswordField = new JPasswordField();
 		ConfirmPasswordField.setBounds(343, 320, 300, 50);
+		ConfirmPasswordField.addKeyListener(new ConfirmKeyAdapter());
 		panel.add(ConfirmPasswordField);
 
 		btnConfirm = new JButton("Confirm");
@@ -147,6 +132,14 @@ public class SignUpUI extends AbstractFont {
 		panel.add(btnConfirm);
 		btnConfirm.setFont(new Font("ProFont for Powerline", Font.PLAIN, 40));
 		btnConfirm.setBackground(Color.ORANGE);
+		btnConfirm.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				confirmAction();
+
+			}
+		});
 
 		status = new JLabel("");
 		status.setHorizontalAlignment(SwingConstants.CENTER);
@@ -168,14 +161,25 @@ public class SignUpUI extends AbstractFont {
 		}
 		characterField.setColumns(10);
 		characterField.setBounds(343, 110, 300, 50);
+		characterField.addKeyListener(new ConfirmKeyAdapter());
 		panel.add(characterField);
+
+		backgroundPanel.add(panel);
+
+		passStatus = new JLabel("");
+		passStatus.setForeground(Color.RED);
+		passStatus.setFont(new Font("Courier New", Font.PLAIN, 12));
+		passStatus.setBounds(353, 309, 284, 16);
+		panel.add(passStatus);
 
 		JLabel lblGameName = new JLabel("TypingThrower");
 		lblGameName.setHorizontalAlignment(SwingConstants.CENTER);
 		lblGameName.setForeground(new Color(247, 211, 84));
 		lblGameName.setFont(new Font("ProFont for Powerline", Font.BOLD, 90));
-		lblGameName.setBounds(6, 6, 1012, 96);
+		lblGameName.setBounds(6, 22, 1012, 96);
 		backgroundPanel.add(lblGameName);
+
+		return backgroundPanel;
 	}
 
 	public void confirmAction() {
@@ -185,17 +189,61 @@ public class SignUpUI extends AbstractFont {
 				userDao = DaoManager.createDao(source, UserTable.class);
 				getDetailUser = userDao.queryForAll();
 			}
-			String inputUsername = usernameField.getText();
-			UserTable username = userDao.queryForId(inputUsername);
-			if(username != null){
+			String characterName = characterField.getText();
+			if (characterName.equals("")) {
 				status.setForeground(Color.RED);
-				status.setText("username is already exist");
-				System.err.println("username is already exist");
+				status.setText("please, entry your character name.");
+				System.err.println("character is emtry");
+			} else {
+				// checking is new username exist?
+				String inputUsername = usernameField.getText();
+				UserTable username = userDao.queryForId(inputUsername);
+				if (username != null) {
+					System.err.println("username is already exist");
+					status.setForeground(Color.RED);
+					status.setText("username is already exist. please, change username.");
+				} else if (inputUsername.equals("")) {
+					status.setForeground(Color.RED);
+					status.setText("please, entry username.");
+					System.err.println("username is emtry");
+				} else {
+					// checking password and confirm password are match
+					String password = new String(passwordField.getPassword());
+					System.out.println(password);
+					String conPassword = new String(ConfirmPasswordField.getPassword());
+					System.out.println(conPassword);
+					if (password.equals("") || conPassword.equals("")) {
+						passStatus.setText("please, entry password.");
+						System.err.println("one of password is emtry");
+					} else if (!password.equals(conPassword)) {
+						passStatus.setText("error: 2 password don't match");
+						System.err.println("password and confirm password don't match.");
+					} else {
+						passStatus.setText("");
+
+						// create account in database
+						UserTable user = new UserTable(inputUsername, password, characterName);
+						userDao.createIfNotExists(user);
+						status.setForeground(new Color(17, 178, 19));
+						status.setText("creating success");
+						
+					}
+				}
 			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		// checking is new username exist?
 
+	}
+
+	class ConfirmKeyAdapter extends KeyAdapter {
+		@Override
+		public void keyPressed(KeyEvent e) {
+			super.keyPressed(e);
+			if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+				confirmAction();
+			}
+		}
 	}
 }
