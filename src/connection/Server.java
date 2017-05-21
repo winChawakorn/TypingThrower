@@ -66,6 +66,8 @@ public class Server extends AbstractServer {
 				r.p1Disconnected();
 			else if (r.getC2() == client)
 				r.p2Disconnected();
+			if (r.count() == 0)
+				rooms.remove(r);
 		}
 	}
 

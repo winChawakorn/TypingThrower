@@ -15,8 +15,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Component;
+import java.awt.Toolkit;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -42,18 +44,18 @@ public class GameUI {
 	/**
 	 * Launch the application.
 	 */
-//	 public static void main(String[] args) {
-//	 EventQueue.invokeLater(new Runnable() {
-//	 public void run() {
-//	 try {
-//	 GameUI window = new GameUI();
-//	 window.frame.setVisible(true);
-//	 } catch (Exception e) {
-//	 e.printStackTrace();
-//	 }
-//	 }
-//	 });
-//	 }
+	// public static void main(String[] args) {
+	// EventQueue.invokeLater(new Runnable() {
+	// public void run() {
+	// try {
+	// GameUI window = new GameUI();
+	// window.frame.setVisible(true);
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// }
+	// });
+	// }
 
 	/**
 	 * Create the application.
@@ -198,7 +200,6 @@ public class GameUI {
 					Controller ctrl = Controller.getInstance();
 					ctrl.attack();
 					currentWord = currentWord.substring(1, currentWord.length());
-					p1Attack();
 					if (currentWord.length() == 0) {
 						currentWord = game.getWord();
 					}
