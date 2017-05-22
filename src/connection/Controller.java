@@ -1,5 +1,7 @@
 package connection;
 
+import game.Player;
+import game.TypingThrower;
 import gameui.GameUI;
 
 import java.io.IOException;
@@ -8,9 +10,14 @@ public class Controller {
 	private static Controller ctrl = null;
 	private Client c;
 	private GameUI ui;
-	private boolean isJoin = false;
+	private boolean isJoinServer = false;
+	private TypingThrower game;
+	private Player p1;
+	private Player p2;
+	private String player;
 
 	private Controller() {
+		player = "";
 	}
 
 	public static Controller getInstance() {
@@ -27,39 +34,19 @@ public class Controller {
 		this.c = c;
 	}
 
-	public void join() {
-		if (!isJoin) {
+	public void joinServer() {
+		if (!isJoinServer) {
 			try {
 				c.openConnection();
 			} catch (IOException e) {
 				ui.cantConnectToServer();
 			}
-			isJoin = true;
+			isJoinServer = true;
 		}
 	}
 
-	public void sentWPM(double value) {
-		try {
-			c.sendToServer(String.format("wpm %.2f", value));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void p1wpmUI(String value) {
-		ui.setP1WPM(value);
-	}
-
-	public void p2wpmUI(String value) {
-		ui.setP2WPM(value);
-	}
-
-	public void attack() {
-		try {
-			c.sendToServer("attack");
-		} catch (IOException e) {
-			ui.cantConnectToServer();
-		}
+	public void setPlayer(String player) {
+		this.player = player;
 	}
 
 	public void findGame() {
@@ -70,19 +57,79 @@ public class Controller {
 		}
 	}
 
-	public void attackedUI() {
-		ui.p2Attack();
-	}
-
-	public void attackUI() {
-		ui.p1Attack();
-	}
-
 	public void waitingUI() {
 		ui.waiting();
 	}
 
 	public void start() {
+		if (player.equals(""))
+			player = "2";
+		createGame();
 		ui.initPlayingUI();
+	}
+
+	public void createGame() {
+		if (player.equals("1"))
+			this.game = new TypingThrower(p1, p2);
+		else if (player.equals("2"))
+			this.game = new TypingThrower(p2, p1);
+
+		// for testing without SQL
+		this.game = new TypingThrower(new Player("Aom", 1000, 20), new Player(
+				"Win", 1000, 20));
+		ui.setGame(this.game);
+	}
+
+	public void sentWPM(double value) {
+		try {
+			c.sendToServer(String.format("wpm %.2f", value));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void mywpmUI(String value) {
+		if (player.equals("1"))
+			ui.setP1WPM(value);
+		else if (player.equals("2"))
+			ui.setP2WPM(value);
+	}
+
+	public void oppowpmUI(String value) {
+		if (player.equals("1"))
+			ui.setP2WPM(value);
+		else if (player.equals("2"))
+			ui.setP1WPM(value);
+	}
+
+	public void attack() {
+		try {
+			c.sendToServer("attack");
+		} catch (IOException e) {
+			ui.cantConnectToServer();
+		}
+	}
+
+	public void attackedUI() {
+		if (player.equals("1"))
+			ui.p2Attack();
+		else if (player.equals("2"))
+			ui.p1Attack();
+	}
+
+	public void attackUI() {
+		System.out.println("u r p" + player);
+		if (player.equals("1"))
+			ui.p1Attack();
+		else if (player.equals("2"))
+			ui.p2Attack();
+	}
+
+	public void endGame() {
+		game = null;
+		p1 = null;
+		p2 = null;
+		player = "";
+		// TODO set UI back to home page
 	}
 }

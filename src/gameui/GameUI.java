@@ -67,10 +67,9 @@ public class GameUI {
 	/**
 	 * Create the application.
 	 */
-	public GameUI(TypingThrower game) {
+	public GameUI() {
 		frame = new JFrame("TypingThrower");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.game = game;
 		initComponent();
 	}
 
@@ -464,5 +463,9 @@ public class GameUI {
 
 	public void waiting() {
 		// Please wait message
+	}
+
+	public void setGame(TypingThrower game) {
+		this.game = game;
 	}
 }

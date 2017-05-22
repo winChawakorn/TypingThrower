@@ -5,7 +5,7 @@ import com.lloseng.ocsf.server.ConnectionToClient;
 public class GameRoom {
 	private ConnectionToClient c1 = null;
 	private ConnectionToClient c2 = null;
-	private int count = 0;
+	private boolean access = true;
 
 	/**
 	 * Add client to null slot
@@ -14,11 +14,17 @@ public class GameRoom {
 	 *            is the ConnectionToClient to be added.
 	 */
 	public void add(ConnectionToClient c) {
-		if (c1 == null) {
-			c1 = c;
-			return;
+		if (!isFull()) {
+			if (c1 == null)
+				c1 = c;
+			else
+				c2 = c;
+			count();
 		}
-		c2 = c;
+	}
+
+	public boolean canAccess() {
+		return this.access;
 	}
 
 	public ConnectionToClient getOpponent(ConnectionToClient c) {
@@ -39,17 +45,20 @@ public class GameRoom {
 	}
 
 	public int count() {
-		count = 0;
+		int count = 0;
 		if (c1 != null)
 			count++;
 		if (c2 != null)
 			count++;
+		if (count == 2)
+			access = false;
 		return count;
 	}
 
 	public boolean isFull() {
-		if (count() == 2)
+		if (count() == 2) {
 			return true;
+		}
 		return false;
 	}
 
