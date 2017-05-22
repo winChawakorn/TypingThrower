@@ -30,23 +30,21 @@ import connection.UserTable;
 
 public class SignUpUI extends AbstractFont {
 
-	// private JFrame frame;
-	private JPanel backgroundPanel;
+	private static JPanel signUpPanel;
 	private JPasswordField passwordField, ConfirmPasswordField;
 	private JTextField usernameField, characterField;
 	private JLabel lblUsername, lblCharacter, lblPass, lblConfirmPass, status;
-	private JButton btnConfirm;
+	private JButton btnConfirm, btnCancel;
 	private ConnectionSource source;
 	private Dao<UserTable, String> userDao;
 	private java.util.List<UserTable> getDetailUser;
-	private JLabel passStatus;
-	private JButton btnCancel;
 
 	/**
 	 * Create the panel.
 	 */
 	public SignUpUI() {
 		getDetailUser = null;
+		initialize();
 	}
 
 	/**
@@ -54,18 +52,15 @@ public class SignUpUI extends AbstractFont {
 	 * 
 	 * @wbp.parser.entryPoint
 	 */
-	public JPanel initialize() {
+	public void initialize() {
 
-		backgroundPanel = new JPanel() {
+		signUpPanel = new JPanel() {
 			@Override
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				try {
 					BufferedImage img = ImageIO.read(this.getClass().getResourceAsStream("/res/LoginBackground.jpg"));
 					Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-					;
-					// g.drawImage(img, ((int) dim.getWidth() - 1024) / 2,
-					// ((int) dim.getHeight() - 768) / 2, 1024, 768,null);
 					g.drawImage(img, 0, 0, 1024, 768, null);
 
 				} catch (IOException e) {
@@ -73,7 +68,7 @@ public class SignUpUI extends AbstractFont {
 				}
 			}
 		};
-		backgroundPanel.setLayout(null);
+		signUpPanel.setLayout(null);
 
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
@@ -94,7 +89,7 @@ public class SignUpUI extends AbstractFont {
 
 		usernameField = new JTextField();
 		try {
-			usernameField.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.PLAIN, 20));
+			usernameField.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.PLAIN, 25));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -153,7 +148,7 @@ public class SignUpUI extends AbstractFont {
 
 		characterField = new JTextField();
 		try {
-			usernameField.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.PLAIN, 20));
+			characterField.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.PLAIN, 25));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -162,30 +157,36 @@ public class SignUpUI extends AbstractFont {
 		characterField.addKeyListener(new ConfirmKeyAdapter());
 		panel.add(characterField);
 
-		backgroundPanel.add(panel);
-		
+		signUpPanel.add(panel);
+
 		btnCancel = new JButton("Cancel");
-		btnCancel.setFont(new Font("ProFont for Powerline", Font.PLAIN, 40));
+		try {
+			btnCancel.setFont(new Font("ProFont for Powerline", Font.PLAIN, 40));
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 		btnCancel.setBackground(new Color(255, 99, 71));
 		btnCancel.setBounds(540, 414, 174, 66);
 		btnCancel.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				backToLogin();
 				
 			}
 		});
 		panel.add(btnCancel);
-
+		
 		JLabel lblGameName = new JLabel("TypingThrower");
 		lblGameName.setHorizontalAlignment(SwingConstants.CENTER);
 		lblGameName.setForeground(new Color(247, 211, 84));
-		lblGameName.setFont(new Font("ProFont for Powerline", Font.BOLD, 90));
+		try {
+			lblGameName.setFont(new Font("ProFont for Powerline", Font.BOLD, 90));
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 		lblGameName.setBounds(6, 22, 1012, 96);
-		backgroundPanel.add(lblGameName);
-
-		return backgroundPanel;
+		signUpPanel.add(lblGameName);
 	}
 
 	public void confirmAction() {
@@ -198,7 +199,7 @@ public class SignUpUI extends AbstractFont {
 			String characterName = characterField.getText();
 			if (characterName.equals("")) {
 				status.setForeground(Color.RED);
-				status.setText("please, entry your character name.");
+				status.setText("please fill in your character name.");
 				System.err.println("character is emtry");
 			} else {
 				// checking is new username exist?
@@ -207,31 +208,30 @@ public class SignUpUI extends AbstractFont {
 				if (username != null) {
 					System.err.println("username is already exist");
 					status.setForeground(Color.RED);
-					status.setText("username is already exist. please, change username.");
+					status.setText("username is already exist. please change username.");
 				} else if (inputUsername.equals("")) {
 					status.setForeground(Color.RED);
-					status.setText("please, entry username.");
+					status.setText("please fill in an username.");
 					System.err.println("username is emtry");
 				} else {
 					// checking password and confirm password are match
 					String password = new String(passwordField.getPassword());
-					System.out.println(password);
 					String conPassword = new String(ConfirmPasswordField.getPassword());
-					System.out.println(conPassword);
 					if (password.equals("") || conPassword.equals("")) {
-						passStatus.setText("please, entry password.");
-						System.err.println("one of password is emtry");
+						status.setText("please fill in passwords");
+						System.err.println("one of passwords is emtry");
 					} else if (!password.equals(conPassword)) {
-						passStatus.setText("error: 2 password don't match");
+						status.setText("error: passwords don't match");
 						System.err.println("password and confirm password don't match.");
 					} else {
-						passStatus.setText("");
+						status.setText("");
 
 						// create account in database
 						UserTable user = new UserTable(inputUsername, password, characterName);
 						userDao.createIfNotExists(user);
 						status.setForeground(new Color(17, 178, 19));
 						status.setText("creating success");
+						backToLogin();
 						
 					}
 				}
@@ -252,4 +252,17 @@ public class SignUpUI extends AbstractFont {
 			}
 		}
 	}
+	
+	private void backToLogin(){
+		getDetailUser = null;
+		MainFrame.setFrame(LoginUI.getLoginPanel());
+		
+	}
+	
+	public static JPanel getSignUpPanel(){
+		if (signUpPanel == null) 
+			new SignUpUI();
+		return signUpPanel;
+	}
+
 }
