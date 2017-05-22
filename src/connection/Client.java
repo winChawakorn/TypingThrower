@@ -1,8 +1,5 @@
 package connection;
 
-import java.io.IOException;
-import java.util.Scanner;
-
 import com.lloseng.ocsf.client.AbstractClient;
 
 public class Client extends AbstractClient {
@@ -12,7 +9,7 @@ public class Client extends AbstractClient {
 	}
 
 	@Override
-	protected void handleMessageFromServer(Object msg) {
+	protected synchronized void handleMessageFromServer(Object msg) {
 		String message = (String) msg;
 		Controller ctrl = Controller.getInstance();
 		if (message.equals("attacked")) {
@@ -20,19 +17,18 @@ public class Client extends AbstractClient {
 		} else if (message.equals("attack")) {
 			ctrl.attackUI();
 		} else if (message.equals("wait")) {
+			ctrl.setPlayer("1");
 			ctrl.waitingUI();
 		} else if (message.equals("start")) {
 			ctrl.start();
+		} else if (message.substring(0, 5).equals("myWPM")) {
+			ctrl.mywpmUI(message.substring(6));
+		} else if (message.substring(0, 7).equals("oppoWPM")) {
+			ctrl.oppowpmUI(message.substring(8));
+		} else if (message.equals("finish")) {
+			ctrl.endGame();
 		}
 
-		if (message.substring(0, 5).equals("myWPM")) {
-			ctrl.p1wpmUI(message.substring(6));
-		}
-		if (message.substring(0, 7).equals("oppoWPM")) {
-			System.out.println("here");
-			ctrl.p2wpmUI(message.substring(8));
-			System.out.println("sent wpm to opponent");
-		}
 	}
 	//
 	// public static void main(String[] args) {

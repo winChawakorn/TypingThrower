@@ -28,21 +28,6 @@ public class Server extends AbstractServer {
 
 	@Override
 	protected void clientConnected(ConnectionToClient client) {
-		// if (ipChecker.size() > 0) {
-		// for (Thread th : ipChecker) {
-		// if (((ConnectionToClient) th).getInetAddress().equals(
-		// client.getInetAddress())) {
-		// try {
-		// client.close();
-		// } catch (IOException e) {
-		// e.printStackTrace();
-		// }
-		// }
-		// }
-		// return;
-		// }
-		// client.sendToClient(new Player(name, HP, damage));
-		// ipChecker = Arrays.asList(this.getClientConnections());
 		System.out.println("Someone connected");
 		System.out.println("Current client : " + this.getNumberOfClients());
 		System.out.println("this user : " + client.getInetAddress());
@@ -55,12 +40,8 @@ public class Server extends AbstractServer {
 	@Override
 	protected synchronized void clientDisconnected(ConnectionToClient client) {
 		System.out.println("\nSomeone has disconnected");
-		// System.out.println("Current client : " + this.getNumberOfClients());
-		// System.out.println("All users : "
-		// + Arrays.toString(this.getClientConnections()));
 		System.out.println();
 		System.out.println("Menu : (p)rint detail");
-
 		for (GameRoom r : rooms) {
 			if (r.getC1() == client)
 				r.p1Disconnected();
@@ -72,38 +53,33 @@ public class Server extends AbstractServer {
 	}
 
 	@Override
-	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
+	protected synchronized void handleMessageFromClient(Object msg,
+			ConnectionToClient client) {
 		String message = (String) msg;
-		System.out.println(client);
-		System.out.println("From client: " + message);
-		GameRoom findRoom = findRoom(client);
+		// System.out.println(client);
+		// System.out.println("From client: " + message);
+		GameRoom findClientRoom = findClientRoom(client);
 		if (message.equals("find room")) {
 			if (rooms.size() > 0) {
 				for (GameRoom r : rooms) {
-					if (!r.isFull()) {
+					if (!r.isFull() && r.canAccess()) {
 						r.add(client);
 						if (r.isFull()) {
 							try {
 								client.sendToClient("start");
 								r.getOpponent(client).sendToClient("start");
-								System.out.println("start");
+								System.out.println("room " + rooms.indexOf(r)
+										+ "start");
+								break;
 							} catch (IOException e) {
 								e.printStackTrace();
 							}
 						}
-					} else {
-						GameRoom r2 = new GameRoom();
-						r2.add(client);
-						rooms.add(r2);
-						try {
-							client.sendToClient("wait");
-							System.out.println("wait");
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
 					}
 				}
-			} else {
+			}
+			findClientRoom = findClientRoom(client);
+			if (findClientRoom == null) {
 				System.out.println("create new room");
 				GameRoom r2 = new GameRoom();
 				r2.add(client);
@@ -116,37 +92,44 @@ public class Server extends AbstractServer {
 				}
 			}
 		} else if (message.equals("finish")) {
-			if (findRoom != null) {
-				if (rooms.contains(findRoom))
-					rooms.remove(findRoom);
+			if (findClientRoom != null) {
+				if (rooms.contains(findClientRoom)) {
+					rooms.remove(findClientRoom);
+				}
+				try {
+					client.sendToClient("finish");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		} else if (message.equals("attack")) {
-			if (findRoom != null) {
+			if (findClientRoom != null) {
 				try {
 					client.sendToClient("attack");
-					findRoom.getOpponent(client).sendToClient("attacked");
-					System.out.println("attack");
+					findClientRoom.getOpponent(client).sendToClient("attacked");
+					// System.out.println("attack");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
 		} else if (message.contains("wpm")) {
-			if (findRoom != null) {
+			if (findClientRoom != null) {
 				String wpm = message.substring(4);
 				try {
 					client.sendToClient("myWPM " + wpm);
-					findRoom.getOpponent(client).sendToClient("oppoWPM " + wpm);
+					findClientRoom.getOpponent(client).sendToClient(
+							"oppoWPM " + wpm);
 					System.out.println("sent wpm = " + wpm);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
 		}
-		System.out.println(rooms.size() + " rooms here : "
-				+ Arrays.toString(rooms.toArray(new GameRoom[0])));
+		// System.out.println(rooms.size() + " rooms here : "
+		// + Arrays.toString(rooms.toArray(new GameRoom[0])));
 	}
 
-	public GameRoom findRoom(ConnectionToClient client) {
+	public GameRoom findClientRoom(ConnectionToClient client) {
 		for (GameRoom r : rooms) {
 			if (r.getC1() == client || r.getC2() == client)
 				return r;
@@ -176,8 +159,10 @@ public class Server extends AbstractServer {
 											.toArray(new GameRoom[0])));
 					System.out.println();
 					if (s.rooms.size() > 0)
-						System.out.println("There is " + s.rooms.get(0).count()
-								+ " in the first room");
+						for (GameRoom r : s.rooms) {
+							System.out.println("There is " + r.count()
+									+ " in room " + (s.rooms.indexOf(r) + 1));
+						}
 				}
 			}
 		} catch (IOException e) {
