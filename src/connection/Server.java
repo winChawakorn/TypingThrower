@@ -76,16 +76,7 @@ public class Server extends AbstractServer {
 		String message = (String) msg;
 		System.out.println(client);
 		System.out.println("From client: " + message);
-		// Controller ctrl = Controller.getInstance();
-		// if (message.equals("Attack")) {
-		// try {
-		// client.sendToClient("Attacked");
-		// } catch (IOException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		// }
-
+		GameRoom findRoom = findRoom(client);
 		if (message.equals("find room")) {
 			if (rooms.size() > 0) {
 				for (GameRoom r : rooms) {
@@ -125,18 +116,27 @@ public class Server extends AbstractServer {
 				}
 			}
 		} else if (message.equals("finish")) {
-			GameRoom r = findRoom(client);
-			if (r != null) {
-				if (rooms.contains(r))
-					rooms.remove(r);
+			if (findRoom != null) {
+				if (rooms.contains(findRoom))
+					rooms.remove(findRoom);
 			}
 		} else if (message.equals("attack")) {
-			GameRoom r = findRoom(client);
-			if (r != null) {
+			if (findRoom != null) {
 				try {
 					client.sendToClient("attack");
-					r.getOpponent(client).sendToClient("attacked");
+					findRoom.getOpponent(client).sendToClient("attacked");
 					System.out.println("attack");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		} else if (message.contains("wpm")) {
+			if (findRoom != null) {
+				String wpm = message.substring(4);
+				try {
+					client.sendToClient("myWPM " + wpm);
+					findRoom.getOpponent(client).sendToClient("oppoWPM " + wpm);
+					System.out.println("sent wpm = " + wpm);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

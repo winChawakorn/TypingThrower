@@ -38,6 +38,22 @@ public class Controller {
 		}
 	}
 
+	public void sentWPM(double value) {
+		try {
+			c.sendToServer(String.format("wpm %.2f", value));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void p1wpmUI(String value) {
+		ui.setP1WPM(value);
+	}
+
+	public void p2wpmUI(String value) {
+		ui.setP2WPM(value);
+	}
+
 	public void attack() {
 		try {
 			c.sendToServer("attack");

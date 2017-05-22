@@ -24,19 +24,28 @@ public class Client extends AbstractClient {
 		} else if (message.equals("start")) {
 			ctrl.start();
 		}
-	}
 
-	public static void main(String[] args) {
-		Client c = new Client("35.185.188.93", 3001);
-		try {
-			c.openConnection();
-			System.out.println("Connected");
-			Scanner sc = new Scanner(System.in);
-			while (true) {
-				c.sendToServer(sc.nextLine());
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (message.substring(0, 5).equals("myWPM")) {
+			ctrl.p1wpmUI(message.substring(6));
+		}
+		if (message.substring(0, 7).equals("oppoWPM")) {
+			System.out.println("here");
+			ctrl.p2wpmUI(message.substring(8));
+			System.out.println("sent wpm to opponent");
 		}
 	}
+	//
+	// public static void main(String[] args) {
+	// Client c = new Client("35.185.188.93", 3001);
+	// try {
+	// c.openConnection();
+	// System.out.println("Connected");
+	// Scanner sc = new Scanner(System.in);
+	// while (true) {
+	// c.sendToServer(sc.nextLine());
+	// }
+	// } catch (IOException e) {
+	// e.printStackTrace();
+	// }
+	// }
 }
