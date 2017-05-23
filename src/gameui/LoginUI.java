@@ -30,13 +30,12 @@ public class LoginUI extends AbstractFont {
 	private JLabel lblStatus, lblUsername, lblDontHaveAny, lblPassword;
 	private JPanel loginPanel;
 	private JPanel panel;
-	private JButton btnLogin, btnSignUp,lblInFrame;
+	private JButton btnLogin, btnSignUp, lblInFrame;
 	private ConnectionSource source;
 	private Dao<UserTable, String> userDao;
 	private java.util.List<UserTable> getDetailUser;
 	private static UserTable currentUser;
 
-	
 	/**
 	 * Create the application.
 	 */
@@ -57,7 +56,8 @@ public class LoginUI extends AbstractFont {
 	 */
 	private void initialize() {
 		try {
-			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+			UIManager.setLookAndFeel(UIManager
+					.getCrossPlatformLookAndFeelClassName());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -67,7 +67,8 @@ public class LoginUI extends AbstractFont {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				try {
-					BufferedImage img = ImageIO.read(this.getClass().getResourceAsStream("/res/LoginBackground.jpg"));
+					BufferedImage img = ImageIO.read(this.getClass()
+							.getResourceAsStream("/res/LoginBackground.jpg"));
 					g.drawImage(img, 0, 0, 1280, 768, null);
 
 				} catch (IOException e) {
@@ -82,7 +83,8 @@ public class LoginUI extends AbstractFont {
 		label.setForeground(new Color(247, 211, 84));
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		try {
-			label.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.BOLD, 100));
+			label.setFont(getFont("ProFont For Powerline.ttf").deriveFont(
+					Font.BOLD, 100));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -97,7 +99,8 @@ public class LoginUI extends AbstractFont {
 
 		userField = new JTextField();
 		try {
-			userField.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.PLAIN, 20));
+			userField.setFont(getFont("ProFont For Powerline.ttf").deriveFont(
+					Font.PLAIN, 20));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -118,7 +121,8 @@ public class LoginUI extends AbstractFont {
 		btnLogin.setBounds(292, 264, 161, 66);
 		btnLogin.setBackground(Color.ORANGE);
 		try {
-			btnLogin.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.PLAIN, 40));
+			btnLogin.setFont(getFont("ProFont For Powerline.ttf").deriveFont(
+					Font.PLAIN, 40));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -127,7 +131,7 @@ public class LoginUI extends AbstractFont {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				lblStatus.setText("Logging in ...");
+				// lblStatus.setText("Logging in ...");
 				loginAction();
 			}
 		});
@@ -136,7 +140,8 @@ public class LoginUI extends AbstractFont {
 		btnSignUp = new JButton("Sign Up");
 		btnSignUp.setBounds(428, 437, 135, 44);
 		try {
-			btnSignUp.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.PLAIN, 25));
+			btnSignUp.setFont(getFont("ProFont For Powerline.ttf").deriveFont(
+					Font.PLAIN, 25));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -169,20 +174,21 @@ public class LoginUI extends AbstractFont {
 		lblStatus.setHorizontalAlignment(SwingConstants.CENTER);
 		lblStatus.setBounds(6, 20, 738, 28);
 		panel.add(lblStatus);
-		
+
 		userField.addKeyListener(new LoginKeyAdapter());
 		passwordField.addKeyListener(new LoginKeyAdapter());
 		btnLogin.addKeyListener(new LoginKeyAdapter());
-		
+
 		statusFrame = new JFrame("Login status");
 		Dimension dim = loginPanel.getPreferredSize();
-		statusFrame.setBounds((int) ((dim.getWidth()-300)/2.0),(int) ((dim.getHeight()-150)/2.0),300,150);
-		
+		statusFrame.setBounds((int) ((dim.getWidth() - 300) / 2.0),
+				(int) ((dim.getHeight() - 150) / 2.0), 300, 150);
+
 		lblInFrame = new JButton("Logging in ...");
 		lblInFrame.setFont(new Font("Courier New", Font.BOLD, 18));
 		lblInFrame.setHorizontalAlignment(SwingConstants.CENTER);
 		lblInFrame.setBounds(0, 0, 300, 150);
-		statusFrame.getRootPane().add(lblInFrame,BorderLayout.CENTER);
+		statusFrame.getRootPane().add(lblInFrame, BorderLayout.CENTER);
 
 	}
 
@@ -215,7 +221,8 @@ public class LoginUI extends AbstractFont {
 		String password = new String(passwordField.getPassword());
 		boolean success = false;
 		for (UserTable user : getDetailUser) {
-			if (username.equals(user.getUsername()) && password.equals(user.getPassword())) {
+			if (username.equals(user.getUsername())
+					&& password.equals(user.getPassword())) {
 				lblStatus.setForeground(new Color(17, 178, 19));
 				lblStatus.setText("Login successed");
 				System.err.println("Login successed");
@@ -245,12 +252,12 @@ public class LoginUI extends AbstractFont {
 		btnLogin.setEnabled(true);
 		btnSignUp.setEnabled(true);
 	}
-	
-	public JPanel getLoginPanel(){
+
+	public JPanel getLoginPanel() {
 		return loginPanel;
 	}
-	
-	public static UserTable getCurrentUser(){
+
+	public static UserTable getCurrentUser() {
 		return currentUser;
 	}
 }
