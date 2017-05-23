@@ -1,5 +1,8 @@
 package gameui;
 
+import game.Player;
+import game.TypingThrower;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -14,7 +17,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+
 import java.awt.Font;
+
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
@@ -27,7 +32,8 @@ public class HomeUI extends AbstractFont {
 	private static JPanel homePanel;
 	private JButton btnOnline, btnOffline, btnLogout, btnQuit;
 	private JPanel lblScore;
-	private JLabel lblCharacter, lblScoreName, lblWPM, lblWin, lblLose, lblHp, lblAtk;
+	private JLabel lblCharacter, lblScoreName, lblWPM, lblWin, lblLose, lblHp,
+			lblAtk;
 	private UserTable currentUser;
 	private JLabel lblWPMNum;
 	private JLabel lblWinNum;
@@ -66,7 +72,8 @@ public class HomeUI extends AbstractFont {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(250, 240, 230));
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		frame.setBounds(((int) dim.getWidth() - 1024) / 2, ((int) dim.getHeight() - 768) / 2, 1024, 768);
+		frame.setBounds(((int) dim.getWidth() - 1024) / 2,
+				((int) dim.getHeight() - 768) / 2, 1024, 768);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.getContentPane().setLayout(null);
@@ -76,7 +83,8 @@ public class HomeUI extends AbstractFont {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				try {
-					BufferedImage img = ImageIO.read(this.getClass().getResourceAsStream("/res/BG3.png"));
+					BufferedImage img = ImageIO.read(this.getClass()
+							.getResourceAsStream("/res/BG3.png"));
 					g.drawImage(img, 0, 0, 1024, 768, null);
 
 				} catch (IOException e) {
@@ -91,7 +99,8 @@ public class HomeUI extends AbstractFont {
 
 		btnOnline = new JButton("Online");
 		try {
-			btnOnline.setFont(getFont("planet benson 2.ttf").deriveFont(Font.BOLD, 60));
+			btnOnline.setFont(getFont("planet benson 2.ttf").deriveFont(
+					Font.BOLD, 60));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -99,6 +108,9 @@ public class HomeUI extends AbstractFont {
 		btnOnline.setContentAreaFilled(false);
 		btnOnline.setBorderPainted(false);
 		btnOnline.setBounds(86, 25, 290, 137);
+		btnOnline.addActionListener((e) -> {
+			MainFrame.setFrame(new WaitingUI().getWaitingPanel());
+		});
 		btnOnline.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseEntered(java.awt.event.MouseEvent evt) {
 				btnOnline.setForeground(Color.WHITE);
@@ -112,7 +124,8 @@ public class HomeUI extends AbstractFont {
 
 		btnOffline = new JButton("Offline");
 		try {
-			btnOffline.setFont(getFont("planet benson 2.ttf").deriveFont(Font.BOLD, 60));
+			btnOffline.setFont(getFont("planet benson 2.ttf").deriveFont(
+					Font.BOLD, 60));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -120,6 +133,14 @@ public class HomeUI extends AbstractFont {
 		btnOffline.setContentAreaFilled(false);
 		btnOffline.setBorderPainted(false);
 		btnOffline.setBounds(86, 199, 290, 137);
+		btnOffline.addActionListener((e) -> {
+			GameUI ui = new GameUI();
+			ui.setGame(new TypingThrower(new Player("You", 1000, 20),
+					new Player("Computer", 1000, 20)));
+			ui.initComponent();
+			ui.offlineGame();
+			MainFrame.setFrame(ui.getGamePanel());
+		});
 		btnOffline.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseEntered(java.awt.event.MouseEvent evt) {
 				btnOffline.setForeground(Color.WHITE);
@@ -133,7 +154,8 @@ public class HomeUI extends AbstractFont {
 
 		btnLogout = new JButton("Logout");
 		try {
-			btnLogout.setFont(getFont("planet benson 2.ttf").deriveFont(Font.BOLD, 60));
+			btnLogout.setFont(getFont("planet benson 2.ttf").deriveFont(
+					Font.BOLD, 60));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -161,7 +183,8 @@ public class HomeUI extends AbstractFont {
 
 		btnQuit = new JButton("Quit");
 		try {
-			btnQuit.setFont(getFont("planet benson 2.ttf").deriveFont(Font.BOLD, 60));
+			btnQuit.setFont(getFont("planet benson 2.ttf").deriveFont(
+					Font.BOLD, 60));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -187,9 +210,11 @@ public class HomeUI extends AbstractFont {
 		});
 		homePanel.add(btnQuit);
 
-		ImageIcon avatarPic = new ImageIcon(this.getClass().getResource("/res/robot1.png"));
+		ImageIcon avatarPic = new ImageIcon(this.getClass().getResource(
+				"/res/robot1.png"));
 		lblCharacter = new JLabel(avatarPic);
-		lblCharacter.setBounds(456, 342, avatarPic.getIconWidth(), avatarPic.getIconHeight());
+		lblCharacter.setBounds(456, 342, avatarPic.getIconWidth(),
+				avatarPic.getIconHeight());
 
 		homePanel.add(lblCharacter);
 
@@ -209,7 +234,8 @@ public class HomeUI extends AbstractFont {
 		lblScoreName.setHorizontalAlignment(SwingConstants.CENTER);
 		lblScoreName.setSize(324, 70);
 		try {
-			lblScoreName.setFont(getFont("ProFont for Powerline.ttf").deriveFont(Font.PLAIN, 60));
+			lblScoreName.setFont(getFont("ProFont for Powerline.ttf")
+					.deriveFont(Font.PLAIN, 60));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -217,7 +243,8 @@ public class HomeUI extends AbstractFont {
 
 		Font detailFont = null;
 		try {
-			detailFont = getFont("ProFont for Powerline.ttf").deriveFont(Font.BOLD, 40);
+			detailFont = getFont("ProFont for Powerline.ttf").deriveFont(
+					Font.BOLD, 40);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}

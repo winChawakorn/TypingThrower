@@ -28,20 +28,5 @@ public class Client extends AbstractClient {
 		} else if (message.equals("finish")) {
 			ctrl.endGame();
 		}
-
 	}
-	//
-	// public static void main(String[] args) {
-	// Client c = new Client("35.185.188.93", 3001);
-	// try {
-	// c.openConnection();
-	// System.out.println("Connected");
-	// Scanner sc = new Scanner(System.in);
-	// while (true) {
-	// c.sendToServer(sc.nextLine());
-	// }
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// }
-	// }
 }

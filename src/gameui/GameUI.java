@@ -1,5 +1,6 @@
 package gameui;
 
+import game.Player;
 import game.TypingThrower;
 
 import javax.swing.ImageIcon;
@@ -19,6 +20,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Component;
 import java.awt.Toolkit;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -29,7 +31,8 @@ import connection.Controller;
 
 public class GameUI {
 
-	private JFrame frame;
+	// private JFrame frame;
+	private JPanel pane;
 	private String currentWord;
 	private TypingThrower game;
 	private JProgressBar HP1;
@@ -40,11 +43,13 @@ public class GameUI {
 	private JLabel p2;
 	private JLabel p1Name;
 	private JLabel p2Name;
-	private JPanel menu;
+	// private JPanel menu;
 	private int typeCount;
 	private double wpm;
 	private JLabel p1wpm;
 	private JLabel p2wpm;
+	private final int WIDTH = 1280;
+	private final int HEIGHT = 768;
 
 	// private int typeErrorCount;
 
@@ -68,91 +73,27 @@ public class GameUI {
 	 * Create the application.
 	 */
 	public GameUI() {
-		frame = new JFrame("TypingThrower");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		initComponent();
 	}
 
-	public void run() {
-		frame.setVisible(true);
+	public JPanel getGamePanel() {
+		return pane;
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initComponent() {
-		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-		// System.out.println(d);
-		frame.setBounds(100, 100, (int) (d.getWidth() / 1.25),
-				(int) (d.getHeight() / 1.25));
-		frame.setLocationRelativeTo(null);
-		frame.setResizable(false);
-		// frame.setBounds(100, 100, 1600, 900);
-		// frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		// frame.setUndecorated(true);
-		// frame.setVisible(true);
-		// frame.setVisible(false);
-		frame.getContentPane().setLayout(
-				new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
-		initMenuUI();
-	}
-
-	public void initMenuUI() {
-		menu = new JPanel();
-		menu.setPreferredSize(frame.getSize());
-		JButton start = new JButton("Play");
-		start.setFont(new Font(Font.MONOSPACED, Font.BOLD, 300));
-		start.setContentAreaFilled(false);
-		start.setPreferredSize(frame.getSize());
-		start.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-					Controller.getInstance().findGame();
-					start.setEnabled(false);
-				}
-			}
-		});
-		start.addActionListener((e) -> {
-			Controller.getInstance().findGame();
-			start.setEnabled(false);
-		});
-		menu.add(start);
-		frame.add(menu);
-	}
-
-	public void initPlayingUI() {
-		menu.setVisible(false);
-		frame.remove(menu);
-		// frame.setVisible(false);
-		// frame.setVisible(true);
-
-		// JLabel background = new JLabel(new ImageIcon("BG.png"));
-		// playing = new JPanel() {
-		// @Override
-		// protected void paintComponent(Graphics g) {
-		// super.paintComponent(g);
-		// try {
-		// BufferedImage img = ImageIO.read(this.getClass()
-		// .getResourceAsStream("/res/BG.png"));
-		// g.drawImage(img, 0, 0, frame.getSize().width,
-		// frame.getSize().height, null);
-		// Graphics asdf = img.getGraphics();
-		// asdf.drawRect(0, 0, 30, 30);
-		// } catch (IOException e) {
-		// // do nothing
-		// }
-		// }
-		// };
+	public void initComponent() {
+		pane = new JPanel();
+		pane.setBounds(WIDTH / 2, HEIGHT / 2, WIDTH, HEIGHT);
+		pane.setLayout(new BoxLayout(pane, BoxLayout.X_AXIS));
 		playing = new JPanel();
 		playing.setLayout(null);
-		playing.setSize(frame.getSize());
-		frame.getContentPane().add(playing);
+		playing.setSize(pane.getSize());
+		pane.add(playing);
 
 		HP1 = new JProgressBar();
-		HP1.setBounds(frame.getWidth() / 18,
-				frame.getHeight() - frame.getHeight() / 10,
-				(int) (frame.getWidth() / 2.7), frame.getHeight() / 43);
+		HP1.setBounds(pane.getWidth() / 18, pane.getHeight() - pane.getHeight()
+				/ 10, (int) (pane.getWidth() / 2.7), pane.getHeight() / 43);
 		HP1.setMaximum(game.getP1().getHP());
 		HP1.setValue(HP1.getMaximum());
 		HP1.setForeground(Color.RED);
@@ -161,23 +102,23 @@ public class GameUI {
 		ImageIcon p1Pic = new ImageIcon(this.getClass().getResource(
 				"/res/ninja1.png"));
 		p1 = new JLabel(p1Pic);
-		p1.setLocation(frame.getWidth() / 8, (int) (frame.getHeight() / 3));
+		p1.setLocation(pane.getWidth() / 8, (int) (pane.getHeight() / 3));
 		p1.setSize(p1Pic.getIconWidth(), p1Pic.getIconHeight());
 		playing.add(p1);
 
 		ImageIcon p2Pic = new ImageIcon(this.getClass().getResource(
 				"/res/robot1.png"));
 		p2 = new JLabel(p2Pic);
-		p2.setLocation((frame.getWidth() - (int) (frame.getWidth() / 8))
-				- p2Pic.getIconWidth(), (int) (frame.getHeight() / 3));
+		p2.setLocation(
+				(pane.getWidth() - (int) (pane.getWidth() / 8))
+						- p2Pic.getIconWidth(), (int) (pane.getHeight() / 3));
 		p2.setSize(p2Pic.getIconWidth(), p2Pic.getIconHeight());
 		playing.add(p2);
 
 		p1Name = new JLabel(game.getP1().toString());
 		p1Name.setFont(new Font("Trebuchet MS", Font.BOLD, 47));
-		p1Name.setBounds((int) frame.getWidth() / 15, (int) frame.getHeight()
-				- (frame.getHeight() / 4), HP1.getWidth(),
-				frame.getHeight() / 10);
+		p1Name.setBounds((int) pane.getWidth() / 15, (int) pane.getHeight()
+				- (pane.getHeight() / 4), HP1.getWidth(), pane.getHeight() / 10);
 
 		playing.add(p1Name);
 
@@ -185,43 +126,52 @@ public class GameUI {
 		HP2.setMaximum(game.getP2().getHP());
 		HP2.setValue(HP2.getMaximum());
 		HP2.setForeground(Color.RED);
-		HP2.setBounds(
-				(frame.getWidth() - (frame.getWidth() / 18) - (int) (frame
-						.getWidth() / 2.7)),
-				frame.getHeight() - frame.getHeight() / 10, (int) (frame
-						.getWidth() / 2.7), frame.getHeight() / 43);
+		HP2.setBounds((pane.getWidth() - (pane.getWidth() / 18) - (int) (pane
+				.getWidth() / 2.7)), pane.getHeight() - pane.getHeight() / 10,
+				(int) (pane.getWidth() / 2.7), pane.getHeight() / 43);
 		playing.add(HP2);
 		currentWord = game.getWord();
 		word = new JLabel(currentWord, SwingConstants.CENTER);
 		word.setAlignmentX(Component.CENTER_ALIGNMENT);
 		word.setFont(new Font("Tahoma", Font.BOLD, 99));
-		word.setBounds(0, 65, (int) frame.getSize().getWidth(), word.getFont()
+		word.setBounds(0, 65, (int) pane.getSize().getWidth(), word.getFont()
 				.getSize() * 2);
 		playing.add(word);
 
 		p2Name = new JLabel(game.getP2().toString(), SwingConstants.RIGHT);
 		p2Name.setFont(new Font("Trebuchet MS", Font.BOLD, 47));
-		p2Name.setSize(HP2.getWidth(), frame.getHeight() / 10);
+		p2Name.setSize(HP2.getWidth(), pane.getHeight() / 10);
 		p2Name.setLocation(
-				(int) (frame.getWidth() - (frame.getWidth() / 15) - p2Name
+				(int) (pane.getWidth() - (pane.getWidth() / 15) - p2Name
 						.getWidth()),
-				(int) frame.getHeight() - (frame.getHeight() / 4));
+				(int) pane.getHeight() - (pane.getHeight() / 4));
 		playing.add(p2Name);
 
 		p1wpm = new JLabel("WPM : 0.00");
-		p1wpm.setFont(new Font("Trebuchet MS", Font.BOLD, 50));
-		p1wpm.setBounds(frame.getWidth() / 20, 0, frame.getWidth() / 5,
-				frame.getHeight() / 5);
+		p1wpm.setFont(new Font("Trebuchet MS", Font.BOLD, 40));
+		p1wpm.setBounds(pane.getWidth() / 15, 0, pane.getWidth() / 5,
+				pane.getHeight() / 5);
 		p2wpm = new JLabel("WPM : 0.00");
-		p2wpm.setFont(new Font("Trebuchet MS", Font.BOLD, 50));
-		p2wpm.setLocation(frame.getWidth(), 0);
+		p2wpm.setFont(new Font("Trebuchet MS", Font.BOLD, 40));
+		p2wpm.setLocation(pane.getWidth(), 0);
 		p2wpm.setBounds(
-				(frame.getWidth() - (frame.getWidth() / 20)) - frame.getWidth()
-						/ 5, 0, frame.getWidth() / 5, frame.getHeight() / 5);
+				(pane.getWidth() - (pane.getWidth() / 15)) - pane.getWidth()
+						/ 5, 0, pane.getWidth() / 5, pane.getHeight() / 5);
 		playing.add(p1wpm);
 		playing.add(p2wpm);
+
+		// botAttack();
+		// pane.requestFocus();
+		// pane.setVisible(false);
+		// pane.setVisible(true);
+
+		// pane.setFocusable(true);
+		// pane.requestFocusInWindow();
+	}
+
+	public void onlineGame() {
 		Stopwatch stopwatch = new Stopwatch();
-		frame.addKeyListener(new KeyAdapter() {
+		pane.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				typeCount++;
@@ -243,17 +193,47 @@ public class GameUI {
 					if (game.isP2Lose() || game.isP1Lose()) {
 						word.setText("");
 						typeCount = 0;
-						frame.removeKeyListener(this);
+						pane.removeKeyListener(this);
 					} else
 						word.setText(currentWord);
-					// stopwatch.start();
 				}
 			}
 		});
-		// botAttack();
-		frame.requestFocus();
-		frame.setVisible(false);
-		frame.setVisible(true);
+	}
+
+	public void offlineGame() {
+		Stopwatch stopwatch = new Stopwatch();
+		botAttack();
+		pane.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				typeCount++;
+				if (e.getKeyChar() == currentWord.charAt(0)) {
+					stopwatch.start();
+					p1Attack();
+					currentWord = currentWord.substring(1, currentWord.length());
+					if (currentWord.length() == 0) {
+						currentWord = game.getWord();
+						double timeMin = stopwatch.getElapsed() / 60;
+						wpm = ((typeCount / 5) / timeMin);
+						setP1WPM(String.format("%.2f", wpm));
+						// System.out.println(typeCount);
+						// System.out.println("t>" + timeMin);
+						// System.out.println("wpm>" + wpm);
+					}
+					if (game.isEnd()) {
+						gameEnd();
+					} else
+						word.setText(currentWord);
+				}
+			}
+		});
+	}
+
+	public void gameEnd() {
+		word.setText("");
+		typeCount = 0;
+		pane.removeKeyListener(pane.getKeyListeners()[0]);
 	}
 
 	public void setP2WPM(String value) {
@@ -265,13 +245,18 @@ public class GameUI {
 	}
 
 	public void botAttack() {
+		Random r = new Random();
+		final int FASTEST = 100;
+		final int SLOWEST = 1000;
 		javax.swing.Timer timer = new javax.swing.Timer(500, null);
 		timer.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				int result = r.nextInt(SLOWEST - FASTEST) + FASTEST;
+				timer.setDelay(result);
 				p2Attack();
-				if (game.isP1Lose() || game.isP2Lose()) {
+				if (game.isEnd()) {
 					word.setText("");
 					timer.stop();
 				}
@@ -287,8 +272,8 @@ public class GameUI {
 					"/res/Kunai.png"));
 			JLabel weapon = new JLabel(weaponPic);
 			weapon.setSize(weaponPic.getIconWidth(), weaponPic.getIconHeight());
-			weapon.setLocation(frame.getWidth() / 7,
-					(int) (frame.getHeight() / 1.9));
+			weapon.setLocation(pane.getWidth() / 7,
+					(int) (pane.getHeight() / 1.9));
 			playing.add(weapon);
 
 			JLabel p1Throw = new JLabel(new ImageIcon(this.getClass()
@@ -376,8 +361,8 @@ public class GameUI {
 					"/res/fire.png"));
 			JLabel weapon = new JLabel(weaponPic);
 			weapon.setSize(weaponPic.getIconWidth(), weaponPic.getIconHeight());
-			weapon.setLocation(frame.getWidth() - (int) (frame.getWidth() / 7)
-					- weaponPic.getIconWidth(), (int) (frame.getHeight() / 1.9));
+			weapon.setLocation(pane.getWidth() - (int) (pane.getWidth() / 7)
+					- weaponPic.getIconWidth(), (int) (pane.getHeight() / 1.9));
 			playing.add(weapon);
 			JLabel p2Throw = new JLabel(new ImageIcon(this.getClass()
 					.getResource("/res/robot2.png")));

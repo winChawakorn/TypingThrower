@@ -3,6 +3,7 @@ package connection;
 import game.Player;
 import game.TypingThrower;
 import gameui.GameUI;
+import gameui.MainFrame;
 
 import java.io.IOException;
 
@@ -64,8 +65,12 @@ public class Controller {
 	public void start() {
 		if (player.equals(""))
 			player = "2";
+		ui = new GameUI();
 		createGame();
-		ui.initPlayingUI();
+		ui.initComponent();
+		ui.onlineGame();
+		// ui.initPlayingUI();
+		MainFrame.setFrame(ui.getGamePanel());
 	}
 
 	public void createGame() {
@@ -118,7 +123,7 @@ public class Controller {
 	}
 
 	public void attackUI() {
-		System.out.println("u r p" + player);
+		// System.out.println("u r p" + player);
 		if (player.equals("1"))
 			ui.p1Attack();
 		else if (player.equals("2"))

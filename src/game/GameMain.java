@@ -11,11 +11,11 @@ import gameui.GameUI;
 
 public class GameMain {
 	public static void main(String[] args) {
+		// ui.run();
 		GameUI ui = new GameUI();
-		ui.run();
 		Controller ctrl = Controller.getInstance();
 		ctrl.setUI(ui);
-		ctrl.setClient(new Client("", 3001));
+		ctrl.setClient(new Client("35.185.188.93" + "", 3001));
 		ctrl.joinServer();
 		try {
 			ConnectionSource source = DatabaseConnect.getInstance();
