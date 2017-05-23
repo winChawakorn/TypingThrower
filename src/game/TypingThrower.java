@@ -74,4 +74,8 @@ public class TypingThrower {
 		return p2;
 	}
 
+	public boolean isEnd() {
+		return isP1Lose() || isP2Lose();
+	}
+
 }

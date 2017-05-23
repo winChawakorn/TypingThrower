@@ -70,7 +70,6 @@ public class LoginUI extends AbstractFont {
 					BufferedImage img = ImageIO.read(this.getClass()
 							.getResourceAsStream("/res/LoginBackground.jpg"));
 					g.drawImage(img, 0, 0, 1280, 768, null);
-
 				} catch (IOException e) {
 					// do nothing
 				}
@@ -154,7 +153,6 @@ public class LoginUI extends AbstractFont {
 			public void actionPerformed(ActionEvent e) {
 				getDetailUser = null;
 				MainFrame.setFrame(new SignUpUI().getSignUpPanel());
-
 			}
 		});
 		panel.add(btnSignUp);

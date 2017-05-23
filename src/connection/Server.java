@@ -68,8 +68,8 @@ public class Server extends AbstractServer {
 							try {
 								client.sendToClient("start");
 								r.getOpponent(client).sendToClient("start");
-								System.out.println("room " + rooms.indexOf(r)
-										+ "start");
+								System.out.println("room "
+										+ (rooms.indexOf(r) + 1) + " start");
 								break;
 							} catch (IOException e) {
 								e.printStackTrace();
@@ -119,7 +119,7 @@ public class Server extends AbstractServer {
 					client.sendToClient("myWPM " + wpm);
 					findClientRoom.getOpponent(client).sendToClient(
 							"oppoWPM " + wpm);
-					System.out.println("sent wpm = " + wpm);
+					// System.out.println("sent wpm = " + wpm);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
