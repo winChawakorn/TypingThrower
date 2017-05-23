@@ -7,6 +7,8 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -22,12 +24,13 @@ import java.awt.*;
 
 public class LoginUI extends AbstractFont {
 
+	private JFrame statusFrame;
 	private JTextField userField;
 	private JPasswordField passwordField;
 	private JLabel lblStatus, lblUsername, lblDontHaveAny, lblPassword;
 	private JPanel loginPanel;
 	private JPanel panel;
-	private JButton btnLogin, btnSignUp;
+	private JButton btnLogin, btnSignUp,lblInFrame;
 	private ConnectionSource source;
 	private Dao<UserTable, String> userDao;
 	private java.util.List<UserTable> getDetailUser;
@@ -38,6 +41,13 @@ public class LoginUI extends AbstractFont {
 	 * Create the application.
 	 */
 	public LoginUI() {
+
+		try {
+			source = DatabaseConnect.getInstance();
+			userDao = DaoManager.createDao(source, UserTable.class);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		initialize();
 
 	}
@@ -65,6 +75,7 @@ public class LoginUI extends AbstractFont {
 				}
 			}
 		};
+		loginPanel.setPreferredSize(new Dimension(1280, 768));
 		loginPanel.setLayout(null);
 
 		JLabel label = new JLabel("TypingThrower");
@@ -116,6 +127,7 @@ public class LoginUI extends AbstractFont {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+//				lblStatus.setText("Logging in ...");
 				loginAction();
 			}
 		});
@@ -157,9 +169,21 @@ public class LoginUI extends AbstractFont {
 		lblStatus.setHorizontalAlignment(SwingConstants.CENTER);
 		lblStatus.setBounds(6, 20, 738, 28);
 		panel.add(lblStatus);
+		
 		userField.addKeyListener(new LoginKeyAdapter());
 		passwordField.addKeyListener(new LoginKeyAdapter());
+		btnLogin.addKeyListener(new LoginKeyAdapter());
 		
+		statusFrame = new JFrame("Login status");
+		Dimension dim = loginPanel.getPreferredSize();
+		statusFrame.setBounds((int) ((dim.getWidth()-300)/2.0),(int) ((dim.getHeight()-150)/2.0),300,150);
+		
+		lblInFrame = new JButton("Logging in ...");
+		lblInFrame.setFont(new Font("Courier New", Font.BOLD, 18));
+		lblInFrame.setHorizontalAlignment(SwingConstants.CENTER);
+		lblInFrame.setBounds(0, 0, 300, 150);
+		statusFrame.getRootPane().add(lblInFrame,BorderLayout.CENTER);
+
 	}
 
 	class LoginKeyAdapter extends KeyAdapter {
@@ -167,18 +191,21 @@ public class LoginUI extends AbstractFont {
 		public void keyPressed(KeyEvent e) {
 			super.keyPressed(e);
 			if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+				System.out.println(">>enter");
 				loginAction();
 			}
 		}
 	}
 
 	public void loginAction() {
-		lblStatus.setText("Logging in ...");
+		statusFrame.setVisible(true);
+		lblStatus.setVisible(false);
 		btnLogin.setEnabled(false);
+		userField.setFocusable(false);
+		passwordField.setFocusable(false);
+		btnSignUp.setEnabled(false);
 		if (getDetailUser == null) {
 			try {
-				source = DatabaseConnect.getInstance();
-				userDao = DaoManager.createDao(source, UserTable.class);
 				getDetailUser = userDao.queryForAll();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -199,11 +226,24 @@ public class LoginUI extends AbstractFont {
 			}
 		}
 		if (!success) {
+			Timer timer = new Timer();
+			timer.schedule(new TimerTask() {
+
+				@Override
+				public void run() {
+					lblStatus.setVisible(true);
+				}
+			}, 100);
 			lblStatus.setForeground(Color.RED);
 			lblStatus.setText("Wrong username/password");
 			System.err.println("Login failed");
 		}
+
+		statusFrame.setVisible(false);
+		userField.setFocusable(true);
+		passwordField.setFocusable(true);
 		btnLogin.setEnabled(true);
+		btnSignUp.setEnabled(true);
 	}
 	
 	public JPanel getLoginPanel(){
@@ -213,5 +253,4 @@ public class LoginUI extends AbstractFont {
 	public static UserTable getCurrentUser(){
 		return currentUser;
 	}
-	
 }
