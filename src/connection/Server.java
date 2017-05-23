@@ -13,6 +13,7 @@ public class Server extends AbstractServer {
 	// private List<Thread> ipChecker;
 	// private List<ConnectionToClient> room;
 	private List<GameRoom> rooms;
+	private List<UserTable> users;
 
 	// private GameRoom room;
 
@@ -24,6 +25,7 @@ public class Server extends AbstractServer {
 		// this.ipChecker = new ArrayList<Thread>();
 		// this.room = new ArrayList<ConnectionToClient>();
 		this.rooms = new ArrayList<GameRoom>();
+		this.users = new ArrayList<UserTable>();
 	}
 
 	@Override

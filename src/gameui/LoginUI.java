@@ -17,6 +17,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
 
+import connection.Controller;
 import connection.DatabaseConnect;
 import connection.UserTable;
 
@@ -45,7 +46,7 @@ public class LoginUI extends AbstractFont {
 			source = DatabaseConnect.getInstance();
 			userDao = DaoManager.createDao(source, UserTable.class);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("Change to can't connect to server ui");
 		}
 		initialize();
 
@@ -202,53 +203,61 @@ public class LoginUI extends AbstractFont {
 	}
 
 	public void loginAction() {
-		statusFrame.setVisible(true);
 		lblStatus.setVisible(false);
 		btnLogin.setEnabled(false);
 		userField.setFocusable(false);
 		passwordField.setFocusable(false);
 		btnSignUp.setEnabled(false);
-		if (getDetailUser == null) {
-			try {
+
+		try {
+			if (getDetailUser == null)
 				getDetailUser = userDao.queryForAll();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		String username = userField.getText();
-		String password = new String(passwordField.getPassword());
-		boolean success = false;
-		for (UserTable user : getDetailUser) {
-			if (username.equals(user.getUsername())
-					&& password.equals(user.getPassword())) {
-				lblStatus.setForeground(new Color(17, 178, 19));
-				lblStatus.setText("Login successed");
-				System.err.println("Login successed");
-				success = true;
-				currentUser = user;
-				MainFrame.setFrame(new HomeUI().getHomePanel());
-				break;
-			}
-		}
-		if (!success) {
-			Timer timer = new Timer();
-			timer.schedule(new TimerTask() {
-
-				@Override
-				public void run() {
-					lblStatus.setVisible(true);
+			Controller.getInstance().joinServer();
+			String username = userField.getText();
+			String password = new String(passwordField.getPassword());
+			boolean success = false;
+			for (UserTable user : getDetailUser) {
+				if (username.equals(user.getUsername())
+						&& password.equals(user.getPassword())) {
+					lblStatus.setForeground(new Color(17, 178, 19));
+					lblStatus.setText("Login successed");
+					System.err.println("Login successed");
+					success = true;
+					currentUser = user;
+					MainFrame.setFrame(new HomeUI().getHomePanel());
+					Controller.getInstance().login();
+					return;
 				}
-			}, 100);
-			lblStatus.setForeground(Color.RED);
-			lblStatus.setText("Wrong username/password");
-			System.err.println("Login failed");
-		}
+			}
+			if (!success) {
+				Timer timer = new Timer();
+				timer.schedule(new TimerTask() {
 
-		statusFrame.setVisible(false);
-		userField.setFocusable(true);
-		passwordField.setFocusable(true);
-		btnLogin.setEnabled(true);
-		btnSignUp.setEnabled(true);
+					@Override
+					public void run() {
+						lblStatus.setVisible(true);
+					}
+				}, 100);
+				lblStatus.setForeground(Color.RED);
+				lblStatus.setText("Wrong username/password");
+				System.err.println("Login failed");
+			}
+
+			statusFrame.setVisible(false);
+			userField.setFocusable(true);
+			passwordField.setFocusable(true);
+			btnLogin.setEnabled(true);
+			btnSignUp.setEnabled(true);
+		} catch (SQLException e) {
+			System.out.println("no internet");
+			// change to no internet connect ui
+			statusFrame.setVisible(true);
+			lblInFrame
+					.setText("can't connect to the server. Please check your internet connection or contact game master.");
+			return;
+		} catch (IOException e) {
+			// invoke the same method as SQLException
+		}
 	}
 
 	public JPanel getLoginPanel() {

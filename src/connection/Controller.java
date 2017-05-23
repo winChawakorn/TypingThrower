@@ -3,6 +3,8 @@ package connection;
 import game.Player;
 import game.TypingThrower;
 import gameui.GameUI;
+import gameui.HomeUI;
+import gameui.LoginUI;
 import gameui.MainFrame;
 
 import java.io.IOException;
@@ -35,13 +37,9 @@ public class Controller {
 		this.c = c;
 	}
 
-	public void joinServer() {
+	public void joinServer() throws IOException {
 		if (!isJoinServer) {
-			try {
-				c.openConnection();
-			} catch (IOException e) {
-				ui.cantConnectToServer();
-			}
+			c.openConnection();
 			isJoinServer = true;
 		}
 	}
@@ -136,5 +134,18 @@ public class Controller {
 		p2 = null;
 		player = "";
 		// TODO set UI back to home page
+		MainFrame.setFrame(new HomeUI().getHomePanel());
 	}
+
+	public void login() {
+		try {
+			c.sendToServer("login " + LoginUI.getCurrentUser().getUsername());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	//
+	// public static void main(String[] args) {
+	// System.out.println("Loginchawakorn".substring(0, 5));
+	// }
 }
