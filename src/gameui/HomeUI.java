@@ -19,6 +19,8 @@ import java.awt.Font;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
+import connection.Controller;
 import connection.UserTable;
 
 public class HomeUI extends AbstractFont {
@@ -138,6 +140,7 @@ public class HomeUI extends AbstractFont {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				Controller.getInstance().logout();
 				MainFrame.setFrame(new LoginUI().getLoginPanel());
 			}
 		});

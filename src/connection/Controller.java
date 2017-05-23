@@ -18,6 +18,8 @@ public class Controller {
 	private Player p1;
 	private Player p2;
 	private String player;
+	private UserTable p1User;
+	private UserTable p2User;
 
 	private Controller() {
 		player = "";
@@ -60,26 +62,32 @@ public class Controller {
 		ui.waiting();
 	}
 
-	public void start() {
+	public void start(UserTable opponent) {
+		p2User = opponent;
 		if (player.equals(""))
 			player = "2";
 		ui = new GameUI();
 		createGame();
 		ui.initComponent();
 		ui.onlineGame();
-		// ui.initPlayingUI();
 		MainFrame.setFrame(ui.getGamePanel());
 	}
 
 	public void createGame() {
+		p1 = new Player(p1User.getCharacterName(), p1User.getHP(),
+				p1User.getATK());
+		p2 = new Player(p2User.getCharacterName(), p2User.getHP(),
+				p2User.getATK());
 		if (player.equals("1"))
 			this.game = new TypingThrower(p1, p2);
 		else if (player.equals("2"))
 			this.game = new TypingThrower(p2, p1);
 
-		// for testing without SQL
-		this.game = new TypingThrower(new Player("Aom", 1000, 20), new Player(
-				"Win", 1000, 20));
+		// for testing without Database
+		// this.game = new TypingThrower(new Player("Aom", 1000, 20), new
+		// Player(
+		// "Win", 1000, 20));
+
 		ui.setGame(this.game);
 	}
 
@@ -133,19 +141,29 @@ public class Controller {
 		p1 = null;
 		p2 = null;
 		player = "";
-		// TODO set UI back to home page
 		MainFrame.setFrame(new HomeUI().getHomePanel());
+
 	}
 
 	public void login() {
+		this.p1User = LoginUI.getCurrentUser();
 		try {
-			c.sendToServer("login " + LoginUI.getCurrentUser().getUsername());
+			c.sendToServer("login " + p1User.getUsername());
+			c.sendToServer(p1User);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	//
+
+	public void logout() {
+		p1User = null;
+		try {
+			c.sendToServer("logout");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	// public static void main(String[] args) {
-	// System.out.println("Loginchawakorn".substring(0, 5));
+	// System.out.println("logout chawakorn".substring(7));
 	// }
 }
