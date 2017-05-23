@@ -1,11 +1,8 @@
 package gameui;
 
-import game.Player;
 import game.TypingThrower;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -16,10 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Component;
-import java.awt.Toolkit;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -50,24 +45,6 @@ public class GameUI {
 	private JLabel p2wpm;
 	private final int WIDTH = 1280;
 	private final int HEIGHT = 768;
-
-	// private int typeErrorCount;
-
-	/**
-	 * Launch the application.
-	 */
-	// public static void main(String[] args) {
-	// EventQueue.invokeLater(new Runnable() {
-	// public void run() {
-	// try {
-	// GameUI window = new GameUI();
-	// window.frame.setVisible(true);
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// });
-	// }
 
 	/**
 	 * Create the application.
@@ -159,7 +136,6 @@ public class GameUI {
 						/ 5, 0, pane.getWidth() / 5, pane.getHeight() / 5);
 		playing.add(p1wpm);
 		playing.add(p2wpm);
-
 		// botAttack();
 		// pane.requestFocus();
 		// pane.setVisible(false);

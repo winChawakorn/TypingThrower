@@ -27,8 +27,6 @@ public class MainFrame {
 		newPane.setVisible(true);
 		newPane.setFocusable(true);
 		newPane.requestFocusInWindow();
-		frame.setVisible(false);
-		frame.setVisible(true);
 	}
 
 	/**

@@ -1,10 +1,12 @@
 package connection;
 
+import java.io.Serializable;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "userdata")
-public class UserTable {
+public class UserTable implements Serializable {
 
 	@DatabaseField(id = true)
 	private String Username;
@@ -34,8 +36,11 @@ public class UserTable {
 
 	/**
 	 * creating new user
-	 * @param name = user name
-	 * @param password = password
+	 * 
+	 * @param name
+	 *            = user name
+	 * @param password
+	 *            = password
 	 */
 	public UserTable(String name, String password, String characterName) {
 		this.Username = name;
@@ -121,8 +126,4 @@ public class UserTable {
 		WPM = wPM;
 	}
 
-	
-
-	
 }
-
