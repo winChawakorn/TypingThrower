@@ -31,22 +31,24 @@ public class LoginUI extends AbstractFont {
 	private JPanel loginPanel;
 	private JPanel panel;
 	private JButton btnLogin, btnSignUp;
-	private ConnectionSource source;
-	private Dao<UserTable, String> userDao;
+	// private ConnectionSource source;
+	// private Dao<UserTable, String> userDao;
 	private java.util.List<UserTable> getDetailUser;
 	private static UserTable currentUser;
+	private DatabaseConnect dbConnect;
 
 	/**
 	 * Create the application.
 	 */
 	public LoginUI() {
-		try {
-			source = DatabaseConnect.getInstance();
-			userDao = DaoManager.createDao(source, UserTable.class);
-		} catch (SQLException e) {
-			System.out.println("Change to can't connect to server ui");
-		}
+		// try {
+		// source = DatabaseConnect.getInstance();
+		// userDao = DaoManager.createDao(source, UserTable.class);
+		// } catch (SQLException e) {
+		// System.out.println("Change to can't connect to server ui");
+		// }
 		initialize();
+		dbConnect = DatabaseConnect.getInstance();
 
 	}
 
@@ -55,8 +57,7 @@ public class LoginUI extends AbstractFont {
 	 */
 	private void initialize() {
 		try {
-			UIManager.setLookAndFeel(UIManager
-					.getCrossPlatformLookAndFeelClassName());
+			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -66,8 +67,7 @@ public class LoginUI extends AbstractFont {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				try {
-					BufferedImage img = ImageIO.read(this.getClass()
-							.getResourceAsStream("/res/LoginBackground.jpg"));
+					BufferedImage img = ImageIO.read(this.getClass().getResourceAsStream("/res/LoginBackground.jpg"));
 					g.drawImage(img, 0, 0, 1280, 768, null);
 				} catch (IOException e) {
 					// do nothing
@@ -81,8 +81,7 @@ public class LoginUI extends AbstractFont {
 		label.setForeground(new Color(247, 211, 84));
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		try {
-			label.setFont(getFont("ProFont For Powerline.ttf").deriveFont(
-					Font.BOLD, 100));
+			label.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.BOLD, 100));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -97,8 +96,7 @@ public class LoginUI extends AbstractFont {
 
 		userField = new JTextField();
 		try {
-			userField.setFont(getFont("ProFont For Powerline.ttf").deriveFont(
-					Font.PLAIN, 20));
+			userField.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.PLAIN, 20));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -119,8 +117,7 @@ public class LoginUI extends AbstractFont {
 		btnLogin.setBounds(292, 264, 161, 66);
 		btnLogin.setBackground(Color.ORANGE);
 		try {
-			btnLogin.setFont(getFont("ProFont For Powerline.ttf").deriveFont(
-					Font.PLAIN, 40));
+			btnLogin.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.PLAIN, 40));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -137,8 +134,7 @@ public class LoginUI extends AbstractFont {
 		btnSignUp = new JButton("Sign Up");
 		btnSignUp.setBounds(428, 437, 135, 44);
 		try {
-			btnSignUp.setFont(getFont("ProFont For Powerline.ttf").deriveFont(
-					Font.PLAIN, 25));
+			btnSignUp.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.PLAIN, 25));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -188,22 +184,21 @@ public class LoginUI extends AbstractFont {
 	}
 
 	public void loginAction() {
-		lblStatus.setVisible(false);
-		btnLogin.setEnabled(false);
-		userField.setFocusable(false);
-		passwordField.setFocusable(false);
-		btnSignUp.setEnabled(false);
+		// lblStatus.setVisible(false);
+		// btnLogin.setEnabled(false);
+		// userField.setFocusable(false);
+		// passwordField.setFocusable(false);
+		// btnSignUp.setEnabled(false);
 
-		try {
-			if (getDetailUser == null)
-				getDetailUser = userDao.queryForAll();
-			Controller.getInstance().joinServer();
+		if (getDetailUser != null) {
+
+			// try {
+			// Controller.getInstance().joinServer();
 			String username = userField.getText();
 			String password = new String(passwordField.getPassword());
 			boolean success = false;
 			for (UserTable user : getDetailUser) {
-				if (username.equals(user.getUsername())
-						&& password.equals(user.getPassword())) {
+				if (username.equals(user.getUsername()) && password.equals(user.getPassword())) {
 					lblStatus.setForeground(new Color(17, 178, 19));
 					lblStatus.setText("Login successed");
 					System.err.println("Login successed");
@@ -232,15 +227,12 @@ public class LoginUI extends AbstractFont {
 			passwordField.setFocusable(true);
 			btnLogin.setEnabled(true);
 			btnSignUp.setEnabled(true);
-		} catch (SQLException e) {
-			System.out.println("no internet");
-			// change to no internet connect ui
-			//statusFrame.setVisible(true);
-			//lblInFrame.setText("can't connect to the server. Please check your internet connection or contact game master.");
-			return;
-		} catch (IOException e) {
-			// invoke the same method as SQLException
-		}
+			// } catch (IOException e) {
+			// System.out.println("<<<<");
+			// MainFrame.addConnectionErrorUI(CantConnectUI.getCantConnectPane());
+			// }
+		} else
+			getDetailUser = dbConnect.pullAllUserdata();
 	}
 
 	public JPanel getLoginPanel() {
