@@ -25,13 +25,12 @@ import java.awt.*;
 
 public class LoginUI extends AbstractFont {
 
-	private JFrame statusFrame;
 	private JTextField userField;
 	private JPasswordField passwordField;
 	private JLabel lblStatus, lblUsername, lblDontHaveAny, lblPassword;
 	private JPanel loginPanel;
 	private JPanel panel;
-	private JButton btnLogin, btnSignUp, lblInFrame;
+	private JButton btnLogin, btnSignUp;
 	private ConnectionSource source;
 	private Dao<UserTable, String> userDao;
 	private java.util.List<UserTable> getDetailUser;
@@ -41,7 +40,6 @@ public class LoginUI extends AbstractFont {
 	 * Create the application.
 	 */
 	public LoginUI() {
-
 		try {
 			source = DatabaseConnect.getInstance();
 			userDao = DaoManager.createDao(source, UserTable.class);
@@ -131,7 +129,6 @@ public class LoginUI extends AbstractFont {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// lblStatus.setText("Logging in ...");
 				loginAction();
 			}
 		});
@@ -178,17 +175,6 @@ public class LoginUI extends AbstractFont {
 		passwordField.addKeyListener(new LoginKeyAdapter());
 		btnLogin.addKeyListener(new LoginKeyAdapter());
 
-		statusFrame = new JFrame("Login status");
-		Dimension dim = loginPanel.getPreferredSize();
-		statusFrame.setBounds((int) ((dim.getWidth() - 300) / 2.0),
-				(int) ((dim.getHeight() - 150) / 2.0), 300, 150);
-
-		lblInFrame = new JButton("Logging in ...");
-		lblInFrame.setFont(new Font("Courier New", Font.BOLD, 18));
-		lblInFrame.setHorizontalAlignment(SwingConstants.CENTER);
-		lblInFrame.setBounds(0, 0, 300, 150);
-		statusFrame.getRootPane().add(lblInFrame, BorderLayout.CENTER);
-
 	}
 
 	class LoginKeyAdapter extends KeyAdapter {
@@ -196,7 +182,6 @@ public class LoginUI extends AbstractFont {
 		public void keyPressed(KeyEvent e) {
 			super.keyPressed(e);
 			if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-				System.out.println(">>enter");
 				loginAction();
 			}
 		}
@@ -243,7 +228,6 @@ public class LoginUI extends AbstractFont {
 				System.err.println("Login failed");
 			}
 
-			statusFrame.setVisible(false);
 			userField.setFocusable(true);
 			passwordField.setFocusable(true);
 			btnLogin.setEnabled(true);
@@ -251,9 +235,8 @@ public class LoginUI extends AbstractFont {
 		} catch (SQLException e) {
 			System.out.println("no internet");
 			// change to no internet connect ui
-			statusFrame.setVisible(true);
-			lblInFrame
-					.setText("can't connect to the server. Please check your internet connection or contact game master.");
+			//statusFrame.setVisible(true);
+			//lblInFrame.setText("can't connect to the server. Please check your internet connection or contact game master.");
 			return;
 		} catch (IOException e) {
 			// invoke the same method as SQLException

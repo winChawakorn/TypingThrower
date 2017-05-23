@@ -183,7 +183,6 @@ public class HomeUI extends AbstractFont {
 				setBackground(new Color(255, 255, 255, 120));
 			}
 		};
-		// lblScore.setBackground(new Color(192, 192, 192));
 		lblScore.setBounds(936, 25, 324, 454);
 		lblScore.setLayout(null);
 		homePanel.add(lblScore);
