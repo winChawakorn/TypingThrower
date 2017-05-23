@@ -97,14 +97,16 @@ public class HomeUI extends AbstractFont {
 		btnOffline.setContentAreaFilled(false);
 		btnOffline.setBorderPainted(false);
 		btnOffline.setBounds(100, 199, 360, 137);
-		btnOffline.addActionListener((e) -> {
-			GameUI ui = new GameUI();
-			ui.setGame(new TypingThrower(new Player("You", 1000, 20),
-					new Player("Computer", 1000, 20)));
-			ui.initComponent();
-			ui.offlineGame();
-			MainFrame.setFrame(ui.getGamePanel());
-		});
+		btnOffline
+				.addActionListener((e) -> {
+					GameUI ui = new GameUI();
+					ui.setGame(new TypingThrower(new Player(LoginUI
+							.getCurrentUser().getCharacterName(), 1000, 20),
+							new Player("CPU", 1000, 20)));
+					ui.initComponent();
+					ui.offlineGame();
+					MainFrame.setFrame(ui.getGamePanel());
+				});
 		btnOffline.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseEntered(java.awt.event.MouseEvent evt) {
 				btnOffline.setForeground(Color.WHITE);
