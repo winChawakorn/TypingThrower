@@ -40,6 +40,7 @@ public class GameUI {
 	private JLabel p2Name;
 	// private JPanel menu;
 	private int typeCount;
+	private int botAttackCount = 0;
 	private double wpm;
 	private JLabel p1wpm;
 	private JLabel p2wpm;
@@ -166,10 +167,8 @@ public class GameUI {
 						// System.out.println("t>" + timeMin);
 						// System.out.println("wpm>" + wpm);
 					}
-					if (game.isP2Lose() || game.isP1Lose()) {
-						word.setText("");
-						typeCount = 0;
-						pane.removeKeyListener(this);
+					if (game.isEnd()) {
+						gameEnd();
 					} else
 						word.setText(currentWord);
 				}
@@ -221,6 +220,8 @@ public class GameUI {
 	}
 
 	public void botAttack() {
+		botAttackCount = 0;
+		Stopwatch stopwatch = new Stopwatch();
 		Random r = new Random();
 		final int FASTEST = 100;
 		final int SLOWEST = 1000;
@@ -231,6 +232,13 @@ public class GameUI {
 			public void actionPerformed(ActionEvent e) {
 				int result = r.nextInt(SLOWEST - FASTEST) + FASTEST;
 				timer.setDelay(result);
+				botAttackCount++;
+				stopwatch.start();
+				if (botAttackCount % 6 == 0) {
+					double timeMin = stopwatch.getElapsed() / 60;
+					double botwpm = ((typeCount / 5) / timeMin);
+					setP2WPM(String.format("%.2f", botwpm));
+				}
 				p2Attack();
 				if (game.isEnd()) {
 					word.setText("");

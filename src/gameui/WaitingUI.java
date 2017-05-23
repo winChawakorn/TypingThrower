@@ -28,9 +28,10 @@ public class WaitingUI {
 		panel.setLayout(null);
 		message = new JLabel("Waiting for other player...");
 		message.setFont(new Font(Font.MONOSPACED, Font.BOLD, 70));
-		message.setLocation(50, panel.getHeight() / 3);
+		message.setLocation(50, panel.getHeight() / 4);
 		message.setSize(panel.getWidth(),
 				(int) (message.getFont().getSize() * 1.25));
+
 		panel.add(message);
 		Controller.getInstance().findGame();
 	}
