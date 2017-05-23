@@ -1,55 +1,29 @@
 package gameui;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-
-import connection.Main;
 import connection.UserTable;
 
 public class HomeUI extends AbstractFont {
 
-	private JFrame frame;
-	private static JPanel homePanel;
+	private JPanel homePanel;
 	private JButton btnOnline, btnOffline, btnLogout, btnQuit;
 	private JPanel lblScore;
 	private JLabel lblCharacter, lblScoreName, lblWPM, lblWin, lblLose, lblHp, lblAtk;
 	private UserTable currentUser;
-	private JLabel lblWPMNum;
-	private JLabel lblWinNum;
-	private JLabel lblLoseNum;
-	private JLabel lblHpNum;
-	private JLabel lblAtkNum;
-
-	/**
-	 * Launch the application.
-	 */
-	// public static void main(String[] args) {
-	// EventQueue.invokeLater(new Runnable() {
-	// public void run() {
-	// try {
-	// HomeUI window = new HomeUI();
-	// window.frame.setVisible(true);
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// });
-	// }
+	private JLabel lblWPMNum,lblWinNum,lblLoseNum,lblHpNum,lblAtkNum;
 
 	/**
 	 * Create the application.
@@ -63,13 +37,6 @@ public class HomeUI extends AbstractFont {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.getContentPane().setBackground(new Color(250, 240, 230));
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		frame.setBounds(((int) dim.getWidth() - 1024) / 2, ((int) dim.getHeight() - 768) / 2, 1024, 768);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setResizable(false);
-		frame.getContentPane().setLayout(null);
 
 		homePanel = new JPanel() {
 			@Override
@@ -77,17 +44,16 @@ public class HomeUI extends AbstractFont {
 				super.paintComponent(g);
 				try {
 					BufferedImage img = ImageIO.read(this.getClass().getResourceAsStream("/res/BG3.png"));
-					g.drawImage(img, 0, 0, 1024, 768, null);
+					g.drawImage(img, 0, 0, 1280, 768, null);
 
 				} catch (IOException e) {
 					// do nothing
 				}
 			}
 		};
-		homePanel.setBounds(0, 0, 1024, 768);
+		homePanel.setBounds(0, 0, 1280, 768);
 		homePanel.setLayout(null);
 
-		frame.getContentPane().add(homePanel);
 
 		btnOnline = new JButton("Online");
 		try {
@@ -98,7 +64,7 @@ public class HomeUI extends AbstractFont {
 		btnOnline.setForeground(Color.ORANGE);
 		btnOnline.setContentAreaFilled(false);
 		btnOnline.setBorderPainted(false);
-		btnOnline.setBounds(86, 25, 290, 137);
+		btnOnline.setBounds(100, 25, 360, 137);
 		btnOnline.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseEntered(java.awt.event.MouseEvent evt) {
 				btnOnline.setForeground(Color.WHITE);
@@ -119,7 +85,7 @@ public class HomeUI extends AbstractFont {
 		btnOffline.setForeground(Color.ORANGE);
 		btnOffline.setContentAreaFilled(false);
 		btnOffline.setBorderPainted(false);
-		btnOffline.setBounds(86, 199, 290, 137);
+		btnOffline.setBounds(100, 199, 360, 137);
 		btnOffline.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseEntered(java.awt.event.MouseEvent evt) {
 				btnOffline.setForeground(Color.WHITE);
@@ -140,7 +106,7 @@ public class HomeUI extends AbstractFont {
 		btnLogout.setForeground(Color.ORANGE);
 		btnLogout.setContentAreaFilled(false);
 		btnLogout.setBorderPainted(false);
-		btnLogout.setBounds(87, 388, 290, 137);
+		btnLogout.setBounds(100, 388, 360, 137);
 		btnLogout.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseEntered(java.awt.event.MouseEvent evt) {
 				btnLogout.setForeground(Color.WHITE);
@@ -154,7 +120,7 @@ public class HomeUI extends AbstractFont {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				MainFrame.setFrame(LoginUI.getLoginPanel());
+				MainFrame.setFrame(new LoginUI().getLoginPanel());
 			}
 		});
 		homePanel.add(btnLogout);
@@ -168,7 +134,7 @@ public class HomeUI extends AbstractFont {
 		btnQuit.setForeground(Color.ORANGE);
 		btnQuit.setContentAreaFilled(false);
 		btnQuit.setBorderPainted(false);
-		btnQuit.setBounds(86, 587, 290, 137);
+		btnQuit.setBounds(100, 587, 360, 137);
 		btnQuit.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseEntered(java.awt.event.MouseEvent evt) {
 				btnQuit.setForeground(Color.WHITE);
@@ -187,9 +153,9 @@ public class HomeUI extends AbstractFont {
 		});
 		homePanel.add(btnQuit);
 
-		ImageIcon avatarPic = new ImageIcon(this.getClass().getResource("/res/robot1.png"));
+		ImageIcon avatarPic = new ImageIcon(this.getClass().getResource("/res/ninja1.png"));
 		lblCharacter = new JLabel(avatarPic);
-		lblCharacter.setBounds(456, 342, avatarPic.getIconWidth(), avatarPic.getIconHeight());
+		lblCharacter.setBounds(593, 340, avatarPic.getIconWidth(), avatarPic.getIconHeight());
 
 		homePanel.add(lblCharacter);
 
@@ -200,7 +166,7 @@ public class HomeUI extends AbstractFont {
 			}
 		};
 		// lblScore.setBackground(new Color(192, 192, 192));
-		lblScore.setBounds(668, 25, 324, 454);
+		lblScore.setBounds(936, 25, 324, 454);
 		lblScore.setLayout(null);
 		homePanel.add(lblScore);
 
@@ -286,9 +252,7 @@ public class HomeUI extends AbstractFont {
 		// return homePanel;
 	}
 
-	public static JPanel getHomePanel() {
-		if (homePanel == null)
-			new HomeUI();
+	public JPanel getHomePanel() {
 		return homePanel;
 	}
 }

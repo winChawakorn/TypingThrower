@@ -30,7 +30,7 @@ import connection.UserTable;
 
 public class SignUpUI extends AbstractFont {
 
-	private static JPanel signUpPanel;
+	private JPanel signUpPanel;
 	private JPasswordField passwordField, ConfirmPasswordField;
 	private JTextField usernameField, characterField;
 	private JLabel lblUsername, lblCharacter, lblPass, lblConfirmPass, status;
@@ -60,20 +60,20 @@ public class SignUpUI extends AbstractFont {
 				super.paintComponent(g);
 				try {
 					BufferedImage img = ImageIO.read(this.getClass().getResourceAsStream("/res/LoginBackground.jpg"));
-					Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-					g.drawImage(img, 0, 0, 1024, 768, null);
+					g.drawImage(img, 0, 0, 1280, 768, null);
 
 				} catch (IOException e) {
 					// do nothing
 				}
 			}
 		};
+//		signUpPanel.setPreferredSize(new Dimension(1280, 768));
 		signUpPanel.setLayout(null);
 
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBackground(new Color(211, 211, 211));
-		panel.setBounds(135, 145, 750, 498);
+		panel.setBounds(265, 145, 750, 498);
 
 		JLabel lblTitle = new JLabel("Create your own character");
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
@@ -123,7 +123,11 @@ public class SignUpUI extends AbstractFont {
 		btnConfirm = new JButton("Confirm");
 		btnConfirm.setBounds(343, 414, 174, 66);
 		panel.add(btnConfirm);
-		btnConfirm.setFont(new Font("ProFont for Powerline", Font.PLAIN, 40));
+		try {
+			btnConfirm.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.PLAIN, 40));
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 		btnConfirm.setBackground(Color.ORANGE);
 		btnConfirm.addActionListener(new ActionListener() {
 
@@ -161,7 +165,7 @@ public class SignUpUI extends AbstractFont {
 
 		btnCancel = new JButton("Cancel");
 		try {
-			btnCancel.setFont(new Font("ProFont for Powerline", Font.PLAIN, 40));
+			btnCancel.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.PLAIN, 40));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -181,11 +185,11 @@ public class SignUpUI extends AbstractFont {
 		lblGameName.setHorizontalAlignment(SwingConstants.CENTER);
 		lblGameName.setForeground(new Color(247, 211, 84));
 		try {
-			lblGameName.setFont(new Font("ProFont for Powerline", Font.BOLD, 90));
+			lblGameName.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.BOLD, 100));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-		lblGameName.setBounds(6, 22, 1012, 96);
+		lblGameName.setBounds(6, 22, 1268, 96);
 		signUpPanel.add(lblGameName);
 	}
 
@@ -255,13 +259,16 @@ public class SignUpUI extends AbstractFont {
 	
 	private void backToLogin(){
 		getDetailUser = null;
-		MainFrame.setFrame(LoginUI.getLoginPanel());
+		characterField.setText("");
+		usernameField.setText("");
+		passwordField.setText("");
+		ConfirmPasswordField.setText("");
+		status.setText("");
+		MainFrame.setFrame(new LoginUI().getLoginPanel());
 		
 	}
 	
-	public static JPanel getSignUpPanel(){
-		if (signUpPanel == null) 
-			new SignUpUI();
+	public JPanel getSignUpPanel(){
 		return signUpPanel;
 	}
 

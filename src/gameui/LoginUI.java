@@ -22,11 +22,10 @@ import java.awt.*;
 
 public class LoginUI extends AbstractFont {
 
-	private JFrame frame;
 	private JTextField userField;
 	private JPasswordField passwordField;
 	private JLabel lblStatus, lblUsername, lblDontHaveAny, lblPassword;
-	private static JPanel loginPanel;
+	private JPanel loginPanel;
 	private JPanel panel;
 	private JButton btnLogin, btnSignUp;
 	private ConnectionSource source;
@@ -34,6 +33,7 @@ public class LoginUI extends AbstractFont {
 	private java.util.List<UserTable> getDetailUser;
 	private static UserTable currentUser;
 
+	
 	/**
 	 * Create the application.
 	 */
@@ -51,12 +51,6 @@ public class LoginUI extends AbstractFont {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		frame = new JFrame();
-		frame.getContentPane().setBackground(new Color(250, 240, 230));
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		frame.setBounds(((int) dim.getWidth() - 1024) / 2, ((int) dim.getHeight() - 768) / 2, 1024, 768);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
 
 		loginPanel = new JPanel() {
 			@Override
@@ -64,36 +58,31 @@ public class LoginUI extends AbstractFont {
 				super.paintComponent(g);
 				try {
 					BufferedImage img = ImageIO.read(this.getClass().getResourceAsStream("/res/LoginBackground.jpg"));
-					// g.drawImage(img, 0, 0, frame.getSize().width,
-					// frame.getSize().height, null);
-					g.drawImage(img, 0, 0, 1024, 768, null);
+					g.drawImage(img, 0, 0, 1280, 768, null);
 
 				} catch (IOException e) {
 					// do nothing
 				}
 			}
 		};
-		loginPanel.setBounds(0, 0, frame.getWidth(), frame.getHeight());
 		loginPanel.setLayout(null);
 
 		JLabel label = new JLabel("TypingThrower");
 		label.setForeground(new Color(247, 211, 84));
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		try {
-			label.setFont(new Font("ProFont for Powerline", Font.BOLD, 90));
+			label.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.BOLD, 100));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-		label.setBounds(6, 22, 1012, 96);
+		label.setBounds(6, 22, 1268, 96);
 		loginPanel.add(label);
 
 		panel = new JPanel();
 		panel.setBackground(new Color(211, 211, 211));
-		panel.setBounds(135, 145, 750, 498);
+		panel.setBounds(265, 145, 750, 498);
 		panel.setLayout(null);
 		loginPanel.add(panel);
-
-		frame.getContentPane().add(loginPanel);
 
 		userField = new JTextField();
 		try {
@@ -118,7 +107,7 @@ public class LoginUI extends AbstractFont {
 		btnLogin.setBounds(292, 264, 161, 66);
 		btnLogin.setBackground(Color.ORANGE);
 		try {
-			btnLogin.setFont(new Font("ProFont for Powerline", Font.PLAIN, 40));
+			btnLogin.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.PLAIN, 40));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -147,8 +136,7 @@ public class LoginUI extends AbstractFont {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				getDetailUser = null;
-//				MainFrame.getFrame().removeAll();
-				MainFrame.setFrame(SignUpUI.getSignUpPanel());
+				MainFrame.setFrame(new SignUpUI().getSignUpPanel());
 
 			}
 		});
@@ -167,10 +155,11 @@ public class LoginUI extends AbstractFont {
 		lblStatus = new JLabel("Welcome");
 		lblStatus.setFont(new Font("Courier New", Font.BOLD, 18));
 		lblStatus.setHorizontalAlignment(SwingConstants.CENTER);
-		lblStatus.setBounds(6, 20, 749, 28);
+		lblStatus.setBounds(6, 20, 738, 28);
 		panel.add(lblStatus);
 		userField.addKeyListener(new LoginKeyAdapter());
 		passwordField.addKeyListener(new LoginKeyAdapter());
+		
 	}
 
 	class LoginKeyAdapter extends KeyAdapter {
@@ -205,7 +194,7 @@ public class LoginUI extends AbstractFont {
 				System.err.println("Login successed");
 				success = true;
 				currentUser = user;
-				MainFrame.setFrame(HomeUI.getHomePanel());
+				MainFrame.setFrame(new HomeUI().getHomePanel());
 				break;
 			}
 		}
@@ -217,9 +206,7 @@ public class LoginUI extends AbstractFont {
 		btnLogin.setEnabled(true);
 	}
 	
-	public static JPanel getLoginPanel(){
-		if(loginPanel == null)
-			new LoginUI();
+	public JPanel getLoginPanel(){
 		return loginPanel;
 	}
 	
