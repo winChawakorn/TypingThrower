@@ -28,6 +28,10 @@ public class MainFrame {
 		newPane.setFocusable(true);
 		newPane.requestFocusInWindow();
 	}
+	
+	public static void addConnectionErrorUI(JPanel connectErrorPane){
+		frame.getGlassPane().setVisible(true);
+	}
 
 	/**
 	 * Launch the application.
@@ -62,6 +66,7 @@ public class MainFrame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.getContentPane().setLayout(null);
+		frame.setGlassPane(CantConnectUI.getCantConnectPane());
 
 		setFrame(new LoginUI().getLoginPanel());
 	}

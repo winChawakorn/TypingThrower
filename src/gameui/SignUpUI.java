@@ -35,15 +35,15 @@ public class SignUpUI extends AbstractFont {
 	private JTextField usernameField, characterField;
 	private JLabel lblUsername, lblCharacter, lblPass, lblConfirmPass, status;
 	private JButton btnConfirm, btnCancel;
-	private ConnectionSource source;
-	private Dao<UserTable, String> userDao;
-	private java.util.List<UserTable> getDetailUser;
+//	private ConnectionSource source;
+//	private Dao<UserTable, String> userDao;
+	private DatabaseConnect dbConnect;
 
 	/**
 	 * Create the panel.
 	 */
 	public SignUpUI() {
-		getDetailUser = null;
+		dbConnect = DatabaseConnect.getInstance();
 		initialize();
 	}
 
@@ -194,12 +194,7 @@ public class SignUpUI extends AbstractFont {
 	}
 
 	public void confirmAction() {
-		try {
-			if (getDetailUser == null) {
-				source = DatabaseConnect.getInstance();
-				userDao = DaoManager.createDao(source, UserTable.class);
-				getDetailUser = userDao.queryForAll();
-			}
+			
 			String characterName = characterField.getText();
 			if (characterName.equals("")) {
 				status.setForeground(Color.RED);
@@ -208,8 +203,7 @@ public class SignUpUI extends AbstractFont {
 			} else {
 				// checking is new username exist?
 				String inputUsername = usernameField.getText();
-				UserTable username = userDao.queryForId(inputUsername);
-				if (username != null) {
+				if (dbConnect.isUserExist(inputUsername)) {
 					System.err.println("username is already exist");
 					status.setForeground(Color.RED);
 					status.setText("username is already exist. please change username.");
@@ -232,7 +226,7 @@ public class SignUpUI extends AbstractFont {
 
 						// create account in database
 						UserTable user = new UserTable(inputUsername, password, characterName);
-						userDao.createIfNotExists(user);
+						dbConnect.createUser(user);
 						status.setForeground(new Color(17, 178, 19));
 						status.setText("creating success");
 						backToLogin();
@@ -240,10 +234,6 @@ public class SignUpUI extends AbstractFont {
 					}
 				}
 			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 
 	}
 
@@ -258,7 +248,6 @@ public class SignUpUI extends AbstractFont {
 	}
 	
 	private void backToLogin(){
-		getDetailUser = null;
 		characterField.setText("");
 		usernameField.setText("");
 		passwordField.setText("");
