@@ -46,10 +46,6 @@ public class Controller {
 		}
 	}
 
-	public void setPlayer(String player) {
-		this.player = player;
-	}
-
 	public void findGame() {
 		try {
 			c.sendToServer("find room");
@@ -58,8 +54,8 @@ public class Controller {
 		}
 	}
 
-	public void waitingUI() {
-		ui.waiting();
+	public void waiting() {
+		player = "1";
 	}
 
 	public void start(UserTable opponent) {
@@ -163,7 +159,17 @@ public class Controller {
 			e.printStackTrace();
 		}
 	}
-	// public static void main(String[] args) {
-	// System.out.println("logout chawakorn".substring(7));
-	// }
+
+	public void CancelfindGame() {
+		player = "";
+		MainFrame.setFrame(new HomeUI().getHomePanel());
+	}
+
+	public void requestForCancel() {
+		try {
+			c.sendToServer("Cancel");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

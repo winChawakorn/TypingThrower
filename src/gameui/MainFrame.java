@@ -2,7 +2,6 @@ package gameui;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.util.logging.LogManager;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -11,8 +10,6 @@ import org.apache.log4j.PropertyConfigurator;
 
 import connection.Client;
 import connection.Controller;
-
-
 
 public class MainFrame {
 
@@ -23,7 +20,7 @@ public class MainFrame {
 
 	public static JFrame getFrame() {
 		return frame;
-		
+
 	}
 
 	public static void setFrame(JPanel newPane) {
@@ -35,8 +32,8 @@ public class MainFrame {
 		newPane.setFocusable(true);
 		newPane.requestFocusInWindow();
 	}
-	
-	public static void showConnectionErrorUI(){
+
+	public static void showConnectionErrorUI() {
 		frame.getGlassPane().setVisible(true);
 	}
 
@@ -74,7 +71,7 @@ public class MainFrame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.getContentPane().setLayout(null);
-		
+
 		connectionErrorPane = CantConnectUI.getCantConnectPane();
 		connectionErrorPane.setFocusable(false);
 		frame.setGlassPane(connectionErrorPane);

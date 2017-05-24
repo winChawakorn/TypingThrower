@@ -13,13 +13,15 @@ public class Client extends AbstractClient {
 		Controller ctrl = Controller.getInstance();
 		if (msg instanceof String) {
 			String message = (String) msg;
+			if (message.equals("Cancel")) {
+				ctrl.CancelfindGame();
+			}
 			if (message.equals("attacked")) {
 				ctrl.attackedUI();
 			} else if (message.equals("attack")) {
 				ctrl.attackUI();
 			} else if (message.equals("wait")) {
-				ctrl.setPlayer("1");
-				ctrl.waitingUI();
+				ctrl.waiting();
 			} else if (message.substring(0, 5).equals("myWPM")) {
 				ctrl.mywpmUI(message.substring(6));
 			} else if (message.substring(0, 7).equals("oppoWPM")) {

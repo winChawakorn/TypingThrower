@@ -19,7 +19,7 @@ import gameui.MainFrame;
  * @author Vittunyuta Maeprasart
  *
  */
-public class DatabaseConnect{
+public class DatabaseConnect {
 	private static DatabaseConnect databaseConnect = null;
 	private static ConnectionSource connectionSource = null;
 	private final static String USERNAME = "root";
@@ -27,7 +27,7 @@ public class DatabaseConnect{
 	private final static String URL = "jdbc:mysql://104.198.173.104:3306/names";
 	private Dao<UserTable, String> userDao;
 	private List<UserTable> getDetailUser;
-	
+
 	/**
 	 * set start connection source to be null
 	 */
@@ -39,15 +39,15 @@ public class DatabaseConnect{
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * start and get the connection source
 	 * 
 	 * @return the connection source
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
 	public static DatabaseConnect getInstance() {
-		if(databaseConnect == null)
+		if (databaseConnect == null)
 			databaseConnect = new DatabaseConnect();
 		return databaseConnect;
 	}
@@ -60,10 +60,12 @@ public class DatabaseConnect{
 	public void closeConnect() throws IOException {
 		connectionSource.close();
 	}
-	
+
 	/**
 	 * get all users data in database.
-	 * @throws SQLException when application can't connect to the database
+	 * 
+	 * @throws SQLException
+	 *             when application can't connect to the database
 	 */
 	public List<UserTable> pullAllUserdata() {
 		try {
@@ -74,7 +76,7 @@ public class DatabaseConnect{
 		}
 		return getDetailUser;
 	}
-	
+
 	public boolean isUserExist(String id) {
 		UserTable userTable = null;
 		try {
@@ -85,8 +87,8 @@ public class DatabaseConnect{
 		}
 		return userTable != null;
 	}
-	
-	public void createUser(UserTable userToAdd){
+
+	public void createUser(UserTable userToAdd) {
 		try {
 			userDao.createIfNotExists(userToAdd);
 		} catch (SQLException e) {
@@ -94,5 +96,5 @@ public class DatabaseConnect{
 			MainFrame.showConnectionErrorUI();
 		}
 	}
-	
+
 }

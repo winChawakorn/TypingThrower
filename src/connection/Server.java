@@ -47,7 +47,7 @@ public class Server extends AbstractServer {
 	protected synchronized void clientDisconnected(ConnectionToClient client) {
 		if (users.containsKey(client)) {
 			System.out.println("user " + users.remove(client).getUsername()
-					+ "has disconnected");
+					+ " has disconnected");
 			users.remove(client);
 		} else
 			System.out.println("\nSomeone has disconnected");
@@ -104,6 +104,15 @@ public class Server extends AbstractServer {
 					try {
 						client.sendToClient("wait");
 						System.out.println("wait");
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			} else if (message.equals("Cancel") && findClientRoom != null) {
+				if (findClientRoom.count() == 1) {
+					rooms.remove(findClientRoom);
+					try {
+						client.sendToClient("Cancel");
 					} catch (IOException e) {
 						e.printStackTrace();
 					}

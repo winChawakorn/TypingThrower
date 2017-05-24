@@ -28,7 +28,8 @@ public class HomeUI extends AbstractFont {
 	private JPanel homePanel;
 	private JButton btnOnline, btnOffline, btnLogout, btnQuit;
 	private JPanel lblScore;
-	private JLabel lblCharacter, lblScoreName, lblWPM, lblWin, lblLose, lblHp, lblAtk;
+	private JLabel lblCharacter, lblScoreName, lblWPM, lblWin, lblLose, lblHp,
+			lblAtk;
 	private UserTable currentUser;
 	private JLabel lblWPMNum, lblWinNum, lblLoseNum, lblHpNum, lblAtkNum;
 
@@ -44,13 +45,14 @@ public class HomeUI extends AbstractFont {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		//set background of interface using external picture
+		// set background of interface using external picture
 		homePanel = new JPanel() {
 			@Override
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				try {
-					BufferedImage img = ImageIO.read(this.getClass().getResourceAsStream("/res/BG3.png"));
+					BufferedImage img = ImageIO.read(this.getClass()
+							.getResourceAsStream("/res/BG3.png"));
 					g.drawImage(img, 0, 0, 1280, 768, null);
 				} catch (IOException e) {
 					// do nothing
@@ -61,8 +63,9 @@ public class HomeUI extends AbstractFont {
 		homePanel.setLayout(null);
 
 		// create 4 important buttons
-		Font fontForBtn = getFont("planet benson 2.ttf").deriveFont(Font.BOLD, 60);
-		
+		Font fontForBtn = getFont("planet benson 2.ttf").deriveFont(Font.BOLD,
+				60);
+
 		btnOnline = new JButton("Online");
 		btnOnline.setFont(fontForBtn);
 		btnOnline.setForeground(Color.ORANGE);
@@ -89,14 +92,16 @@ public class HomeUI extends AbstractFont {
 		btnOffline.setContentAreaFilled(false);
 		btnOffline.setBorderPainted(false);
 		btnOffline.setBounds(100, 199, 360, 137);
-		btnOffline.addActionListener((e) -> {
-			GameUI ui = new GameUI();
-			ui.setGame(new TypingThrower(new Player(LoginUI.getCurrentUser().getCharacterName(), 1000, 20),
-					new Player("CPU", 1000, 20)));
-			ui.initComponent();
-			ui.offlineGame();
-			MainFrame.setFrame(ui.getGamePanel());
-		});
+		btnOffline
+				.addActionListener((e) -> {
+					GameUI ui = new GameUI();
+					ui.setGame(new TypingThrower(new Player(LoginUI
+							.getCurrentUser().getCharacterName(), 1000, 20),
+							new Player("CPU", 1000, 20)));
+					ui.initComponent();
+					ui.offlineGame();
+					MainFrame.setFrame(ui.getGamePanel());
+				});
 		btnOffline.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseEntered(java.awt.event.MouseEvent evt) {
 				btnOffline.setForeground(Color.WHITE);
@@ -124,8 +129,8 @@ public class HomeUI extends AbstractFont {
 			}
 		});
 		btnLogout.addActionListener((e) -> {
-				Controller.getInstance().logout();
-				MainFrame.setFrame(new LoginUI().getLoginPanel());
+			Controller.getInstance().logout();
+			MainFrame.setFrame(new LoginUI().getLoginPanel());
 		});
 		homePanel.add(btnLogout);
 
@@ -145,13 +150,15 @@ public class HomeUI extends AbstractFont {
 			}
 		});
 		btnQuit.addActionListener((e) -> {
-				System.exit(0);
+			System.exit(0);
 		});
-		
+
 		homePanel.add(btnQuit);
-		ImageIcon avatarPic = new ImageIcon(this.getClass().getResource("/res/ninja1.png"));
+		ImageIcon avatarPic = new ImageIcon(this.getClass().getResource(
+				"/res/ninja1.png"));
 		lblCharacter = new JLabel(avatarPic);
-		lblCharacter.setBounds(593, 340, avatarPic.getIconWidth(), avatarPic.getIconHeight());
+		lblCharacter.setBounds(593, 340, avatarPic.getIconWidth(),
+				avatarPic.getIconHeight());
 		homePanel.add(lblCharacter);
 		lblScore = new JPanel() {
 			{
@@ -167,10 +174,12 @@ public class HomeUI extends AbstractFont {
 		lblScoreName.setLocation(0, 15);
 		lblScoreName.setHorizontalAlignment(SwingConstants.CENTER);
 		lblScoreName.setSize(324, 70);
-		lblScoreName.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.PLAIN, 60));
+		lblScoreName.setFont(getFont("ProFont For Powerline.ttf").deriveFont(
+				Font.PLAIN, 60));
 		lblScore.add(lblScoreName);
 
-		Font detailFont = getFont("ProFont For Powerline.ttf").deriveFont(Font.BOLD, 40);
+		Font detailFont = getFont("ProFont For Powerline.ttf").deriveFont(
+				Font.BOLD, 40);
 
 		lblWPM = new JLabel("WPM: ");
 		lblWPM.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -237,6 +246,7 @@ public class HomeUI extends AbstractFont {
 
 	/**
 	 * get panel of home interface
+	 * 
 	 * @return home interface
 	 */
 	public JPanel getHomePanel() {
