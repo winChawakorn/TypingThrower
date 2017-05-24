@@ -1,17 +1,21 @@
 package gameui;
 
 import java.awt.Font;
-import java.io.File;
+import java.awt.FontFormatException;
+import java.io.IOException;
 import java.net.URL;
 
-public abstract class AbstractFont {
-	public Font getFont(String fileName) throws Exception {
+public class AbstractFont {
+	
+	public Font getFont(String fileName) {
 	    String path = "/res/" + fileName;
 	    URL url = getClass().getResource(path);
-	    Font font = Font.createFont(Font.TRUETYPE_FONT, url.openStream());
-//	    font = font.deriveFont(style,size);
-//	    font = font.deriveFont(Font.BOLD,70);
-
+	    Font font=null;
+		try {
+			font = Font.createFont(Font.TRUETYPE_FONT, url.openStream());
+		} catch (FontFormatException | IOException e) {
+			e.printStackTrace();
+		}
 	    return font;
 	}
 }

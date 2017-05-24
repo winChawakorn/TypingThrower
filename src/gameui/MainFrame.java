@@ -30,6 +30,7 @@ public class MainFrame {
 	}
 	
 	public static void addConnectionErrorUI(JPanel connectErrorPane){
+		frame.setGlassPane(CantConnectUI.getCantConnectPane());
 		frame.getGlassPane().setVisible(true);
 	}
 
@@ -66,7 +67,7 @@ public class MainFrame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.getContentPane().setLayout(null);
-		frame.setGlassPane(CantConnectUI.getCantConnectPane());
+		
 
 		setFrame(new LoginUI().getLoginPanel());
 	}

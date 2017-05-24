@@ -95,7 +95,7 @@ public class SignUpUI extends AbstractFont {
 		}
 		usernameField.setColumns(10);
 		usernameField.setBounds(343, 180, 300, 50);
-		usernameField.addKeyListener(new ConfirmKeyAdapter());
+		usernameField.addKeyListener(new ConfirmKeyAdapter(usernameField));
 		panel.add(usernameField);
 
 		lblPass = new JLabel("Password");
@@ -106,7 +106,7 @@ public class SignUpUI extends AbstractFont {
 
 		passwordField = new JPasswordField();
 		passwordField.setBounds(343, 250, 300, 50);
-		passwordField.addKeyListener(new ConfirmKeyAdapter());
+		passwordField.addKeyListener(new ConfirmKeyAdapter(passwordField));
 		panel.add(passwordField);
 
 		lblConfirmPass = new JLabel("Confirm password");
@@ -117,7 +117,7 @@ public class SignUpUI extends AbstractFont {
 
 		ConfirmPasswordField = new JPasswordField();
 		ConfirmPasswordField.setBounds(343, 320, 300, 50);
-		ConfirmPasswordField.addKeyListener(new ConfirmKeyAdapter());
+		ConfirmPasswordField.addKeyListener(new ConfirmKeyAdapter(ConfirmPasswordField));
 		panel.add(ConfirmPasswordField);
 
 		btnConfirm = new JButton("Confirm");
@@ -158,7 +158,7 @@ public class SignUpUI extends AbstractFont {
 		}
 		characterField.setColumns(10);
 		characterField.setBounds(343, 110, 300, 50);
-		characterField.addKeyListener(new ConfirmKeyAdapter());
+		characterField.addKeyListener(new ConfirmKeyAdapter(characterField));
 		panel.add(characterField);
 
 		signUpPanel.add(panel);
@@ -237,7 +237,27 @@ public class SignUpUI extends AbstractFont {
 
 	}
 
+	/**
+	 * Provide pressing enter to sign up and limit number of character when typing
+	 * on the text field
+	 * 
+	 * @author vittunyutamaeprasart
+	 *
+	 */
 	class ConfirmKeyAdapter extends KeyAdapter {
+		private JTextField textfield;
+		
+		public ConfirmKeyAdapter(JTextField textField) {
+			textfield = textField;
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			if (textfield.getText().length() >= 20) {
+				e.consume();
+			}
+		}
+
 		@Override
 		public void keyPressed(KeyEvent e) {
 			super.keyPressed(e);

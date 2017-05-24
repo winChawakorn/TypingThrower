@@ -3,33 +3,32 @@ package gameui;
 import game.Player;
 import game.TypingThrower;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.JPanel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-
-import java.awt.Font;
-
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 
 import connection.Controller;
 import connection.UserTable;
 
+/**
+ * Home interface is showed when login success. There are 4 important buttons
+ * provide user to choose play online, offline, logout(login again), or quit to
+ * game. And show user score on right-top corner of the window.
+ * 
+ * @author vittunyutamaeprasart
+ *
+ */
 public class HomeUI extends AbstractFont {
 
 	private JPanel homePanel;
 	private JButton btnOnline, btnOffline, btnLogout, btnQuit;
 	private JPanel lblScore;
-	private JLabel lblCharacter, lblScoreName, lblWPM, lblWin, lblLose, lblHp,
-			lblAtk;
+	private JLabel lblCharacter, lblScoreName, lblWPM, lblWin, lblLose, lblHp, lblAtk;
 	private UserTable currentUser;
 	private JLabel lblWPMNum, lblWinNum, lblLoseNum, lblHpNum, lblAtkNum;
 
@@ -45,13 +44,13 @@ public class HomeUI extends AbstractFont {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		//set background of interface using external picture
 		homePanel = new JPanel() {
 			@Override
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				try {
-					BufferedImage img = ImageIO.read(this.getClass()
-							.getResourceAsStream("/res/BG3.png"));
+					BufferedImage img = ImageIO.read(this.getClass().getResourceAsStream("/res/BG3.png"));
 					g.drawImage(img, 0, 0, 1280, 768, null);
 				} catch (IOException e) {
 					// do nothing
@@ -61,13 +60,11 @@ public class HomeUI extends AbstractFont {
 		homePanel.setBounds(0, 0, 1280, 768);
 		homePanel.setLayout(null);
 
+		// create 4 important buttons
+		Font fontForBtn = getFont("planet benson 2.ttf").deriveFont(Font.BOLD, 60);
+		
 		btnOnline = new JButton("Online");
-		try {
-			btnOnline.setFont(getFont("planet benson 2.ttf").deriveFont(
-					Font.BOLD, 60));
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
+		btnOnline.setFont(fontForBtn);
 		btnOnline.setForeground(Color.ORANGE);
 		btnOnline.setContentAreaFilled(false);
 		btnOnline.setBorderPainted(false);
@@ -87,26 +84,19 @@ public class HomeUI extends AbstractFont {
 		homePanel.add(btnOnline);
 
 		btnOffline = new JButton("Offline");
-		try {
-			btnOffline.setFont(getFont("planet benson 2.ttf").deriveFont(
-					Font.BOLD, 60));
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
+		btnOffline.setFont(fontForBtn);
 		btnOffline.setForeground(Color.ORANGE);
 		btnOffline.setContentAreaFilled(false);
 		btnOffline.setBorderPainted(false);
 		btnOffline.setBounds(100, 199, 360, 137);
-		btnOffline
-				.addActionListener((e) -> {
-					GameUI ui = new GameUI();
-					ui.setGame(new TypingThrower(new Player(LoginUI
-							.getCurrentUser().getCharacterName(), 1000, 20),
-							new Player("CPU", 1000, 20)));
-					ui.initComponent();
-					ui.offlineGame();
-					MainFrame.setFrame(ui.getGamePanel());
-				});
+		btnOffline.addActionListener((e) -> {
+			GameUI ui = new GameUI();
+			ui.setGame(new TypingThrower(new Player(LoginUI.getCurrentUser().getCharacterName(), 1000, 20),
+					new Player("CPU", 1000, 20)));
+			ui.initComponent();
+			ui.offlineGame();
+			MainFrame.setFrame(ui.getGamePanel());
+		});
 		btnOffline.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseEntered(java.awt.event.MouseEvent evt) {
 				btnOffline.setForeground(Color.WHITE);
@@ -119,12 +109,7 @@ public class HomeUI extends AbstractFont {
 		homePanel.add(btnOffline);
 
 		btnLogout = new JButton("Logout");
-		try {
-			btnLogout.setFont(getFont("planet benson 2.ttf").deriveFont(
-					Font.BOLD, 60));
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
+		btnLogout.setFont(fontForBtn);
 		btnLogout.setForeground(Color.ORANGE);
 		btnLogout.setContentAreaFilled(false);
 		btnLogout.setBorderPainted(false);
@@ -138,23 +123,14 @@ public class HomeUI extends AbstractFont {
 				btnLogout.setForeground(Color.ORANGE);
 			}
 		});
-		btnLogout.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
+		btnLogout.addActionListener((e) -> {
 				Controller.getInstance().logout();
 				MainFrame.setFrame(new LoginUI().getLoginPanel());
-			}
 		});
 		homePanel.add(btnLogout);
 
 		btnQuit = new JButton("Quit");
-		try {
-			btnQuit.setFont(getFont("planet benson 2.ttf").deriveFont(
-					Font.BOLD, 60));
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
+		btnQuit.setFont(fontForBtn);
 		btnQuit.setForeground(Color.ORANGE);
 		btnQuit.setContentAreaFilled(false);
 		btnQuit.setBorderPainted(false);
@@ -168,19 +144,14 @@ public class HomeUI extends AbstractFont {
 				btnQuit.setForeground(Color.ORANGE);
 			}
 		});
-		btnQuit.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
+		btnQuit.addActionListener((e) -> {
 				System.exit(0);
-			}
 		});
+		
 		homePanel.add(btnQuit);
-		ImageIcon avatarPic = new ImageIcon(this.getClass().getResource(
-				"/res/ninja1.png"));
+		ImageIcon avatarPic = new ImageIcon(this.getClass().getResource("/res/ninja1.png"));
 		lblCharacter = new JLabel(avatarPic);
-		lblCharacter.setBounds(593, 340, avatarPic.getIconWidth(),
-				avatarPic.getIconHeight());
+		lblCharacter.setBounds(593, 340, avatarPic.getIconWidth(), avatarPic.getIconHeight());
 		homePanel.add(lblCharacter);
 		lblScore = new JPanel() {
 			{
@@ -196,21 +167,10 @@ public class HomeUI extends AbstractFont {
 		lblScoreName.setLocation(0, 15);
 		lblScoreName.setHorizontalAlignment(SwingConstants.CENTER);
 		lblScoreName.setSize(324, 70);
-		try {
-			lblScoreName.setFont(getFont("ProFont for Powerline.ttf")
-					.deriveFont(Font.PLAIN, 60));
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
+		lblScoreName.setFont(getFont("ProFont for Powerline.ttf").deriveFont(Font.PLAIN, 60));
 		lblScore.add(lblScoreName);
 
-		Font detailFont = null;
-		try {
-			detailFont = getFont("ProFont for Powerline.ttf").deriveFont(
-					Font.BOLD, 40);
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
+		Font detailFont = getFont("ProFont for Powerline.ttf").deriveFont(Font.BOLD, 40);
 
 		lblWPM = new JLabel("WPM: ");
 		lblWPM.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -273,9 +233,12 @@ public class HomeUI extends AbstractFont {
 		lblAtkNum.setBounds(180, 380, 138, 60);
 		lblScore.add(lblAtkNum);
 
-		// return homePanel;
 	}
 
+	/**
+	 * get panel of home interface
+	 * @return home interface
+	 */
 	public JPanel getHomePanel() {
 		return homePanel;
 	}
