@@ -25,9 +25,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
-
-import org.apache.log4j.chainsaw.Main;
 
 import stopwatch.Stopwatch;
 import connection.Controller;
@@ -78,7 +75,6 @@ public class GameUI {
 		playing = new JPanel();
 		playing.setLayout(null);
 		playing.setSize(pane.getSize());
-		// pane.add(playing);
 
 		resultPane = new JPanel();
 		resultPane.setVisible(false);
