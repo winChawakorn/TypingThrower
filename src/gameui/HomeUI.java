@@ -4,8 +4,6 @@ import game.Player;
 import game.TypingThrower;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -152,20 +150,16 @@ public class HomeUI extends AbstractFont {
 		btnQuit.addActionListener((e) -> {
 			System.exit(0);
 		});
-
 		homePanel.add(btnQuit);
-		ImageIcon avatarPic = new ImageIcon(this.getClass().getResource(
-				"/res/ninja1.png"));
+		
+		ImageIcon avatarPic = new ImageIcon(this.getClass().getResource("/res/ninja1.png"));
 		lblCharacter = new JLabel(avatarPic);
 		lblCharacter.setBounds(593, 340, avatarPic.getIconWidth(),
 				avatarPic.getIconHeight());
 		homePanel.add(lblCharacter);
-		lblScore = new JPanel() {
-			{
-				add(new JLabel());
-				setBackground(new Color(255, 255, 255, 120));
-			}
-		};
+		
+		lblScore = new JPanel() ;
+		lblScore.setBackground(new Color(255, 255, 255, 120));
 		lblScore.setBounds(936, 25, 324, 454);
 		lblScore.setLayout(null);
 		homePanel.add(lblScore);

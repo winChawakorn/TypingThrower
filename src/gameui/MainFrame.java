@@ -11,18 +11,24 @@ import org.apache.log4j.PropertyConfigurator;
 import connection.Client;
 import connection.Controller;
 
+/**
+ * Main class use to run the application. This class provide main frame which
+ * can set current panel.
+ * 
+ * @author Vittunyuta Maeprasart
+ *
+ */
 public class MainFrame {
 
 	private int FRAME_WIDTH = 1280;
 	private int FRAME_HEIGHT = 768;
 	private static JFrame frame;
-	private JPanel connectionErrorPane;
-
-	public static JFrame getFrame() {
-		return frame;
-
-	}
-
+	private static JPanel connectionErrorPane;
+	
+	/**
+	 * set frame to show a given panel.
+	 * @param newPane is current panel to be showed
+	 */
 	public static void setFrame(JPanel newPane) {
 		frame.getContentPane().removeAll();
 		frame.repaint();
@@ -41,11 +47,15 @@ public class MainFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		// set 
 		PropertyConfigurator.configure("log4j.properties");
 		MainFrame main = new MainFrame();
 		main.run();
 	}
 
+	/**
+	 * run the frame
+	 */
 	public void run() {
 		frame.setVisible(true);
 	}
@@ -63,19 +73,20 @@ public class MainFrame {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		// set property of frame
 		frame = new JFrame("Typing Thrower");
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		frame.setBounds(((int) dim.getWidth() - FRAME_WIDTH) / 2,
-				((int) dim.getHeight() - FRAME_HEIGHT) / 2, FRAME_WIDTH,
-				FRAME_HEIGHT);
+		frame.setBounds(((int) dim.getWidth() - FRAME_WIDTH) / 2, ((int) dim.getHeight() - FRAME_HEIGHT) / 2,
+				FRAME_WIDTH, FRAME_HEIGHT);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.getContentPane().setLayout(null);
 
+		// set glass pane
 		connectionErrorPane = CantConnectUI.getCantConnectPane();
-		connectionErrorPane.setFocusable(false);
 		frame.setGlassPane(connectionErrorPane);
 
+		// set the first page
 		setFrame(new LoginUI().getLoginPanel());
 	}
 

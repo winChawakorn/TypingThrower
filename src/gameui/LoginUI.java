@@ -3,8 +3,6 @@ package gameui;
 import game.Player;
 import game.TypingThrower;
 
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Timer;
@@ -95,7 +93,7 @@ public class LoginUI extends AbstractFont {
 		userField.setBounds(304, 64, 300, 50);
 
 		userField.setColumns(10);
-		userField.addKeyListener(new LoginKeyAdapter(userField));
+		userField.addKeyListener(new EnterAndTypeLimitKeyAdapter(userField,this));
 		panel.add(userField);
 
 		lblUsername = new JLabel("Username");
@@ -105,7 +103,7 @@ public class LoginUI extends AbstractFont {
 
 		passwordField = new JPasswordField();
 		passwordField.setBounds(304, 140, 300, 50);
-		passwordField.addKeyListener(new LoginKeyAdapter(passwordField));
+		passwordField.addKeyListener(new EnterAndTypeLimitKeyAdapter(passwordField,this));
 		panel.add(passwordField);
 
 		Font fontForBtn = getFont("ProFont For Powerline.ttf").deriveFont(
@@ -119,7 +117,7 @@ public class LoginUI extends AbstractFont {
 		btnLogin.addActionListener((e) -> {
 			loginAction();
 		});
-		btnLogin.addKeyListener(new LoginKeyAdapter());
+		btnLogin.addKeyListener(new EnterAndTypeLimitKeyAdapter(this));
 		panel.add(btnLogin);
 
 		btnPractice = new JButton("Practice");
@@ -172,54 +170,6 @@ public class LoginUI extends AbstractFont {
 		lblOr.setBounds(6, 295, 738, 28);
 		panel.add(lblOr);
 
-	}
-
-	/**
-	 * Provide pressing enter to login and limit number of character when typing
-	 * on the text field
-	 * 
-	 * @author vittunyutamaeprasart
-	 *
-	 */
-	class LoginKeyAdapter extends KeyAdapter {
-		private JTextField textfield;
-
-		/**
-		 * initialize adapter without limit typing
-		 */
-		public LoginKeyAdapter() {
-			textfield = new JTextField("");
-		}
-
-		/**
-		 * initialize adapter with both enter pressing and limit typing
-		 * 
-		 * @param textField
-		 */
-		public LoginKeyAdapter(JTextField textField) {
-			textfield = textField;
-		}
-
-		/**
-		 * enable limit typing at least 20 characters
-		 */
-		@Override
-		public void keyTyped(KeyEvent e) {
-			if (textfield.getText().length() >= 20) {
-				e.consume();
-			}
-		}
-
-		/**
-		 * enable enter pressing
-		 */
-		@Override
-		public void keyPressed(KeyEvent e) {
-			super.keyPressed(e);
-			if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-				loginAction();
-			}
-		}
 	}
 
 	/**
