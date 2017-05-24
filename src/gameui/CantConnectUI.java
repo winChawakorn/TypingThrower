@@ -1,6 +1,9 @@
 package gameui;
 
 import javax.swing.*;
+
+import stopwatch.Main;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -35,7 +38,7 @@ public class CantConnectUI {
 		cantConnectPane = new JPanel() {
 			{
 				add(new JLabel());
-				setBackground(new Color(0, 0, 0, 150));
+				setBackground(new Color(0, 0, 0, 190));
 			}
 		};
 		cantConnectPane.setBounds(0, 0, 1280, 768);
@@ -64,7 +67,7 @@ public class CantConnectUI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				cantConnectPane.setVisible(false);
-
+				MainFrame.setFrame(new LoginUI().getLoginPanel());
 			}
 		});
 		cantConnectPane.add(btnOK);

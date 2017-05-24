@@ -14,9 +14,11 @@ public class MainFrame {
 	private int FRAME_WIDTH = 1280;
 	private int FRAME_HEIGHT = 768;
 	private static JFrame frame;
+	private JPanel connectionErrorPane;
 
 	public static JFrame getFrame() {
 		return frame;
+		
 	}
 
 	public static void setFrame(JPanel newPane) {
@@ -28,9 +30,8 @@ public class MainFrame {
 		newPane.setFocusable(true);
 		newPane.requestFocusInWindow();
 	}
-
-	public static void addConnectionErrorUI(JPanel connectErrorPane) {
-		frame.setGlassPane(CantConnectUI.getCantConnectPane());
+	
+	public static void showConnectionErrorUI(){
 		frame.getGlassPane().setVisible(true);
 	}
 
@@ -67,6 +68,10 @@ public class MainFrame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.getContentPane().setLayout(null);
+		
+		connectionErrorPane = CantConnectUI.getCantConnectPane();
+		connectionErrorPane.setFocusable(false);
+		frame.setGlassPane(connectionErrorPane);
 
 		setFrame(new LoginUI().getLoginPanel());
 	}

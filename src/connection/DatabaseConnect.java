@@ -70,7 +70,7 @@ public class DatabaseConnect{
 			getDetailUser = userDao.queryForAll();
 		} catch (SQLException e) {
 			System.out.println("<");
-			MainFrame.addConnectionErrorUI(CantConnectUI.getCantConnectPane());
+			MainFrame.showConnectionErrorUI();
 		}
 		return getDetailUser;
 	}
@@ -81,7 +81,7 @@ public class DatabaseConnect{
 			userTable = userDao.queryForId(id);
 		} catch (SQLException e) {
 			System.out.println("<<");
-			MainFrame.addConnectionErrorUI(CantConnectUI.getCantConnectPane());
+			MainFrame.showConnectionErrorUI();
 		}
 		return userTable != null;
 	}
@@ -91,7 +91,7 @@ public class DatabaseConnect{
 			userDao.createIfNotExists(userToAdd);
 		} catch (SQLException e) {
 			System.out.println("<<<");
-			MainFrame.addConnectionErrorUI(CantConnectUI.getCantConnectPane());
+			MainFrame.showConnectionErrorUI();
 		}
 	}
 	
