@@ -33,7 +33,6 @@ public class CantConnectUI {
 	 * Initialize the contents of the <code>cantCaonnectPane</code>.
 	 */
 	private void initialize() {
-
 		cantConnectPane = new JPanel();
 		cantConnectPane.setBackground(new Color(0, 0, 0, 190));
 		cantConnectPane.setBounds(0, 0, 1280, 768);
@@ -47,7 +46,8 @@ public class CantConnectUI {
 		lblDetail.setBounds(6, 217, 1268, 63);
 		cantConnectPane.add(lblDetail);
 
-		lblDetail2 = new JLabel("Please check your internet connection or contact game master.");
+		lblDetail2 = new JLabel(
+				"Please check your internet connection or contact game master.");
 		lblDetail2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDetail2.setFont(new Font("Courier New", Font.PLAIN, 25));
 		lblDetail2.setForeground(Color.WHITE);
@@ -59,12 +59,13 @@ public class CantConnectUI {
 		btnOK.setFont(new Font("Courier New", Font.PLAIN, 30));
 		btnOK.setBounds(556, 469, 168, 51);
 		btnOK.addActionListener((e) -> {
-				closeCantConnectPane();
+			closeCantConnectPane();
 		});
 		btnOK.addKeyListener(new EnterAndTypeLimitKeyAdapter(this));
 		cantConnectPane.add(btnOK);
 
-		ImageIcon gifImage = new ImageIcon(new ImageIcon(this.getClass().getResource("/res/dinosaur.gif")).getImage()
+		ImageIcon gifImage = new ImageIcon(new ImageIcon(this.getClass()
+				.getResource("/res/dinosaur.gif")).getImage()
 				.getScaledInstance(120, 120, java.awt.Image.SCALE_DEFAULT));
 		lblgif = new JLabel(gifImage);
 		lblgif.setBounds(874, 141, 120, 120);
@@ -81,7 +82,7 @@ public class CantConnectUI {
 			new CantConnectUI();
 		return cantConnectPane;
 	}
-	
+
 	/**
 	 * close panel of can't connect to server and change to Login interface
 	 */

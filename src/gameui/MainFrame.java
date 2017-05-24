@@ -23,10 +23,12 @@ public class MainFrame {
 	private int FRAME_WIDTH = 1280;
 	private int FRAME_HEIGHT = 768;
 	private static JFrame frame;
-	
+
 	/**
 	 * set frame to show a given panel.
-	 * @param newPane is current panel to be showed
+	 * 
+	 * @param newPane
+	 *            is current panel to be showed
 	 */
 	public static void setFrame(JPanel newPane) {
 		frame.getContentPane().removeAll();
@@ -45,12 +47,13 @@ public class MainFrame {
 		frame.setGlassPane(SameUserErrorUI.getSameUserErrorPane());
 		frame.getGlassPane().setVisible(true);
 	}
-	
+
 	/**
 	 * set frame to show can't connect to server or database error panel
 	 */
 	public static void showConnectionErrorUI() {
 		frame.setGlassPane(CantConnectUI.getCantConnectPane());
+		Controller.getInstance().setIsJoinServer(false);
 		frame.getGlassPane().setVisible(true);
 	}
 
@@ -58,7 +61,7 @@ public class MainFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		// set 
+		// set
 		PropertyConfigurator.configure("log4j.properties");
 		MainFrame main = new MainFrame();
 		main.run();
@@ -76,7 +79,7 @@ public class MainFrame {
 	 */
 	public MainFrame() {
 		Controller ctrl = Controller.getInstance();
-		ctrl.setClient(new Client("", 3001));
+		ctrl.setClient(new Client("", 3007));
 		initialize();
 	}
 
@@ -87,14 +90,15 @@ public class MainFrame {
 		// set property of frame
 		frame = new JFrame("Typing Thrower");
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		frame.setBounds(((int) dim.getWidth() - FRAME_WIDTH) / 2, ((int) dim.getHeight() - FRAME_HEIGHT) / 2,
-				FRAME_WIDTH, FRAME_HEIGHT);
+		frame.setBounds(((int) dim.getWidth() - FRAME_WIDTH) / 2,
+				((int) dim.getHeight() - FRAME_HEIGHT) / 2, FRAME_WIDTH,
+				FRAME_HEIGHT);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.getContentPane().setLayout(null);
 
 		// set the first page
-//		setFrame(new LoginUI().getLoginPanel());
+		// setFrame(new LoginUI().getLoginPanel());
 		setFrame(SameUserErrorUI.getSameUserErrorPane());
 	}
 

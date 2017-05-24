@@ -47,6 +47,7 @@ public class LoginUI extends AbstractFont {
 		initialize();
 		dbConnect = DatabaseConnect.getInstance();
 		currentUser = null;
+		getDetailUser = null;
 	}
 
 	/**
@@ -96,7 +97,8 @@ public class LoginUI extends AbstractFont {
 		userField.setBounds(304, 64, 300, 50);
 
 		userField.setColumns(10);
-		userField.addKeyListener(new EnterAndTypeLimitKeyAdapter(userField,this));
+		userField.addKeyListener(new EnterAndTypeLimitKeyAdapter(userField,
+				this));
 		panel.add(userField);
 
 		lblUsername = new JLabel("Username");
@@ -106,7 +108,8 @@ public class LoginUI extends AbstractFont {
 
 		passwordField = new JPasswordField();
 		passwordField.setBounds(304, 140, 300, 50);
-		passwordField.addKeyListener(new EnterAndTypeLimitKeyAdapter(passwordField,this));
+		passwordField.addKeyListener(new EnterAndTypeLimitKeyAdapter(
+				passwordField, this));
 		panel.add(passwordField);
 
 		Font fontForBtn = getFont("ProFont For Powerline.ttf").deriveFont(
@@ -120,7 +123,7 @@ public class LoginUI extends AbstractFont {
 		});
 		btnLogin.addKeyListener(new EnterAndTypeLimitKeyAdapter(this));
 		panel.add(btnLogin);
-		
+
 		btnQuit = new JButton("Quit");
 		btnQuit.setFont(fontForBtn);
 		btnQuit.setBackground(new Color(244, 174, 9));
@@ -144,7 +147,7 @@ public class LoginUI extends AbstractFont {
 		btnPractice.setBounds(275, 327, 205, 66);
 		btnPractice.addActionListener((e) -> {
 			GameUI ui = new GameUI();
-			ui.setGame(new TypingThrower(new Player("You", 1000, 10),
+			ui.setGame(new TypingThrower(new Player("You", 1000, 900),
 					new Player("CPU", 1000, 10)));
 			ui.initComponent();
 			ui.offlineGame();
@@ -154,7 +157,8 @@ public class LoginUI extends AbstractFont {
 
 		btnSignUp = new JButton("Sign Up");
 		btnSignUp.setBounds(428, 437, 135, 44);
-		btnSignUp.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.PLAIN, 25));
+		btnSignUp.setFont(getFont("ProFont For Powerline.ttf").deriveFont(
+				Font.PLAIN, 25));
 		btnSignUp.setBackground(new Color(237, 80, 104));
 		btnSignUp.setBorderPainted(false);
 		btnSignUp.setOpaque(true);
@@ -185,7 +189,6 @@ public class LoginUI extends AbstractFont {
 		lblOr.setFont(new Font("Courier New", Font.BOLD, 20));
 		lblOr.setBounds(6, 295, 738, 28);
 		panel.add(lblOr);
-		
 
 	}
 
@@ -198,13 +201,10 @@ public class LoginUI extends AbstractFont {
 		if (getDetailUser == null)
 			getDetailUser = dbConnect.pullAllUserdata();
 
-		if (getDetailUser == null) {
-			getDetailUser = dbConnect.pullAllUserdata();
-		}
-
 		if (getDetailUser != null) {
 
 			try {
+				Controller.getInstance().setIsJoinServer(false);
 				Controller.getInstance().joinServer();
 				String username = userField.getText();
 				String password = new String(passwordField.getPassword());
@@ -214,10 +214,9 @@ public class LoginUI extends AbstractFont {
 							&& password.equals(user.getPassword())) {
 						lblStatus.setForeground(new Color(17, 178, 19));
 						lblStatus.setText("Login successed");
-						System.err.println("Login successed");
+						// System.err.println("Login successed");
 						success = true;
 						currentUser = user;
-						MainFrame.setFrame(new HomeUI().getHomePanel());
 						Controller.getInstance().login();
 						return;
 					}

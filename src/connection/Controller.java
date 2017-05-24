@@ -25,6 +25,18 @@ public class Controller {
 		player = "";
 	}
 
+	public UserTable getUser() {
+		return p1User;
+	}
+
+	public String getPlayer() {
+		return this.player;
+	}
+
+	public void setIsJoinServer(boolean status) {
+		this.isJoinServer = status;
+	}
+
 	public static Controller getInstance() {
 		if (ctrl == null)
 			ctrl = new Controller();
@@ -50,7 +62,7 @@ public class Controller {
 		try {
 			c.sendToServer("find room");
 		} catch (IOException e) {
-			e.printStackTrace();
+			MainFrame.showConnectionErrorUI();
 		}
 	}
 
@@ -91,7 +103,7 @@ public class Controller {
 		try {
 			c.sendToServer(String.format("wpm %.2f", value));
 		} catch (IOException e) {
-			e.printStackTrace();
+			MainFrame.showConnectionErrorUI();
 		}
 	}
 
@@ -113,7 +125,7 @@ public class Controller {
 		try {
 			c.sendToServer("attack");
 		} catch (IOException e) {
-			ui.cantConnectToServer();
+			MainFrame.showConnectionErrorUI();
 		}
 	}
 
@@ -133,30 +145,33 @@ public class Controller {
 	}
 
 	public void endGame() {
+		try {
+			c.sendToServer("finish");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		game = null;
 		p1 = null;
 		p2 = null;
 		player = "";
-		MainFrame.setFrame(new HomeUI().getHomePanel());
-
 	}
 
 	public void login() {
 		this.p1User = LoginUI.getCurrentUser();
 		try {
-			c.sendToServer("login " + p1User.getUsername());
 			c.sendToServer(p1User);
 		} catch (IOException e) {
-			e.printStackTrace();
+			MainFrame.showConnectionErrorUI();
 		}
 	}
 
 	public void logout() {
 		p1User = null;
+		isJoinServer = false;
 		try {
 			c.sendToServer("logout");
 		} catch (IOException e) {
-			e.printStackTrace();
+			MainFrame.showConnectionErrorUI();
 		}
 	}
 
@@ -169,7 +184,15 @@ public class Controller {
 		try {
 			c.sendToServer("Cancel");
 		} catch (IOException e) {
-			e.printStackTrace();
+			MainFrame.showConnectionErrorUI();
 		}
+	}
+
+	public void loginSuccess() {
+		MainFrame.setFrame(new HomeUI().getHomePanel());
+	}
+
+	public void loginError() {
+
 	}
 }
