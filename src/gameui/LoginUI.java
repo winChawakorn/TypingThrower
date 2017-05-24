@@ -50,7 +50,8 @@ public class LoginUI extends AbstractFont {
 	 */
 	private void initialize() {
 		try {
-			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+			UIManager.setLookAndFeel(UIManager
+					.getCrossPlatformLookAndFeelClassName());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -60,7 +61,8 @@ public class LoginUI extends AbstractFont {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				try {
-					BufferedImage img = ImageIO.read(this.getClass().getResourceAsStream("/res/LoginBackground.jpg"));
+					BufferedImage img = ImageIO.read(this.getClass()
+							.getResourceAsStream("/res/LoginBackground.jpg"));
 					g.drawImage(img, 0, 0, 1280, 768, null);
 				} catch (IOException e) {
 					// do nothing
@@ -73,7 +75,8 @@ public class LoginUI extends AbstractFont {
 		JLabel label = new JLabel("TypingThrower");
 		label.setForeground(new Color(247, 211, 84));
 		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.BOLD, 100));
+		label.setFont(getFont("ProFont For Powerline.ttf").deriveFont(
+				Font.BOLD, 100));
 		label.setBounds(6, 22, 1268, 96);
 		loginPanel.add(label);
 
@@ -84,8 +87,10 @@ public class LoginUI extends AbstractFont {
 		loginPanel.add(panel);
 
 		userField = new JTextField();
-		userField.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.PLAIN, 20));
+		userField.setFont(getFont("ProFont For Powerline.ttf").deriveFont(
+				Font.PLAIN, 20));
 		userField.setBounds(304, 64, 300, 50);
+
 		userField.setColumns(10);
 		userField.addKeyListener(new LoginKeyAdapter(userField));
 		panel.add(userField);
@@ -100,11 +105,13 @@ public class LoginUI extends AbstractFont {
 		passwordField.addKeyListener(new LoginKeyAdapter(passwordField));
 		panel.add(passwordField);
 
-		Font fontForBtn = getFont("ProFont For Powerline.ttf").deriveFont(Font.PLAIN, 40);
+		Font fontForBtn = getFont("ProFont For Powerline.ttf").deriveFont(
+				Font.PLAIN, 40);
 		btnLogin = new JButton("Login");
 		btnLogin.setBounds(296, 227, 161, 66);
 		btnLogin.setBackground(Color.ORANGE);
 		btnLogin.setFont(fontForBtn);
+
 		btnLogin.setBackground(Color.ORANGE);
 		btnLogin.addActionListener((e) -> {
 			loginAction();
@@ -124,12 +131,14 @@ public class LoginUI extends AbstractFont {
 			// ui.initComponent();
 			// ui.offlineGame();
 			// MainFrame.setFrame(ui.getGamePanel());
-		});
+			});
 		panel.add(btnPractice);
 
 		btnSignUp = new JButton("Sign Up");
 		btnSignUp.setBounds(428, 437, 135, 44);
-		btnSignUp.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.PLAIN, 25));
+		btnSignUp.setFont(getFont("ProFont For Powerline.ttf").deriveFont(
+				Font.PLAIN, 25));
+
 		btnSignUp.setBackground(Color.RED);
 		btnSignUp.setBorderPainted(false);
 		btnSignUp.setOpaque(true);
@@ -182,6 +191,7 @@ public class LoginUI extends AbstractFont {
 
 		/**
 		 * initialize adapter with both enter pressing and limit typing
+		 * 
 		 * @param textField
 		 */
 		public LoginKeyAdapter(JTextField textField) {
@@ -219,6 +229,10 @@ public class LoginUI extends AbstractFont {
 		if (getDetailUser == null)
 			getDetailUser = dbConnect.pullAllUserdata();
 
+		if (getDetailUser == null) {
+			getDetailUser = dbConnect.pullAllUserdata();
+		}
+
 		if (getDetailUser != null) {
 
 			try {
@@ -227,7 +241,8 @@ public class LoginUI extends AbstractFont {
 				String password = new String(passwordField.getPassword());
 				boolean success = false;
 				for (UserTable user : getDetailUser) {
-					if (username.equals(user.getUsername()) && password.equals(user.getPassword())) {
+					if (username.equals(user.getUsername())
+							&& password.equals(user.getPassword())) {
 						lblStatus.setForeground(new Color(17, 178, 19));
 						lblStatus.setText("Login successed");
 						System.err.println("Login successed");
@@ -257,8 +272,8 @@ public class LoginUI extends AbstractFont {
 				btnLogin.setEnabled(true);
 				btnSignUp.setEnabled(true);
 			} catch (IOException e) {
-				System.out.println("<<<<");
-				MainFrame.addConnectionErrorUI(CantConnectUI.getCantConnectPane());
+				MainFrame.addConnectionErrorUI(CantConnectUI
+						.getCantConnectPane());
 			}
 		}
 	}
