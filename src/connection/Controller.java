@@ -177,7 +177,7 @@ public class Controller {
 
 	public void CancelfindGame() {
 		player = "";
-		MainFrame.setFrame(new HomeUI().getHomePanel());
+		MainFrame.setFrame(new HomeUI(p1User).getHomePanel());
 	}
 
 	public void requestForCancel() {
@@ -190,8 +190,7 @@ public class Controller {
 	}
 
 	public void loginSuccess() {
-		System.out.println("akslfnalnf");
-		MainFrame.setFrame(new HomeUI().getHomePanel());
+		MainFrame.setFrame(new HomeUI(p1User).getHomePanel());
 	}
 
 	public void loginError() {

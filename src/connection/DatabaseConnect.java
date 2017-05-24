@@ -129,13 +129,13 @@ public class DatabaseConnect {
 			double wpm = 0;
 			if (win + lose != 0)
 				wpm = totalwpm / (win + lose);
-
+			user.setWPM(wpm);
 			// find target row
 			updateBuilder.where().eq("Username", user.getUsername());
 			// update values
+			updateBuilder.updateColumnValue("WPM", wpm);
 			updateBuilder.updateColumnValue("WinRound", win);
 			updateBuilder.updateColumnValue("LoseRound", lose);
-			updateBuilder.updateColumnValue("WPM", wpm);
 			updateBuilder.updateColumnValue("TotalWPM", totalwpm);
 			updateBuilder.update();
 		} catch (SQLException e) {

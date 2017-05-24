@@ -11,7 +11,6 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import connection.Controller;
-import connection.DatabaseConnect;
 import connection.UserTable;
 
 /**
@@ -35,9 +34,8 @@ public class HomeUI extends AbstractFont {
 	/**
 	 * Create the application.
 	 */
-	public HomeUI() {
-		currentUser = LoginUI.getCurrentUser();
-		// DatabaseConnect.getInstance().updateUserData(currentUser);
+	public HomeUI(UserTable user) {
+		currentUser = user;
 		initialize();
 	}
 
@@ -210,7 +208,7 @@ public class HomeUI extends AbstractFont {
 		lblAtk.setBounds(10, 380, 170, 60);
 		lblScore.add(lblAtk);
 
-		lblWPMNum = new JLabel(currentUser.getWPM() + "");
+		lblWPMNum = new JLabel(String.format("%.2f", currentUser.getWPM()));
 		lblWPMNum.setHorizontalAlignment(SwingConstants.LEFT);
 		lblWPMNum.setFont(detailFont);
 		lblWPMNum.setBounds(180, 100, 138, 60);

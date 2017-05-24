@@ -467,12 +467,14 @@ public class GameUI {
 					btnOK.setFont(font);
 					btnOK.setSize(resultPane.getWidth() / 4,
 							resultPane.getHeight() / 6);
+					UserTable user = ctrl.getUser();
 					btnOK.addActionListener((e) -> {
 						if (ctrl.getUser() == null)
 							MainFrame.setFrame(new LoginUI().getLoginPanel());
 						else {
 							ctrl.endGame();
-							MainFrame.setFrame(new HomeUI().getHomePanel());
+							DatabaseConnect.getInstance().updateUserData(user);
+							MainFrame.setFrame(new HomeUI(user).getHomePanel());
 						}
 					});
 					resultPane.add(btnOK, BorderLayout.SOUTH);
@@ -495,20 +497,24 @@ public class GameUI {
 					resultPane.add(space, BorderLayout.WEST);
 					resultPane.add(space2, BorderLayout.EAST);
 					resultPane.add(detail, BorderLayout.CENTER);
-					UserTable user = ctrl.getUser();
 					detail.append(p1wpm.getText());
 					detail.append(String.format("\nTime : %.2f seconds",
 							watch.getElapsed()));
 					if (ctrl.getPlayer().equals("")) {
-						if (game.isP2Lose())
+						if (game.isP2Lose()) {
 							winOrLose.setText("YOU WIN");
-						else
+							if (user != null)
+								user.setWinRound(user.getWinRound() + 1);
+						} else {
 							winOrLose.setText("YOU LOSE");
+							if (user != null)
+								user.setLoseRound(user.getLoseRound() + 1);
+						}
 						if (user == null)
 							detail.append("\nPlease login to \nrecord your score");
 						else {
 							user.setTotalWPM(wpm + user.getTotalWPM());
-							DatabaseConnect.getInstance().updateUserData(user);
+							// DatabaseConnect.getInstance().updateUserData(user);
 						}
 					} else {
 						if (ctrl.getPlayer().equals("2")) {
@@ -529,7 +535,7 @@ public class GameUI {
 							}
 						}
 						user.setTotalWPM(wpm + user.getTotalWPM());
-						DatabaseConnect.getInstance().updateUserData(user);
+						// DatabaseConnect.getInstance().updateUserData(user);
 					}
 					resultPane.setVisible(true);
 					playing.repaint();
