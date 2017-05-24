@@ -2,12 +2,17 @@ package gameui;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.logging.LogManager;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import org.apache.log4j.PropertyConfigurator;
+
 import connection.Client;
 import connection.Controller;
+
+
 
 public class MainFrame {
 
@@ -39,6 +44,7 @@ public class MainFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		PropertyConfigurator.configure("log4j.properties");
 		MainFrame main = new MainFrame();
 		main.run();
 	}
