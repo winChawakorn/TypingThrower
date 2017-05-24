@@ -57,7 +57,8 @@ public class LoginUI extends AbstractFont {
 	 */
 	private void initialize() {
 		try {
-			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+			UIManager.setLookAndFeel(UIManager
+					.getCrossPlatformLookAndFeelClassName());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -67,7 +68,8 @@ public class LoginUI extends AbstractFont {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				try {
-					BufferedImage img = ImageIO.read(this.getClass().getResourceAsStream("/res/LoginBackground.jpg"));
+					BufferedImage img = ImageIO.read(this.getClass()
+							.getResourceAsStream("/res/LoginBackground.jpg"));
 					g.drawImage(img, 0, 0, 1280, 768, null);
 				} catch (IOException e) {
 					// do nothing
@@ -81,7 +83,8 @@ public class LoginUI extends AbstractFont {
 		label.setForeground(new Color(247, 211, 84));
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		try {
-			label.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.BOLD, 100));
+			label.setFont(getFont("ProFont For Powerline.ttf").deriveFont(
+					Font.BOLD, 100));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -96,7 +99,8 @@ public class LoginUI extends AbstractFont {
 
 		userField = new JTextField();
 		try {
-			userField.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.PLAIN, 20));
+			userField.setFont(getFont("ProFont For Powerline.ttf").deriveFont(
+					Font.PLAIN, 20));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -117,7 +121,8 @@ public class LoginUI extends AbstractFont {
 		btnLogin.setBounds(292, 264, 161, 66);
 		btnLogin.setBackground(Color.ORANGE);
 		try {
-			btnLogin.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.PLAIN, 40));
+			btnLogin.setFont(getFont("ProFont For Powerline.ttf").deriveFont(
+					Font.PLAIN, 40));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -134,7 +139,8 @@ public class LoginUI extends AbstractFont {
 		btnSignUp = new JButton("Sign Up");
 		btnSignUp.setBounds(428, 437, 135, 44);
 		try {
-			btnSignUp.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.PLAIN, 25));
+			btnSignUp.setFont(getFont("ProFont For Powerline.ttf").deriveFont(
+					Font.PLAIN, 25));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -190,49 +196,53 @@ public class LoginUI extends AbstractFont {
 		// passwordField.setFocusable(false);
 		// btnSignUp.setEnabled(false);
 
+		if (getDetailUser == null) {
+			getDetailUser = dbConnect.pullAllUserdata();
+		}
+		
 		if (getDetailUser != null) {
 
-			// try {
-			// Controller.getInstance().joinServer();
-			String username = userField.getText();
-			String password = new String(passwordField.getPassword());
-			boolean success = false;
-			for (UserTable user : getDetailUser) {
-				if (username.equals(user.getUsername()) && password.equals(user.getPassword())) {
-					lblStatus.setForeground(new Color(17, 178, 19));
-					lblStatus.setText("Login successed");
-					System.err.println("Login successed");
-					success = true;
-					currentUser = user;
-					MainFrame.setFrame(new HomeUI().getHomePanel());
-					Controller.getInstance().login();
-					return;
-				}
-			}
-			if (!success) {
-				Timer timer = new Timer();
-				timer.schedule(new TimerTask() {
-
-					@Override
-					public void run() {
-						lblStatus.setVisible(true);
+			try {
+				Controller.getInstance().joinServer();
+				String username = userField.getText();
+				String password = new String(passwordField.getPassword());
+				boolean success = false;
+				for (UserTable user : getDetailUser) {
+					if (username.equals(user.getUsername())
+							&& password.equals(user.getPassword())) {
+						lblStatus.setForeground(new Color(17, 178, 19));
+						lblStatus.setText("Login successed");
+						System.err.println("Login successed");
+						success = true;
+						currentUser = user;
+						MainFrame.setFrame(new HomeUI().getHomePanel());
+						Controller.getInstance().login();
+						return;
 					}
-				}, 100);
-				lblStatus.setForeground(Color.RED);
-				lblStatus.setText("Wrong username/password");
-				System.err.println("Login failed");
-			}
+				}
+				if (!success) {
+					Timer timer = new Timer();
+					timer.schedule(new TimerTask() {
 
-			userField.setFocusable(true);
-			passwordField.setFocusable(true);
-			btnLogin.setEnabled(true);
-			btnSignUp.setEnabled(true);
-			// } catch (IOException e) {
-			// System.out.println("<<<<");
-			// MainFrame.addConnectionErrorUI(CantConnectUI.getCantConnectPane());
-			// }
-		} else
-			getDetailUser = dbConnect.pullAllUserdata();
+						@Override
+						public void run() {
+							lblStatus.setVisible(true);
+						}
+					}, 100);
+					lblStatus.setForeground(Color.RED);
+					lblStatus.setText("Wrong username/password");
+					System.err.println("Login failed");
+				}
+
+				userField.setFocusable(true);
+				passwordField.setFocusable(true);
+				btnLogin.setEnabled(true);
+				btnSignUp.setEnabled(true);
+			} catch (IOException e) {
+				MainFrame.addConnectionErrorUI(CantConnectUI
+						.getCantConnectPane());
+			}
+		} 
 	}
 
 	public JPanel getLoginPanel() {

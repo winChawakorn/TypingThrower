@@ -28,8 +28,8 @@ public class MainFrame {
 		newPane.setFocusable(true);
 		newPane.requestFocusInWindow();
 	}
-	
-	public static void addConnectionErrorUI(JPanel connectErrorPane){
+
+	public static void addConnectionErrorUI(JPanel connectErrorPane) {
 		frame.getGlassPane().setVisible(true);
 	}
 
