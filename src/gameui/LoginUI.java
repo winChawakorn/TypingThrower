@@ -252,13 +252,13 @@ public class LoginUI extends AbstractFont {
 					System.err.println("Login failed");
 				}
 
-				userField.setFocusable(true);
-				passwordField.setFocusable(true);
-				btnLogin.setEnabled(true);
-				btnSignUp.setEnabled(true);
 			} catch (IOException e) {
+				userField.setFocusable(false);
+				passwordField.setFocusable(false);
+				btnLogin.setEnabled(false);
+				btnSignUp.setEnabled(false);
 				System.out.println("<<<<");
-				MainFrame.addConnectionErrorUI(CantConnectUI.getCantConnectPane());
+				MainFrame.showConnectionErrorUI();
 			}
 		}
 	}
