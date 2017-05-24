@@ -2,17 +2,22 @@ package gameui;
 
 import game.TypingThrower;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JTextArea;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Component;
 import java.util.Random;
@@ -20,9 +25,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
+
+import org.apache.log4j.chainsaw.Main;
 
 import stopwatch.Stopwatch;
 import connection.Controller;
+import connection.UserTable;
 
 public class GameUI {
 
@@ -43,8 +52,11 @@ public class GameUI {
 	private double wpm;
 	private JLabel p1wpm;
 	private JLabel p2wpm;
+	private JPanel resultPane;
+	private Stopwatch watch;
 	private final int WIDTH = 1280;
 	private final int HEIGHT = 768;
+	private Controller ctrl = Controller.getInstance();
 
 	/**
 	 * Create the application.
@@ -66,20 +78,25 @@ public class GameUI {
 		playing = new JPanel();
 		playing.setLayout(null);
 		playing.setSize(pane.getSize());
-		pane.add(playing);
+		// pane.add(playing);
+
+		resultPane = new JPanel();
+		resultPane.setVisible(false);
+		playing.add(resultPane);
 
 		HP1 = new JProgressBar();
 		HP1.setBounds(pane.getWidth() / 18, pane.getHeight() - pane.getHeight()
-				/ 10, (int) (pane.getWidth() / 2.7), pane.getHeight() / 43);
+				/ 7, (int) (pane.getWidth() / 2.7), pane.getHeight() / 43);
 		HP1.setMaximum(game.getP1().getHP());
 		HP1.setValue(HP1.getMaximum());
 		HP1.setForeground(Color.RED);
+		HP1.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 		playing.add(HP1);
 
 		ImageIcon p1Pic = new ImageIcon(this.getClass().getResource(
 				"/res/ninja1.png"));
 		p1 = new JLabel(p1Pic);
-		p1.setLocation(pane.getWidth() / 8, (int) (pane.getHeight() / 3));
+		p1.setLocation(pane.getWidth() / 8, (int) (pane.getHeight() / 2.75));
 		p1.setSize(p1Pic.getIconWidth(), p1Pic.getIconHeight());
 		playing.add(p1);
 
@@ -88,7 +105,7 @@ public class GameUI {
 		p2 = new JLabel(p2Pic);
 		p2.setLocation(
 				(pane.getWidth() - (int) (pane.getWidth() / 8))
-						- p2Pic.getIconWidth(), (int) (pane.getHeight() / 3));
+						- p2Pic.getIconWidth(), (int) (pane.getHeight() / 2.75));
 		p2.setSize(p2Pic.getIconWidth(), p2Pic.getIconHeight());
 		playing.add(p2);
 
@@ -103,8 +120,9 @@ public class GameUI {
 		HP2.setMaximum(game.getP2().getHP());
 		HP2.setValue(HP2.getMaximum());
 		HP2.setForeground(Color.RED);
+		HP2.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 		HP2.setBounds((pane.getWidth() - (pane.getWidth() / 18) - (int) (pane
-				.getWidth() / 2.7)), pane.getHeight() - pane.getHeight() / 10,
+				.getWidth() / 2.7)), pane.getHeight() - pane.getHeight() / 7,
 				(int) (pane.getWidth() / 2.7), pane.getHeight() / 43);
 		playing.add(HP2);
 		currentWord = game.getWord();
@@ -136,13 +154,16 @@ public class GameUI {
 						/ 5, 0, pane.getWidth() / 5, pane.getHeight() / 5);
 		playing.add(p1wpm);
 		playing.add(p2wpm);
-		// botAttack();
-		// pane.requestFocus();
-		// pane.setVisible(false);
-		// pane.setVisible(true);
 
-		// pane.setFocusable(true);
-		// pane.requestFocusInWindow();
+		JLabel background = new JLabel(new ImageIcon(this.getClass()
+				.getResource("/res/BG2.png")));
+		background.setSize(playing.getSize());
+		pane.setLayout(null);
+		pane.add(playing);
+		playing.setOpaque(false);
+		pane.add(background);
+		watch = new Stopwatch();
+		watch.start();
 	}
 
 	public void onlineGame() {
@@ -154,7 +175,6 @@ public class GameUI {
 
 				if (e.getKeyChar() == currentWord.charAt(0)) {
 					stopwatch.start();
-					Controller ctrl = Controller.getInstance();
 					ctrl.attack();
 					currentWord = currentWord.substring(1, currentWord.length());
 					if (currentWord.length() == 0) {
@@ -162,9 +182,6 @@ public class GameUI {
 						double timeMin = stopwatch.getElapsed() / 60;
 						wpm = ((typeCount / 5) / timeMin);
 						ctrl.sentWPM(wpm);
-						// System.out.println(typeCount);
-						// System.out.println("t>" + timeMin);
-						// System.out.println("wpm>" + wpm);
 					}
 					if (game.isEnd()) {
 						gameEnd();
@@ -191,9 +208,6 @@ public class GameUI {
 						double timeMin = stopwatch.getElapsed() / 60;
 						wpm = ((typeCount / 5) / timeMin);
 						setP1WPM(String.format("%.2f", wpm));
-						// System.out.println(typeCount);
-						// System.out.println("t>" + timeMin);
-						// System.out.println("wpm>" + wpm);
 					}
 					if (game.isEnd()) {
 						gameEnd();
@@ -235,7 +249,7 @@ public class GameUI {
 				stopwatch.start();
 				if (botAttackCount % 6 == 0) {
 					double timeMin = stopwatch.getElapsed() / 60;
-					double botwpm = ((typeCount / 5) / timeMin);
+					double botwpm = ((botAttackCount / 5) / timeMin);
 					setP2WPM(String.format("%.2f", botwpm));
 				}
 				p2Attack();
@@ -332,6 +346,7 @@ public class GameUI {
 			public void run() {
 				p2Lose1.setVisible(false);
 				p2Lose2.setVisible(true);
+				showGameResult();
 				timer.cancel();
 			}
 		}, 1000);
@@ -420,16 +435,99 @@ public class GameUI {
 			public void run() {
 				p2Lose1.setVisible(false);
 				p2Lose2.setVisible(true);
+				watch.stop();
+				showGameResult();
 				timer.cancel();
 			}
 		}, 1000);
 	}
 
-	public void cantConnectToServer() {
-		// Can't connect to server. Please try again or contact game master
-	}
-
 	public void setGame(TypingThrower game) {
 		this.game = game;
+	}
+
+	public void showGameResult() {
+		word.setVisible(false);
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				resultPane.setLayout(new BorderLayout());
+				resultPane.setBackground(new Color(0, 0, 0, 120));
+				resultPane.setSize(new Dimension(
+						(int) (playing.getWidth() / 1.6), (int) (playing
+								.getHeight() / 1.6)));
+				resultPane.setLocation(playing.getWidth() / 5,
+						playing.getHeight() / 5);
+				Font font = new Font(Font.MONOSPACED, Font.BOLD, 60);
+
+				JButton btnOK = new JButton("OK");
+				btnOK.setBackground(new Color(135, 245, 255));
+				btnOK.setFont(font);
+				btnOK.setSize(resultPane.getWidth() / 4,
+						resultPane.getHeight() / 6);
+				btnOK.addActionListener((e) -> {
+					if (ctrl.getUser() == null)
+						MainFrame.setFrame(new LoginUI().getLoginPanel());
+					else {
+						ctrl.endGame();
+						MainFrame.setFrame(new HomeUI().getHomePanel());
+					}
+				});
+				resultPane.add(btnOK, BorderLayout.SOUTH);
+
+				JLabel winOrLose = new JLabel("", SwingConstants.CENTER);
+				winOrLose.setForeground(Color.YELLOW);
+				winOrLose.setFont(font);
+				resultPane.add(winOrLose, BorderLayout.NORTH);
+				JTextArea detail = new JTextArea();
+				detail.setOpaque(false);
+				detail.setEditable(false);
+				detail.setPreferredSize(resultPane.getSize());
+				detail.setForeground(Color.WHITE);
+				detail.setFont(new Font(Font.MONOSPACED, Font.BOLD, 40));
+				detail.append("\n");
+				JLabel space = new JLabel("    ");
+				space.setFont(font);
+				JLabel space2 = new JLabel("    ");
+				space2.setFont(font);
+				resultPane.add(space, BorderLayout.WEST);
+				resultPane.add(space2, BorderLayout.EAST);
+				resultPane.add(detail, BorderLayout.CENTER);
+				UserTable user = ctrl.getUser();
+				detail.append(p1wpm.getText());
+				detail.append(String.format("\nTime : %.2f seconds",
+						watch.getElapsed()));
+				if (ctrl.getPlayer().equals("")) {
+					if (game.isP2Lose())
+						winOrLose.setText("YOU WIN");
+					else
+						winOrLose.setText("YOU LOSE");
+					if (ctrl.getUser() == null)
+						detail.append("\nPlease login to \nrecord your score");
+
+				} else {
+					if (ctrl.getPlayer().equals("2")) {
+						if (game.isP1Lose()) {
+							user.setWinRound(user.getWinRound() + 1);
+							winOrLose.setText("YOU WIN");
+						} else {
+							user.setLoseRound(user.getLoseRound() + 1);
+							winOrLose.setText("YOU LOSE");
+						}
+					} else if (ctrl.getPlayer().equals("1")) {
+						if (game.isP2Lose()) {
+							user.setWinRound(user.getWinRound() + 1);
+							winOrLose.setText("YOU WIN");
+						} else {
+							user.setLoseRound(user.getLoseRound() + 1);
+							winOrLose.setText("YOU LOSE");
+						}
+					}
+				}
+				resultPane.setVisible(true);
+				playing.repaint();
+			}
+		}, 1500);
 	}
 }

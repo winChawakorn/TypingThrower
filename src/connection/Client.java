@@ -13,6 +13,11 @@ public class Client extends AbstractClient {
 		Controller ctrl = Controller.getInstance();
 		if (msg instanceof String) {
 			String message = (String) msg;
+			if (message.equals("cant login")) {
+
+			} else if (message.equals("login success")) {
+				ctrl.loginSuccess();
+			}
 			if (message.equals("Cancel")) {
 				ctrl.CancelfindGame();
 			}
@@ -26,8 +31,6 @@ public class Client extends AbstractClient {
 				ctrl.mywpmUI(message.substring(6));
 			} else if (message.substring(0, 7).equals("oppoWPM")) {
 				ctrl.oppowpmUI(message.substring(8));
-			} else if (message.equals("finish")) {
-				ctrl.endGame();
 			}
 		} else if (msg instanceof UserTable) {
 			UserTable opponent = (UserTable) msg;

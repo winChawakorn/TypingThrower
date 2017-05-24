@@ -37,7 +37,7 @@ public class CantConnectUI {
 
 		cantConnectPane = new JPanel() {
 			{
-				add(new JLabel());
+				// add(new JLabel());
 				setBackground(new Color(0, 0, 0, 190));
 			}
 		};
@@ -51,7 +51,8 @@ public class CantConnectUI {
 		lblDetail.setBounds(6, 217, 1268, 63);
 		cantConnectPane.add(lblDetail);
 
-		lblDetail2 = new JLabel("Please check your internet connection or contact game master.");
+		lblDetail2 = new JLabel(
+				"Please check your internet connection or contact game master.");
 		lblDetail2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDetail2.setFont(new Font("Courier New", Font.PLAIN, 25));
 		lblDetail2.setForeground(Color.WHITE);
@@ -72,7 +73,8 @@ public class CantConnectUI {
 		});
 		cantConnectPane.add(btnOK);
 
-		ImageIcon gifImage = new ImageIcon(new ImageIcon(this.getClass().getResource("/res/dinosaur.gif")).getImage()
+		ImageIcon gifImage = new ImageIcon(new ImageIcon(this.getClass()
+				.getResource("/res/dinosaur.gif")).getImage()
 				.getScaledInstance(120, 120, java.awt.Image.SCALE_DEFAULT));
 		lblgif = new JLabel(gifImage);
 		lblgif.setBounds(874, 141, 120, 120);

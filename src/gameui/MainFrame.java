@@ -34,7 +34,9 @@ public class MainFrame {
 	}
 
 	public static void showConnectionErrorUI() {
+		Controller.getInstance().setIsJoinServer(false);
 		frame.getGlassPane().setVisible(true);
+		frame.repaint();
 	}
 
 	/**
@@ -55,7 +57,7 @@ public class MainFrame {
 	 */
 	public MainFrame() {
 		Controller ctrl = Controller.getInstance();
-		ctrl.setClient(new Client("", 3001));
+		ctrl.setClient(new Client("", 3007));
 		initialize();
 	}
 

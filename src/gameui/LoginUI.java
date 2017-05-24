@@ -46,6 +46,7 @@ public class LoginUI extends AbstractFont {
 		initialize();
 		dbConnect = DatabaseConnect.getInstance();
 		currentUser = null;
+		getDetailUser = null;
 	}
 
 	/**
@@ -128,7 +129,7 @@ public class LoginUI extends AbstractFont {
 		btnPractice.setBounds(275, 327, 205, 66);
 		btnPractice.addActionListener((e) -> {
 			GameUI ui = new GameUI();
-			ui.setGame(new TypingThrower(new Player("You", 1000, 10),
+			ui.setGame(new TypingThrower(new Player("You", 1000, 900),
 					new Player("CPU", 1000, 10)));
 			ui.initComponent();
 			ui.offlineGame();
@@ -231,13 +232,10 @@ public class LoginUI extends AbstractFont {
 		if (getDetailUser == null)
 			getDetailUser = dbConnect.pullAllUserdata();
 
-		if (getDetailUser == null) {
-			getDetailUser = dbConnect.pullAllUserdata();
-		}
-
 		if (getDetailUser != null) {
 
 			try {
+				Controller.getInstance().setIsJoinServer(false);
 				Controller.getInstance().joinServer();
 				String username = userField.getText();
 				String password = new String(passwordField.getPassword());
@@ -247,10 +245,9 @@ public class LoginUI extends AbstractFont {
 							&& password.equals(user.getPassword())) {
 						lblStatus.setForeground(new Color(17, 178, 19));
 						lblStatus.setText("Login successed");
-						System.err.println("Login successed");
+						// System.err.println("Login successed");
 						success = true;
 						currentUser = user;
-						MainFrame.setFrame(new HomeUI().getHomePanel());
 						Controller.getInstance().login();
 						return;
 					}
@@ -274,7 +271,7 @@ public class LoginUI extends AbstractFont {
 				passwordField.setFocusable(false);
 				btnLogin.setEnabled(false);
 				btnSignUp.setEnabled(false);
-				System.out.println("<<<<");
+				// System.out.println("<<<<");
 				MainFrame.showConnectionErrorUI();
 			}
 		}
