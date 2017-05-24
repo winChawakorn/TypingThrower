@@ -1,12 +1,7 @@
 package gameui;
 
 import javax.swing.*;
-
-import stopwatch.Main;
-
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * This class create panel which show when application can't connect to the

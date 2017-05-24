@@ -99,7 +99,6 @@ public class MainFrame {
 
 		// set the first page
 		 setFrame(new LoginUI().getLoginPanel());
-//		setFrame(SameUserErrorUI.getSameUserErrorPane());
 	}
 
 }
