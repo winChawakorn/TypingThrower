@@ -189,7 +189,9 @@ public class LoginUI extends AbstractFont {
 		// userField.setFocusable(false);
 		// passwordField.setFocusable(false);
 		// btnSignUp.setEnabled(false);
-
+		if(getDetailUser == null)
+			getDetailUser = dbConnect.pullAllUserdata();
+		
 		if (getDetailUser != null) {
 
 			// try {
@@ -231,8 +233,7 @@ public class LoginUI extends AbstractFont {
 			// System.out.println("<<<<");
 			// MainFrame.addConnectionErrorUI(CantConnectUI.getCantConnectPane());
 			// }
-		} else
-			getDetailUser = dbConnect.pullAllUserdata();
+		} 
 	}
 
 	public JPanel getLoginPanel() {

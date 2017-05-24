@@ -26,21 +26,6 @@ public class CantConnectUI {
 	private JButton btnOK;
 	private JLabel lblgif;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CantConnectUI window = new CantConnectUI();
-//					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.
@@ -61,7 +46,7 @@ public class CantConnectUI {
 		cantConnectPane = new JPanel() {
 			{
 				add(new JLabel());
-				setBackground(new Color(0, 0, 0, 200));
+				setBackground(new Color(0, 0, 0, 150));
 			}
 		};
 		cantConnectPane.setBounds(0, 0, 1280, 768);
