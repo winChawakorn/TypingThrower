@@ -9,11 +9,13 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
 import connection.Controller;
+import javax.swing.JButton;
 
 public class WaitingUI {
 
 	private JTextArea message;
 	private JPanel panel;
+	private JButton btnCancel;
 
 	/**
 	 * Create the application.
@@ -45,6 +47,12 @@ public class WaitingUI {
 		pic1.setLocation(message.getX(), message.getY() + message.getHeight());
 		panel.add(message);
 		panel.add(pic1);
+
+		btnCancel = new JButton("Cancel");
+		btnCancel.setBounds(panel.getWidth() / 2,
+				panel.getHeight() - (panel.getHeight() / 3),
+				panel.getWidth() / 8, panel.getHeight() / 8);
+		panel.add(btnCancel);
 		Controller.getInstance().findGame();
 	}
 

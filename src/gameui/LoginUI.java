@@ -1,5 +1,8 @@
 package gameui;
 
+import game.Player;
+import game.TypingThrower;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -20,7 +23,7 @@ import java.awt.*;
  * Login interface is the first page that user will see. User can choose to
  * login (can play online) or practice (play with bot without score recording).
  * 
- * @author vittunyutamaeprasart
+ * @author Vittunyuta Maeprasart
  *
  */
 public class LoginUI extends AbstractFont {
@@ -124,14 +127,13 @@ public class LoginUI extends AbstractFont {
 		btnPractice.setBackground(new Color(244, 151, 29));
 		btnPractice.setBounds(275, 327, 205, 66);
 		btnPractice.addActionListener((e) -> {
-			// GameUI ui = new GameUI();
-			// ui.setGame(new TypingThrower(new
-			// Player(LoginUI.getCurrentUser().getCharacterName(), 1000, 20),
-			// new Player("CPU", 1000, 20)));
-			// ui.initComponent();
-			// ui.offlineGame();
-			// MainFrame.setFrame(ui.getGamePanel());
-			});
+			GameUI ui = new GameUI();
+			ui.setGame(new TypingThrower(new Player("You", 1000, 10),
+					new Player("CPU", 1000, 10)));
+			ui.initComponent();
+			ui.offlineGame();
+			MainFrame.setFrame(ui.getGamePanel());
+		});
 		panel.add(btnPractice);
 
 		btnSignUp = new JButton("Sign Up");
