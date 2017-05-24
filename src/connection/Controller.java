@@ -161,6 +161,7 @@ public class Controller {
 		try {
 			c.sendToServer(p1User);
 		} catch (IOException e) {
+			System.out.println(">>");
 			MainFrame.showConnectionErrorUI();
 		}
 	}

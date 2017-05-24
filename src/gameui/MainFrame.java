@@ -98,8 +98,8 @@ public class MainFrame {
 		frame.getContentPane().setLayout(null);
 
 		// set the first page
-		// setFrame(new LoginUI().getLoginPanel());
-		setFrame(SameUserErrorUI.getSameUserErrorPane());
+		 setFrame(new LoginUI().getLoginPanel());
+//		setFrame(SameUserErrorUI.getSameUserErrorPane());
 	}
 
 }
