@@ -167,10 +167,10 @@ public class HomeUI extends AbstractFont {
 		lblScoreName.setLocation(0, 15);
 		lblScoreName.setHorizontalAlignment(SwingConstants.CENTER);
 		lblScoreName.setSize(324, 70);
-		lblScoreName.setFont(getFont("ProFont for Powerline.ttf").deriveFont(Font.PLAIN, 60));
+		lblScoreName.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.PLAIN, 60));
 		lblScore.add(lblScoreName);
 
-		Font detailFont = getFont("ProFont for Powerline.ttf").deriveFont(Font.BOLD, 40);
+		Font detailFont = getFont("ProFont For Powerline.ttf").deriveFont(Font.BOLD, 40);
 
 		lblWPM = new JLabel("WPM: ");
 		lblWPM.setHorizontalAlignment(SwingConstants.RIGHT);
