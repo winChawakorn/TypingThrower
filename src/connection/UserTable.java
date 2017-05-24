@@ -53,7 +53,7 @@ public class UserTable implements Serializable {
 		this.Username = name;
 		this.Password = password;
 		this.CharacterName = characterName;
-		this.HP = 1000;
+		this.HP = 1500;
 		this.ATK = 10;
 		this.Money = 0;
 		this.WinRound = 0;
