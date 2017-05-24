@@ -28,6 +28,7 @@ import javax.swing.SwingConstants;
 
 import stopwatch.Stopwatch;
 import connection.Controller;
+import connection.DatabaseConnect;
 import connection.UserTable;
 
 public class GameUI {
@@ -51,6 +52,7 @@ public class GameUI {
 	private JLabel p2wpm;
 	private JPanel resultPane;
 	private Stopwatch watch;
+	private boolean isShowResult = false;
 	private final int WIDTH = 1280;
 	private final int HEIGHT = 768;
 	private Controller ctrl = Controller.getInstance();
@@ -69,6 +71,7 @@ public class GameUI {
 	 * Initialize the contents of the frame.
 	 */
 	public void initComponent() {
+		isShowResult = false;
 		pane = new JPanel();
 		pane.setBounds(WIDTH / 2, HEIGHT / 2, WIDTH, HEIGHT);
 		pane.setLayout(new BoxLayout(pane, BoxLayout.X_AXIS));
@@ -443,87 +446,95 @@ public class GameUI {
 	}
 
 	public void showGameResult() {
-		word.setVisible(false);
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
-			@Override
-			public void run() {
-				resultPane.setLayout(new BorderLayout());
-				resultPane.setBackground(new Color(0, 0, 0, 120));
-				resultPane.setSize(new Dimension(
-						(int) (playing.getWidth() / 1.6), (int) (playing
-								.getHeight() / 1.6)));
-				resultPane.setLocation(playing.getWidth() / 5,
-						playing.getHeight() / 5);
-				Font font = new Font(Font.MONOSPACED, Font.BOLD, 60);
+		if (!isShowResult) {
+			isShowResult = true;
+			word.setVisible(false);
+			Timer timer = new Timer();
+			timer.schedule(new TimerTask() {
+				@Override
+				public void run() {
+					resultPane.setLayout(new BorderLayout());
+					resultPane.setBackground(new Color(0, 0, 0, 120));
+					resultPane.setSize(new Dimension(
+							(int) (playing.getWidth() / 1.6), (int) (playing
+									.getHeight() / 1.6)));
+					resultPane.setLocation(playing.getWidth() / 5,
+							playing.getHeight() / 5);
+					Font font = new Font(Font.MONOSPACED, Font.BOLD, 60);
 
-				JButton btnOK = new JButton("OK");
-				btnOK.setBackground(new Color(135, 245, 255));
-				btnOK.setFont(font);
-				btnOK.setSize(resultPane.getWidth() / 4,
-						resultPane.getHeight() / 6);
-				btnOK.addActionListener((e) -> {
-					if (ctrl.getUser() == null)
-						MainFrame.setFrame(new LoginUI().getLoginPanel());
-					else {
-						ctrl.endGame();
-						MainFrame.setFrame(new HomeUI().getHomePanel());
-					}
-				});
-				resultPane.add(btnOK, BorderLayout.SOUTH);
-
-				JLabel winOrLose = new JLabel("", SwingConstants.CENTER);
-				winOrLose.setForeground(Color.YELLOW);
-				winOrLose.setFont(font);
-				resultPane.add(winOrLose, BorderLayout.NORTH);
-				JTextArea detail = new JTextArea();
-				detail.setOpaque(false);
-				detail.setEditable(false);
-				detail.setPreferredSize(resultPane.getSize());
-				detail.setForeground(Color.WHITE);
-				detail.setFont(new Font(Font.MONOSPACED, Font.BOLD, 40));
-				detail.append("\n");
-				JLabel space = new JLabel("    ");
-				space.setFont(font);
-				JLabel space2 = new JLabel("    ");
-				space2.setFont(font);
-				resultPane.add(space, BorderLayout.WEST);
-				resultPane.add(space2, BorderLayout.EAST);
-				resultPane.add(detail, BorderLayout.CENTER);
-				UserTable user = ctrl.getUser();
-				detail.append(p1wpm.getText());
-				detail.append(String.format("\nTime : %.2f seconds",
-						watch.getElapsed()));
-				if (ctrl.getPlayer().equals("")) {
-					if (game.isP2Lose())
-						winOrLose.setText("YOU WIN");
-					else
-						winOrLose.setText("YOU LOSE");
-					if (ctrl.getUser() == null)
-						detail.append("\nPlease login to \nrecord your score");
-
-				} else {
-					if (ctrl.getPlayer().equals("2")) {
-						if (game.isP1Lose()) {
-							user.setWinRound(user.getWinRound() + 1);
-							winOrLose.setText("YOU WIN");
-						} else {
-							user.setLoseRound(user.getLoseRound() + 1);
-							winOrLose.setText("YOU LOSE");
+					JButton btnOK = new JButton("OK");
+					btnOK.setBackground(new Color(135, 245, 255));
+					btnOK.setFont(font);
+					btnOK.setSize(resultPane.getWidth() / 4,
+							resultPane.getHeight() / 6);
+					btnOK.addActionListener((e) -> {
+						if (ctrl.getUser() == null)
+							MainFrame.setFrame(new LoginUI().getLoginPanel());
+						else {
+							ctrl.endGame();
+							MainFrame.setFrame(new HomeUI().getHomePanel());
 						}
-					} else if (ctrl.getPlayer().equals("1")) {
-						if (game.isP2Lose()) {
-							user.setWinRound(user.getWinRound() + 1);
+					});
+					resultPane.add(btnOK, BorderLayout.SOUTH);
+
+					JLabel winOrLose = new JLabel("", SwingConstants.CENTER);
+					winOrLose.setForeground(Color.YELLOW);
+					winOrLose.setFont(font);
+					resultPane.add(winOrLose, BorderLayout.NORTH);
+					JTextArea detail = new JTextArea();
+					detail.setOpaque(false);
+					detail.setEditable(false);
+					detail.setPreferredSize(resultPane.getSize());
+					detail.setForeground(Color.WHITE);
+					detail.setFont(new Font(Font.MONOSPACED, Font.BOLD, 40));
+					detail.append("\n");
+					JLabel space = new JLabel("    ");
+					space.setFont(font);
+					JLabel space2 = new JLabel("    ");
+					space2.setFont(font);
+					resultPane.add(space, BorderLayout.WEST);
+					resultPane.add(space2, BorderLayout.EAST);
+					resultPane.add(detail, BorderLayout.CENTER);
+					UserTable user = ctrl.getUser();
+					detail.append(p1wpm.getText());
+					detail.append(String.format("\nTime : %.2f seconds",
+							watch.getElapsed()));
+					if (ctrl.getPlayer().equals("")) {
+						if (game.isP2Lose())
 							winOrLose.setText("YOU WIN");
-						} else {
-							user.setLoseRound(user.getLoseRound() + 1);
+						else
 							winOrLose.setText("YOU LOSE");
+						if (user == null)
+							detail.append("\nPlease login to \nrecord your score");
+						else {
+							user.setTotalWPM(wpm + user.getTotalWPM());
+							DatabaseConnect.getInstance().updateUserData(user);
 						}
+					} else {
+						if (ctrl.getPlayer().equals("2")) {
+							if (game.isP1Lose()) {
+								user.setWinRound(user.getWinRound() + 1);
+								winOrLose.setText("YOU WIN");
+							} else {
+								user.setLoseRound(user.getLoseRound() + 1);
+								winOrLose.setText("YOU LOSE");
+							}
+						} else if (ctrl.getPlayer().equals("1")) {
+							if (game.isP2Lose()) {
+								user.setWinRound(user.getWinRound() + 1);
+								winOrLose.setText("YOU WIN");
+							} else {
+								user.setLoseRound(user.getLoseRound() + 1);
+								winOrLose.setText("YOU LOSE");
+							}
+						}
+						user.setTotalWPM(wpm + user.getTotalWPM());
+						DatabaseConnect.getInstance().updateUserData(user);
 					}
+					resultPane.setVisible(true);
+					playing.repaint();
 				}
-				resultPane.setVisible(true);
-				playing.repaint();
-			}
-		}, 1500);
+			}, 1500);
+		}
 	}
 }

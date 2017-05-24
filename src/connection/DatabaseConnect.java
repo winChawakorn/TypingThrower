@@ -72,6 +72,7 @@ public class DatabaseConnect {
 		try {
 			getDetailUser = userDao.queryForAll();
 		} catch (SQLException e) {
+			System.out.println("pull data error");
 			MainFrame.showConnectionErrorUI();
 		}
 		return getDetailUser;
@@ -90,6 +91,7 @@ public class DatabaseConnect {
 		try {
 			userTable = userDao.queryForId(id);
 		} catch (SQLException e) {
+			System.out.println("User exist error");
 			MainFrame.showConnectionErrorUI();
 		}
 		return userTable != null;
@@ -105,19 +107,23 @@ public class DatabaseConnect {
 		try {
 			userDao.createIfNotExists(userToAdd);
 		} catch (SQLException e) {
+			System.out.println("create user error");
 			MainFrame.showConnectionErrorUI();
 		}
 	}
 
 	/**
 	 * update this user data on the database
+	 * 
 	 * @param user
 	 */
 	public void updateUserData(UserTable user) {
 		try {
-			user.setWPM(user.getTotalWPM() / (user.getWinRound() + user.getLoseRound()));
+			user.setWPM(user.getTotalWPM()
+					/ (user.getWinRound() + user.getLoseRound()));
 			userDao.update(user);
 		} catch (SQLException e) {
+			System.out.println("update user error");
 			MainFrame.showConnectionErrorUI();
 		}
 	}

@@ -37,7 +37,7 @@ public class HomeUI extends AbstractFont {
 	 */
 	public HomeUI() {
 		currentUser = LoginUI.getCurrentUser();
-		DatabaseConnect.getInstance().updateUserData(currentUser);
+		// DatabaseConnect.getInstance().updateUserData(currentUser);
 		initialize();
 	}
 
@@ -153,14 +153,15 @@ public class HomeUI extends AbstractFont {
 			System.exit(0);
 		});
 		homePanel.add(btnQuit);
-		
-		ImageIcon avatarPic = new ImageIcon(this.getClass().getResource("/res/ninja1.png"));
+
+		ImageIcon avatarPic = new ImageIcon(this.getClass().getResource(
+				"/res/ninja1.png"));
 		lblCharacter = new JLabel(avatarPic);
 		lblCharacter.setBounds(593, 340, avatarPic.getIconWidth(),
 				avatarPic.getIconHeight());
 		homePanel.add(lblCharacter);
-		
-		lblScore = new JPanel() ;
+
+		lblScore = new JPanel();
 		lblScore.setBackground(new Color(255, 255, 255, 120));
 		lblScore.setBounds(936, 25, 324, 454);
 		lblScore.setLayout(null);
