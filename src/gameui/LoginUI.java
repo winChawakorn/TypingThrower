@@ -240,6 +240,7 @@ public class LoginUI extends AbstractFont {
 				passwordField.setFocusable(false);
 				btnLogin.setEnabled(false);
 				btnSignUp.setEnabled(false);
+				System.out.println("Can't connect to server while logging in");
 				MainFrame.showConnectionErrorUI();
 			}
 		}

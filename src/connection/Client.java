@@ -13,10 +13,12 @@ public class Client extends AbstractClient {
 		Controller ctrl = Controller.getInstance();
 		if (msg instanceof String) {
 			String message = (String) msg;
-			if (message.equals("cant login")) {
-
-			} else if (message.equals("login success")) {
+			if (message.equals("login success")) {
+				System.out.println("Success");
 				ctrl.loginSuccess();
+			}
+			if (message.equals("cant login")) {
+				ctrl.loginError();
 			}
 			if (message.equals("Cancel")) {
 				ctrl.CancelfindGame();

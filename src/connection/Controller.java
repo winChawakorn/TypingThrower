@@ -62,6 +62,7 @@ public class Controller {
 		try {
 			c.sendToServer("find room");
 		} catch (IOException e) {
+			System.out.println("find room error");
 			MainFrame.showConnectionErrorUI();
 		}
 	}
@@ -90,12 +91,6 @@ public class Controller {
 			this.game = new TypingThrower(p1, p2);
 		else if (player.equals("2"))
 			this.game = new TypingThrower(p2, p1);
-
-		// for testing without Database
-		// this.game = new TypingThrower(new Player("Aom", 1000, 20), new
-		// Player(
-		// "Win", 1000, 20));
-
 		ui.setGame(this.game);
 	}
 
@@ -103,6 +98,7 @@ public class Controller {
 		try {
 			c.sendToServer(String.format("wpm %.2f", value));
 		} catch (IOException e) {
+			System.out.println("sent wpm error");
 			MainFrame.showConnectionErrorUI();
 		}
 	}
@@ -125,6 +121,7 @@ public class Controller {
 		try {
 			c.sendToServer("attack");
 		} catch (IOException e) {
+			System.out.println("attack error");
 			MainFrame.showConnectionErrorUI();
 		}
 	}
@@ -137,7 +134,6 @@ public class Controller {
 	}
 
 	public void attackUI() {
-		// System.out.println("u r p" + player);
 		if (player.equals("1"))
 			ui.p1Attack();
 		else if (player.equals("2"))
@@ -148,12 +144,14 @@ public class Controller {
 		try {
 			c.sendToServer("finish");
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("end game error");
+			MainFrame.showConnectionErrorUI();
 		}
 		game = null;
 		p1 = null;
 		p2 = null;
 		player = "";
+		p2User = null;
 	}
 
 	public void login() {
@@ -161,6 +159,7 @@ public class Controller {
 		try {
 			c.sendToServer(p1User);
 		} catch (IOException e) {
+			System.out.println("login error");
 			MainFrame.showConnectionErrorUI();
 		}
 	}
@@ -171,6 +170,7 @@ public class Controller {
 		try {
 			c.sendToServer("logout");
 		} catch (IOException e) {
+			System.out.println("logout error");
 			MainFrame.showConnectionErrorUI();
 		}
 	}
@@ -184,15 +184,18 @@ public class Controller {
 		try {
 			c.sendToServer("Cancel");
 		} catch (IOException e) {
+			System.out.println("cancel error");
 			MainFrame.showConnectionErrorUI();
 		}
 	}
 
 	public void loginSuccess() {
+		System.out.println("akslfnalnf");
 		MainFrame.setFrame(new HomeUI().getHomePanel());
 	}
 
 	public void loginError() {
-
+		System.out.println("login error");
+		MainFrame.showSameUserErrorUI();
 	}
 }
