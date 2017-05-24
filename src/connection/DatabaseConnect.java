@@ -7,6 +7,7 @@ import java.util.List;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
+import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 
 import gameui.MainFrame;
@@ -26,6 +27,7 @@ public class DatabaseConnect {
 	private final static String URL = "jdbc:mysql://104.198.173.104:3306/names";
 	private Dao<UserTable, String> userDao;
 	private List<UserTable> getDetailUser;
+	private UpdateBuilder<UserTable, String> updateBuilder;
 
 	/**
 	 * set start connection source to be null
@@ -34,9 +36,11 @@ public class DatabaseConnect {
 		try {
 			connectionSource = new JdbcConnectionSource(URL, USERNAME, PASSWORD);
 			userDao = DaoManager.createDao(connectionSource, UserTable.class);
+			updateBuilder = userDao.updateBuilder();
 			// TableUtils.createTableIfNotExists(connectionSource,
 			// UserTable.class);
 		} catch (SQLException e) {
+			System.out.println("error");
 			e.printStackTrace();
 		}
 	}
@@ -115,9 +119,24 @@ public class DatabaseConnect {
 	 */
 	public void updateUserData(UserTable user) {
 		try {
-			user.setWPM(user.getTotalWPM() / (user.getWinRound() + user.getLoseRound()));
-			userDao.update(user);
+			double win = user.getWinRound();
+			double lose = user.getLoseRound();
+			double totalwpm = user.getTotalWPM();
+			double wpm = 0;
+			if(win+lose != 0)
+				wpm = totalwpm / (win+lose);
+			
+			// find target row
+			updateBuilder.where().eq("Username", user.getUsername());
+			// update values
+			updateBuilder.updateColumnValue("WinRound", win);
+			updateBuilder.updateColumnValue("LoseRound", lose);
+			updateBuilder.updateColumnValue("WPM", wpm);
+			updateBuilder.updateColumnValue("TotalWPM", totalwpm);
+			updateBuilder.update();
 		} catch (SQLException e) {
+			System.out.println("55555");
+			System.out.println(e.getMessage());
 			MainFrame.showConnectionErrorUI();
 		}
 	}
