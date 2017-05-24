@@ -15,9 +15,9 @@ import java.awt.event.ActionListener;
  * @author Vittunyuta Maeprasart
  *
  */
-public class CantConnectUI {
+public class SameUserErrorUI {
 
-	private static JPanel cantConnectPane;
+	private static JPanel sameUserErrorPane;
 	private JLabel lblDetail, lblDetail2;
 	private JButton btnOK;
 	private JLabel lblgif;
@@ -25,7 +25,7 @@ public class CantConnectUI {
 	/**
 	 * Create the application.
 	 */
-	public CantConnectUI() {
+	public SameUserErrorUI() {
 		initialize();
 	}
 
@@ -34,41 +34,41 @@ public class CantConnectUI {
 	 */
 	private void initialize() {
 
-		cantConnectPane = new JPanel();
-		cantConnectPane.setBackground(new Color(0, 0, 0, 190));
-		cantConnectPane.setBounds(0, 0, 1280, 768);
-		cantConnectPane.setLayout(null);
-		cantConnectPane.addKeyListener(new EnterAndTypeLimitKeyAdapter(this));
+		sameUserErrorPane = new JPanel();
+		sameUserErrorPane.setBackground(new Color(0, 0, 0, 190));
+		sameUserErrorPane.setBounds(0, 0, 1280, 768);
+		sameUserErrorPane.setLayout(null);
+		sameUserErrorPane.addKeyListener(new EnterAndTypeLimitKeyAdapter(this));
 
-		lblDetail = new JLabel("Can't connect to the server.");
+		lblDetail = new JLabel("Can't Login.");
 		lblDetail.setForeground(Color.WHITE);
 		lblDetail.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDetail.setFont(new Font("Courier New", Font.PLAIN, 25));
-		lblDetail.setBounds(6, 217, 1268, 63);
-		cantConnectPane.add(lblDetail);
+		lblDetail.setBounds(16, 277, 1268, 63);
+		sameUserErrorPane.add(lblDetail);
 
-		lblDetail2 = new JLabel("Please check your internet connection or contact game master.");
+		lblDetail2 = new JLabel("This account is already login. Please try again later.");
 		lblDetail2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDetail2.setFont(new Font("Courier New", Font.PLAIN, 25));
 		lblDetail2.setForeground(Color.WHITE);
-		lblDetail2.setBounds(6, 292, 1268, 63);
-		cantConnectPane.add(lblDetail2);
+		lblDetail2.setBounds(16, 352, 1268, 63);
+		sameUserErrorPane.add(lblDetail2);
 
 		btnOK = new JButton("OK");
 		btnOK.setForeground(Color.BLUE);
 		btnOK.setFont(new Font("Courier New", Font.PLAIN, 30));
 		btnOK.setBounds(556, 469, 168, 51);
 		btnOK.addActionListener((e) -> {
-				closeCantConnectPane();
+				closeSameUserErrorPane();
 		});
 		btnOK.addKeyListener(new EnterAndTypeLimitKeyAdapter(this));
-		cantConnectPane.add(btnOK);
+		sameUserErrorPane.add(btnOK);
 
-		ImageIcon gifImage = new ImageIcon(new ImageIcon(this.getClass().getResource("/res/dinosaur.gif")).getImage()
-				.getScaledInstance(120, 120, java.awt.Image.SCALE_DEFAULT));
+		ImageIcon gifImage = new ImageIcon(new ImageIcon(this.getClass().getResource("/res/sorry.gif-c200")).getImage()
+				.getScaledInstance(200, 200, java.awt.Image.SCALE_DEFAULT));
 		lblgif = new JLabel(gifImage);
-		lblgif.setBounds(874, 141, 120, 120);
-		cantConnectPane.add(lblgif);
+		lblgif.setBounds(535, 40, 200, 200);
+		sameUserErrorPane.add(lblgif);
 	}
 
 	/**
@@ -76,17 +76,17 @@ public class CantConnectUI {
 	 * 
 	 * @return can't connect to sever panel
 	 */
-	public static JPanel getCantConnectPane() {
-		if (cantConnectPane == null)
-			new CantConnectUI();
-		return cantConnectPane;
+	public static JPanel getSameUserErrorPane() {
+		if (sameUserErrorPane == null)
+			new SameUserErrorUI();
+		return sameUserErrorPane;
 	}
 	
 	/**
 	 * close panel of can't connect to server and change to Login interface
 	 */
-	public void closeCantConnectPane() {
-		cantConnectPane.setVisible(false);
+	public void closeSameUserErrorPane() {
+		sameUserErrorPane.setVisible(false);
 		MainFrame.setFrame(new LoginUI().getLoginPanel());
 	}
 }

@@ -19,7 +19,7 @@ import connection.UserTable;
  * provide user to choose play online, offline, logout(login again), or quit to
  * game. And show user score on right-top corner of the window.
  * 
- * @author vittunyutamaeprasart
+ * @author Vittunyuta Maeprasart
  *
  */
 public class HomeUI extends AbstractFont {

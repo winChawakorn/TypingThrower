@@ -23,7 +23,6 @@ public class MainFrame {
 	private int FRAME_WIDTH = 1280;
 	private int FRAME_HEIGHT = 768;
 	private static JFrame frame;
-	private static JPanel connectionErrorPane;
 	
 	/**
 	 * set frame to show a given panel.
@@ -39,7 +38,19 @@ public class MainFrame {
 		newPane.requestFocusInWindow();
 	}
 
+	/**
+	 * set frame to show same user login error panel
+	 */
+	public static void showSameUserErrorUI() {
+		frame.setGlassPane(SameUserErrorUI.getSameUserErrorPane());
+		frame.getGlassPane().setVisible(true);
+	}
+	
+	/**
+	 * set frame to show can't connect to server or database error panel
+	 */
 	public static void showConnectionErrorUI() {
+		frame.setGlassPane(CantConnectUI.getCantConnectPane());
 		frame.getGlassPane().setVisible(true);
 	}
 
@@ -82,12 +93,9 @@ public class MainFrame {
 		frame.setResizable(false);
 		frame.getContentPane().setLayout(null);
 
-		// set glass pane
-		connectionErrorPane = CantConnectUI.getCantConnectPane();
-		frame.setGlassPane(connectionErrorPane);
-
 		// set the first page
-		setFrame(new LoginUI().getLoginPanel());
+//		setFrame(new LoginUI().getLoginPanel());
+		setFrame(SameUserErrorUI.getSameUserErrorPane());
 	}
 
 }

@@ -9,7 +9,7 @@ import javax.swing.JTextField;
  * Provide pressing enter to login and limit number of character when typing
  * on the text field
  * 
- * @author vittunyutamaeprasart
+ * @author Vittunyuta Maeprasart
  *
  */
 public class EnterAndTypeLimitKeyAdapter extends KeyAdapter{
