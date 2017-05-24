@@ -38,7 +38,6 @@ public class GameUI {
 	private JLabel p2;
 	private JLabel p1Name;
 	private JLabel p2Name;
-	// private JPanel menu;
 	private int typeCount;
 	private int botAttackCount = 0;
 	private double wpm;
@@ -250,7 +249,7 @@ public class GameUI {
 	}
 
 	public void p1Attack() {
-		if (!(game.isP2Lose() || game.isP1Lose())) {
+		if (!(game.isEnd())) {
 			game.P1Attack();
 			ImageIcon weaponPic = new ImageIcon(this.getClass().getResource(
 					"/res/Kunai.png"));
@@ -339,7 +338,7 @@ public class GameUI {
 	}
 
 	public void p2Attack() {
-		if (!(game.isP2Lose() || game.isP1Lose())) {
+		if (!(game.isEnd())) {
 			game.P2Attack();
 			ImageIcon weaponPic = new ImageIcon(this.getClass().getResource(
 					"/res/fire.png"));
@@ -428,10 +427,6 @@ public class GameUI {
 
 	public void cantConnectToServer() {
 		// Can't connect to server. Please try again or contact game master
-	}
-
-	public void waiting() {
-		// Please wait message
 	}
 
 	public void setGame(TypingThrower game) {

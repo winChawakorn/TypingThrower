@@ -122,8 +122,8 @@ public class UserTable implements Serializable {
 		return WPM;
 	}
 
-	public void setWPM(double wPM) {
-		WPM = wPM;
+	public void setWPM(double WPM) {
+		this.WPM = WPM;
 	}
 
 }

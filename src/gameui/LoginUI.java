@@ -39,6 +39,7 @@ public class LoginUI extends AbstractFont {
 	private DatabaseConnect dbConnect;
 	private JButton btnPractice;
 
+
 	/**
 	 * Create the application.
 	 */

@@ -1,5 +1,6 @@
 package gameui;
 
+import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.Icon;
@@ -9,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
 import connection.Controller;
+
 import javax.swing.JButton;
 
 public class WaitingUI {
@@ -29,6 +31,7 @@ public class WaitingUI {
 	 */
 	private void initialize() {
 		panel = new JPanel();
+		panel.setBackground(new Color(255, 251, 175));
 		panel.setSize(1280, 768);
 		panel.setLocation(0, 0);
 		panel.setLayout(null);
@@ -49,9 +52,14 @@ public class WaitingUI {
 		panel.add(pic1);
 
 		btnCancel = new JButton("Cancel");
+		btnCancel.setBackground(Color.ORANGE);
+		btnCancel.setFont(new Font(Font.MONOSPACED, Font.BOLD, 50));
 		btnCancel.setBounds(panel.getWidth() / 2,
 				panel.getHeight() - (panel.getHeight() / 3),
-				panel.getWidth() / 8, panel.getHeight() / 8);
+				(int) (panel.getWidth() / 2.5), panel.getHeight() / 8);
+		btnCancel.addActionListener((e) -> {
+			Controller.getInstance().requestForCancel();
+		});
 		panel.add(btnCancel);
 		Controller.getInstance().findGame();
 	}

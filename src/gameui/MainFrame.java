@@ -6,6 +6,9 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.logger.LocalLog;
+
 import connection.Client;
 import connection.Controller;
 
