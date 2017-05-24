@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import connection.Controller;
+import connection.DatabaseConnect;
 import connection.UserTable;
 
 /**
@@ -36,6 +37,7 @@ public class HomeUI extends AbstractFont {
 	 */
 	public HomeUI() {
 		currentUser = LoginUI.getCurrentUser();
+		DatabaseConnect.getInstance().updateUserData(currentUser);
 		initialize();
 	}
 

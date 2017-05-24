@@ -16,6 +16,8 @@ import connection.DatabaseConnect;
 import connection.UserTable;
 
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 /**
  * Login interface is the first page that user will see. User can choose to
@@ -36,6 +38,7 @@ public class LoginUI extends AbstractFont {
 	private static UserTable currentUser;
 	private DatabaseConnect dbConnect;
 	private JButton btnPractice;
+	private JButton btnQuit;
 
 	/**
 	 * Create the application.
@@ -110,19 +113,34 @@ public class LoginUI extends AbstractFont {
 				Font.PLAIN, 40);
 		btnLogin = new JButton("Login");
 		btnLogin.setBounds(296, 227, 161, 66);
-		btnLogin.setBackground(Color.ORANGE);
 		btnLogin.setFont(fontForBtn);
-
-		btnLogin.setBackground(Color.ORANGE);
+		btnLogin.setBackground(new Color(102, 186, 255));
 		btnLogin.addActionListener((e) -> {
 			loginAction();
 		});
 		btnLogin.addKeyListener(new EnterAndTypeLimitKeyAdapter(this));
 		panel.add(btnLogin);
+		
+		btnQuit = new JButton("Quit");
+		btnQuit.setFont(fontForBtn);
+		btnQuit.setBackground(new Color(244, 174, 9));
+		btnQuit.setBounds(529, 227, 127, 66);
+		btnQuit.addActionListener((e) -> {
+			System.exit(0);
+		});
+		btnQuit.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				super.keyPressed(e);
+				if (e.getKeyChar() == KeyEvent.VK_ENTER)
+					System.exit(0);
+			}
+		});
+		panel.add(btnQuit);
 
 		btnPractice = new JButton("Practice");
 		btnPractice.setFont(fontForBtn);
-		btnPractice.setBackground(new Color(244, 151, 29));
+		btnPractice.setBackground(new Color(186, 102, 255));
 		btnPractice.setBounds(275, 327, 205, 66);
 		btnPractice.addActionListener((e) -> {
 			GameUI ui = new GameUI();
@@ -136,10 +154,8 @@ public class LoginUI extends AbstractFont {
 
 		btnSignUp = new JButton("Sign Up");
 		btnSignUp.setBounds(428, 437, 135, 44);
-		btnSignUp.setFont(getFont("ProFont For Powerline.ttf").deriveFont(
-				Font.PLAIN, 25));
-
-		btnSignUp.setBackground(Color.RED);
+		btnSignUp.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.PLAIN, 25));
+		btnSignUp.setBackground(new Color(237, 80, 104));
 		btnSignUp.setBorderPainted(false);
 		btnSignUp.setOpaque(true);
 		btnSignUp.addActionListener((e) -> {
@@ -169,6 +185,7 @@ public class LoginUI extends AbstractFont {
 		lblOr.setFont(new Font("Courier New", Font.BOLD, 20));
 		lblOr.setBounds(6, 295, 738, 28);
 		panel.add(lblOr);
+		
 
 	}
 
@@ -224,7 +241,6 @@ public class LoginUI extends AbstractFont {
 				passwordField.setFocusable(false);
 				btnLogin.setEnabled(false);
 				btnSignUp.setEnabled(false);
-				System.out.println("<<<<");
 				MainFrame.showConnectionErrorUI();
 			}
 		}
@@ -248,5 +264,4 @@ public class LoginUI extends AbstractFont {
 	public static UserTable getCurrentUser() {
 		return currentUser;
 	}
-
 }

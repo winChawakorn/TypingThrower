@@ -8,6 +8,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.TableUtils;
 
 import gameui.MainFrame;
 
@@ -34,6 +35,8 @@ public class DatabaseConnect {
 		try {
 			connectionSource = new JdbcConnectionSource(URL, USERNAME, PASSWORD);
 			userDao = DaoManager.createDao(connectionSource, UserTable.class);
+			// TableUtils.createTableIfNotExists(connectionSource,
+			// UserTable.class);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -70,37 +73,52 @@ public class DatabaseConnect {
 		try {
 			getDetailUser = userDao.queryForAll();
 		} catch (SQLException e) {
-			System.out.println("<");
 			MainFrame.showConnectionErrorUI();
 		}
 		return getDetailUser;
 	}
-	
+
 	/**
 	 * Checking an input user account is already exist, or not.
-	 * @param id is id of account (id is username)
-	 * @return true if the input user account is already exist, otherwise return false.
+	 * 
+	 * @param id
+	 *            is id of account (id is username)
+	 * @return true if the input user account is already exist, otherwise return
+	 *         false.
 	 */
 	public boolean isUserExist(String id) {
 		UserTable userTable = null;
 		try {
 			userTable = userDao.queryForId(id);
 		} catch (SQLException e) {
-			System.out.println("<<");
 			MainFrame.showConnectionErrorUI();
 		}
 		return userTable != null;
 	}
-	
+
 	/**
-	 * Creating input account in the database. 
-	 * @param userToAdd is new account to create in the database.
+	 * Creating input account in the database.
+	 * 
+	 * @param userToAdd
+	 *            is new account to create in the database.
 	 */
-	public void createUser(UserTable userToAdd){
+	public void createUser(UserTable userToAdd) {
 		try {
 			userDao.createIfNotExists(userToAdd);
 		} catch (SQLException e) {
-			System.out.println("<<<");
+			MainFrame.showConnectionErrorUI();
+		}
+	}
+
+	/**
+	 * update this user data on the database
+	 * @param user
+	 */
+	public void updateUserData(UserTable user) {
+		try {
+			user.setWPM(user.getTotalWPM() / (user.getWinRound() + user.getLoseRound()));
+			userDao.update(user);
+		} catch (SQLException e) {
 			MainFrame.showConnectionErrorUI();
 		}
 	}

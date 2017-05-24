@@ -31,6 +31,8 @@ public class UserTable implements Serializable {
 	private int LoseRound;
 	@DatabaseField
 	private double WPM;
+	@DatabaseField
+	private double TotalWPM;
 
 	/**
 	 * no-arg constructor for ORMLite
@@ -57,6 +59,7 @@ public class UserTable implements Serializable {
 		this.WinRound = 0;
 		this.LoseRound = 0;
 		this.WPM = 0.0;
+		this.TotalWPM = 0.0;
 	}
 
 	// all getter and setter methods of all fields.
@@ -132,4 +135,11 @@ public class UserTable implements Serializable {
 		this.WPM = WPM;
 	}
 
+	public double getTotalWPM() {
+		return TotalWPM;
+	}
+
+	public void setTotalWPM(double totalWPM) {
+		TotalWPM = totalWPM;
+	}
 }
