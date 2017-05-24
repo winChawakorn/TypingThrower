@@ -9,7 +9,6 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 
-import gameui.CantConnectUI;
 import gameui.MainFrame;
 
 /**
@@ -75,6 +74,11 @@ public class DatabaseConnect{
 		return getDetailUser;
 	}
 	
+	/**
+	 * Checking an input user account is already exist, or not.
+	 * @param id is id of account (id is username)
+	 * @return true if the input user account is already exist, otherwise return false.
+	 */
 	public boolean isUserExist(String id) {
 		UserTable userTable = null;
 		try {
@@ -86,6 +90,10 @@ public class DatabaseConnect{
 		return userTable != null;
 	}
 	
+	/**
+	 * Creating input account in the database. 
+	 * @param userToAdd is new account to create in the database.
+	 */
 	public void createUser(UserTable userToAdd){
 		try {
 			userDao.createIfNotExists(userToAdd);

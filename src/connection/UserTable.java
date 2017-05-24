@@ -5,6 +5,11 @@ import java.io.Serializable;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+/**
+ * This class is a table form in the database. This table collect all user detail.
+ * @author Vittunyuta Maeprasart
+ *
+ */
 @DatabaseTable(tableName = "userdata")
 public class UserTable implements Serializable {
 
@@ -54,6 +59,7 @@ public class UserTable implements Serializable {
 		this.WPM = 0.0;
 	}
 
+	// all getter and setter methods of all fields.
 	public String getUsername() {
 		return Username;
 	}

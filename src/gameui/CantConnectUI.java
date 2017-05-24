@@ -18,8 +18,7 @@ import java.awt.event.ActionListener;
 public class CantConnectUI {
 
 	private static JPanel cantConnectPane;
-	private JLabel lblDetail;
-	private JLabel lblDetail2;
+	private JLabel lblDetail, lblDetail2;
 	private JButton btnOK;
 	private JLabel lblgif;
 
@@ -35,14 +34,11 @@ public class CantConnectUI {
 	 */
 	private void initialize() {
 
-		cantConnectPane = new JPanel() {
-			{
-				add(new JLabel());
-				setBackground(new Color(0, 0, 0, 190));
-			}
-		};
+		cantConnectPane = new JPanel();
+		cantConnectPane.setBackground(new Color(0, 0, 0, 190));
 		cantConnectPane.setBounds(0, 0, 1280, 768);
 		cantConnectPane.setLayout(null);
+		cantConnectPane.addKeyListener(new EnterAndTypeLimitKeyAdapter(this));
 
 		lblDetail = new JLabel("Can't connect to the server.");
 		lblDetail.setForeground(Color.WHITE);
@@ -62,14 +58,10 @@ public class CantConnectUI {
 		btnOK.setForeground(Color.BLUE);
 		btnOK.setFont(new Font("Courier New", Font.PLAIN, 30));
 		btnOK.setBounds(556, 469, 168, 51);
-		btnOK.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				cantConnectPane.setVisible(false);
-				MainFrame.setFrame(new LoginUI().getLoginPanel());
-			}
+		btnOK.addActionListener((e) -> {
+				closeCantConnectPane();
 		});
+		btnOK.addKeyListener(new EnterAndTypeLimitKeyAdapter(this));
 		cantConnectPane.add(btnOK);
 
 		ImageIcon gifImage = new ImageIcon(new ImageIcon(this.getClass().getResource("/res/dinosaur.gif")).getImage()
@@ -88,5 +80,13 @@ public class CantConnectUI {
 		if (cantConnectPane == null)
 			new CantConnectUI();
 		return cantConnectPane;
+	}
+	
+	/**
+	 * close panel of can't connect to server and change to Login interface
+	 */
+	public void closeCantConnectPane() {
+		cantConnectPane.setVisible(false);
+		MainFrame.setFrame(new LoginUI().getLoginPanel());
 	}
 }
