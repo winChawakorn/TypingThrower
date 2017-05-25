@@ -29,7 +29,7 @@ import connection.Controller;
 import connection.DatabaseConnect;
 import connection.UserTable;
 
-public class GameUI {
+public class GameUI extends AbstractFont{
 	private final int WIDTH = 1280;
 	private final int HEIGHT = 768;
 
@@ -207,7 +207,7 @@ public class GameUI {
 
 	public void countDown() {
 		JLabel number = new JLabel("3", SwingConstants.CENTER);
-		number.setFont(new Font("Algerian", Font.BOLD, 300));
+		number.setFont(getFont("28 Days Later.ttf").deriveFont(Font.BOLD, 300));
 		number.setSize(playing.getWidth(), playing.getHeight() / 2);
 		number.setLocation((word.getWidth() - number.getWidth()) / 2,
 				((playing.getHeight() - number.getHeight()) / 2));
@@ -226,9 +226,8 @@ public class GameUI {
 						timer.schedule(new TimerTask() {
 							@Override
 							public void run() {
-								number.setText("TYPE!");
-								number.setFont(new Font("Algerian", Font.BOLD,
-										220));
+								number.setText("TYPE");
+								number.setFont(getFont("28 Days Later.ttf").deriveFont(Font.BOLD, 230));
 								timer.schedule(new TimerTask() {
 									@Override
 									public void run() {

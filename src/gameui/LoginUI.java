@@ -88,7 +88,7 @@ public class LoginUI extends AbstractFont {
 		loginPanel.add(label);
 
 		panel = new JPanel();
-		panel.setBackground(new Color(211, 211, 211, 190));
+		panel.setBackground(new Color(255, 255, 255, 190));
 		panel.setBounds(265, 180, 750, 498);
 		panel.setLayout(null);
 		loginPanel.add(panel);

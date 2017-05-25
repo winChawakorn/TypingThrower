@@ -47,7 +47,7 @@ public class SignUpUI extends AbstractFont {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				try {
-					BufferedImage img = ImageIO.read(this.getClass().getResourceAsStream("/res/LoginBackground.jpg"));
+					BufferedImage img = ImageIO.read(this.getClass().getResourceAsStream("/res/LoginBackground2.jpg"));
 					g.drawImage(img, 0, 0, 1280, 768, null);
 
 				} catch (IOException e) {
@@ -57,10 +57,14 @@ public class SignUpUI extends AbstractFont {
 		};
 		signUpPanel.setLayout(null);
 
+		JLabel lblGameName = new JLabel(new ImageIcon(this.getClass().getResource("/res/logo.png")));
+		lblGameName.setBounds(6, 22, 1268, 120);
+		signUpPanel.add(lblGameName);
+		
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
-		panel.setBackground(new Color(211, 211, 211));
-		panel.setBounds(265, 145, 750, 498);
+		panel.setBackground(new Color(255, 255, 255, 190));
+		panel.setBounds(265, 180, 750, 498);
 
 		JLabel lblTitle = new JLabel("Create your own character");
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
@@ -68,18 +72,30 @@ public class SignUpUI extends AbstractFont {
 		lblTitle.setBounds(6, 6, 749, 50);
 		panel.add(lblTitle);
 
+		Font fontForlbl = new Font("Courier New", Font.BOLD, 30);
+		Font fontForfield = getFont("ProFont For Powerline.ttf").deriveFont(Font.PLAIN, 25);
+		
+		lblCharacter = new JLabel("Character name");
+		lblCharacter.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblCharacter.setFont(fontForlbl);
+		lblCharacter.setBounds(56, 115, 275, 44);
+		panel.add(lblCharacter);
+
+		characterField = new JTextField();
+		characterField.setFont(fontForfield);
+		characterField.setColumns(10);
+		characterField.setBounds(343, 110, 300, 50);
+		characterField.addKeyListener(new EnterAndTypeLimitKeyAdapter(characterField, this));
+		panel.add(characterField);
+		
 		lblUsername = new JLabel("Username");
 		lblUsername.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblUsername.setFont(new Font("Courier New", Font.PLAIN, 30));
+		lblUsername.setFont(fontForlbl);
 		lblUsername.setBounds(148, 183, 183, 44);
 		panel.add(lblUsername);
 
 		usernameField = new JTextField();
-		try {
-			usernameField.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.PLAIN, 25));
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
+		usernameField.setFont(fontForfield);
 		usernameField.setColumns(10);
 		usernameField.setBounds(343, 180, 300, 50);
 		usernameField.addKeyListener(new EnterAndTypeLimitKeyAdapter(usernameField, this));
@@ -87,7 +103,7 @@ public class SignUpUI extends AbstractFont {
 
 		lblPass = new JLabel("Password");
 		lblPass.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblPass.setFont(new Font("Courier New", Font.PLAIN, 30));
+		lblPass.setFont(fontForlbl);
 		lblPass.setBounds(176, 247, 155, 57);
 		panel.add(lblPass);
 
@@ -98,7 +114,7 @@ public class SignUpUI extends AbstractFont {
 
 		lblConfirmPass = new JLabel("Confirm password");
 		lblConfirmPass.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblConfirmPass.setFont(new Font("Courier New", Font.PLAIN, 30));
+		lblConfirmPass.setFont(fontForlbl);
 		lblConfirmPass.setBounds(31, 320, 300, 50);
 		panel.add(lblConfirmPass);
 
@@ -112,23 +128,6 @@ public class SignUpUI extends AbstractFont {
 		status.setFont(new Font("Courier New", Font.BOLD, 18));
 		status.setBounds(6, 75, 749, 28);
 		panel.add(status);
-
-		lblCharacter = new JLabel("Character name");
-		lblCharacter.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblCharacter.setFont(new Font("Courier New", Font.PLAIN, 30));
-		lblCharacter.setBounds(56, 115, 275, 44);
-		panel.add(lblCharacter);
-
-		characterField = new JTextField();
-		try {
-			characterField.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.PLAIN, 25));
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-		characterField.setColumns(10);
-		characterField.setBounds(343, 110, 300, 50);
-		characterField.addKeyListener(new EnterAndTypeLimitKeyAdapter(characterField, this));
-		panel.add(characterField);
 
 		signUpPanel.add(panel);
 
@@ -161,13 +160,6 @@ public class SignUpUI extends AbstractFont {
 			}
 		});
 		panel.add(btnCancel);
-
-		JLabel lblGameName = new JLabel("TypingThrower");
-		lblGameName.setHorizontalAlignment(SwingConstants.CENTER);
-		lblGameName.setForeground(new Color(247, 211, 84));
-		lblGameName.setFont(getFont("ProFont For Powerline.ttf").deriveFont(Font.BOLD, 100));
-		lblGameName.setBounds(6, 22, 1268, 96);
-		signUpPanel.add(lblGameName);
 	}
 
 	/**

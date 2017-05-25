@@ -18,7 +18,7 @@ import connection.Controller;
 
 import javax.swing.JButton;
 
-public class WaitingUI {
+public class WaitingUI extends AbstractFont{
 
 	private JTextArea message;
 	private JPanel panel;
@@ -57,7 +57,7 @@ public class WaitingUI {
 		panel.setLayout(null);
 		message = new JTextArea(
 				"Game has been created\nWaiting for other player...");
-		message.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 90));
+		message.setFont(getFont("Berlin Sans FB Bold.ttf").deriveFont(Font.BOLD, 90));
 		message.setLocation(50, panel.getHeight() / 4);
 		message.setSize(panel.getWidth(),
 				(int) (message.getFont().getSize() * 1.25 * 2));
