@@ -497,9 +497,6 @@ public class GameUI {
 					resultPane.add(space, BorderLayout.WEST);
 					resultPane.add(space2, BorderLayout.EAST);
 					resultPane.add(detail, BorderLayout.CENTER);
-					detail.append(p1wpm.getText());
-					detail.append(String.format("\nTime : %.2f seconds",
-							watch.getElapsed()));
 					if (ctrl.getPlayer().equals("")) {
 						if (game.isP2Lose()) {
 							winOrLose.setText("YOU WIN");
@@ -512,6 +509,7 @@ public class GameUI {
 								System.out.println("one");
 							}
 						}
+						detail.append(p1wpm.getText());
 						if (user == null)
 							detail.append("\nPlease login to \nrecord your score");
 						else {
@@ -528,6 +526,7 @@ public class GameUI {
 								user.setLoseRound(user.getLoseRound() + 1);
 								winOrLose.setText("YOU LOSE");
 							}
+							detail.append(p2wpm.getText());
 						} else if (ctrl.getPlayer().equals("1")) {
 							if (game.isP2Lose()) {
 								user.setWinRound(user.getWinRound() + 1);
@@ -537,10 +536,13 @@ public class GameUI {
 								user.setLoseRound(user.getLoseRound() + 1);
 								winOrLose.setText("YOU LOSE");
 							}
+							detail.append(p1wpm.getText());
 						}
 						user.setTotalWPM(wpm + user.getTotalWPM());
 						// DatabaseConnect.getInstance().updateUserData(user);
 					}
+					detail.append(String.format("\nTime : %.2f seconds",
+							watch.getElapsed()));
 					resultPane.setVisible(true);
 					playing.repaint();
 				}
