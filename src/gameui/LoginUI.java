@@ -150,7 +150,7 @@ public class LoginUI extends AbstractFont {
 			ui.setGame(new TypingThrower(new Player("You", 1500, 10),
 					new Player("CPU", 1500, 10)));
 			ui.initComponent();
-			ui.offlineGame();
+			ui.startGame(1);
 			MainFrame.setFrame(ui.getGamePanel());
 		});
 		panel.add(btnPractice);

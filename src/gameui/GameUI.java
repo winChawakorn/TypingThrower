@@ -32,8 +32,9 @@ import connection.DatabaseConnect;
 import connection.UserTable;
 
 public class GameUI {
+	private final int WIDTH = 1280;
+	private final int HEIGHT = 768;
 
-	// private JFrame frame;
 	private JPanel pane;
 	private String currentWord;
 	private TypingThrower game;
@@ -53,8 +54,6 @@ public class GameUI {
 	private JPanel resultPane;
 	private Stopwatch watch;
 	private boolean isShowResult = false;
-	private final int WIDTH = 1280;
-	private final int HEIGHT = 768;
 	private Controller ctrl = Controller.getInstance();
 
 	/**
@@ -143,14 +142,14 @@ public class GameUI {
 
 		p1wpm = new JLabel("WPM : 0.00");
 		p1wpm.setFont(new Font("Trebuchet MS", Font.BOLD, 40));
-		p1wpm.setBounds(pane.getWidth() / 15, 0, pane.getWidth() / 5,
+		p1wpm.setBounds(pane.getWidth() / 15, 0, pane.getWidth() / 4,
 				pane.getHeight() / 5);
 		p2wpm = new JLabel("WPM : 0.00");
 		p2wpm.setFont(new Font("Trebuchet MS", Font.BOLD, 40));
 		p2wpm.setLocation(pane.getWidth(), 0);
 		p2wpm.setBounds(
 				(pane.getWidth() - (pane.getWidth() / 15)) - pane.getWidth()
-						/ 5, 0, pane.getWidth() / 5, pane.getHeight() / 5);
+						/ 5, 0, pane.getWidth() / 4, pane.getHeight() / 5);
 		playing.add(p1wpm);
 		playing.add(p2wpm);
 
@@ -165,56 +164,86 @@ public class GameUI {
 		watch.start();
 	}
 
-	public void onlineGame() {
-		Stopwatch stopwatch = new Stopwatch();
-		pane.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				typeCount++;
+	public void startGame(int mode) {
+		countDown();
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
 
-				if (e.getKeyChar() == currentWord.charAt(0)) {
-					stopwatch.start();
-					ctrl.attack();
-					currentWord = currentWord.substring(1, currentWord.length());
-					if (currentWord.length() == 0) {
-						currentWord = game.getWord();
-						double timeMin = stopwatch.getElapsed() / 60;
-						wpm = ((typeCount / 5) / timeMin);
-						ctrl.sentWPM(wpm);
+			@Override
+			public void run() {
+				Stopwatch stopwatch = new Stopwatch();
+				if (mode == 1)
+					botAttack();
+				pane.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyPressed(KeyEvent e) {
+						typeCount++;
+
+						if (e.getKeyChar() == currentWord.charAt(0)) {
+							stopwatch.start();
+							if (mode == 2)
+								ctrl.attack();
+							else
+								p1Attack();
+							currentWord = currentWord.substring(1,
+									currentWord.length());
+							if (currentWord.length() == 0) {
+								currentWord = game.getWord();
+								double timeMin = stopwatch.getElapsed() / 60;
+								wpm = ((typeCount / 5) / timeMin);
+								if (mode == 2)
+									ctrl.sentWPM(wpm);
+								else
+									setP1WPM(String.format("%.2f", wpm));
+							}
+							if (game.isEnd()) {
+								gameEnd();
+							} else
+								word.setText(currentWord);
+						}
 					}
-					if (game.isEnd()) {
-						gameEnd();
-					} else
-						word.setText(currentWord);
-				}
+				});
 			}
-		});
+		}, 4000);
 	}
 
-	public void offlineGame() {
-		Stopwatch stopwatch = new Stopwatch();
-		botAttack();
-		pane.addKeyListener(new KeyAdapter() {
+	public void countDown() {
+		JLabel number = new JLabel("3", SwingConstants.CENTER);
+		number.setFont(new Font("Algerian", Font.BOLD, 300));
+		number.setSize(playing.getWidth(), playing.getHeight() / 2);
+		number.setLocation((word.getWidth() - number.getWidth()) / 2,
+				((playing.getHeight() - number.getHeight()) / 2));
+		number.setForeground(Color.YELLOW);
+		playing.add(number);
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+
 			@Override
-			public void keyPressed(KeyEvent e) {
-				typeCount++;
-				if (e.getKeyChar() == currentWord.charAt(0)) {
-					stopwatch.start();
-					p1Attack();
-					currentWord = currentWord.substring(1, currentWord.length());
-					if (currentWord.length() == 0) {
-						currentWord = game.getWord();
-						double timeMin = stopwatch.getElapsed() / 60;
-						wpm = ((typeCount / 5) / timeMin);
-						setP1WPM(String.format("%.2f", wpm));
+			public void run() {
+				number.setText("2");
+				timer.schedule(new TimerTask() {
+					@Override
+					public void run() {
+						number.setText("1");
+						timer.schedule(new TimerTask() {
+							@Override
+							public void run() {
+								number.setText("TYPE!");
+								number.setFont(new Font("Algerian", Font.BOLD,
+										220));
+								timer.schedule(new TimerTask() {
+									@Override
+									public void run() {
+										number.setVisible(false);
+										playing.remove(number);
+									}
+								}, 1000);
+							}
+						}, 1000);
 					}
-					if (game.isEnd()) {
-						gameEnd();
-					} else
-						word.setText(currentWord);
-				}
+				}, 1000);
 			}
-		});
+		}, 1000);
 	}
 
 	public void gameEnd() {
@@ -238,24 +267,20 @@ public class GameUI {
 		final int FASTEST = 100;
 		final int SLOWEST = 1000;
 		javax.swing.Timer timer = new javax.swing.Timer(500, null);
-		timer.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int result = r.nextInt(SLOWEST - FASTEST) + FASTEST;
-				timer.setDelay(result);
-				botAttackCount++;
-				stopwatch.start();
-				if (botAttackCount % 6 == 0) {
-					double timeMin = stopwatch.getElapsed() / 60;
-					double botwpm = ((botAttackCount / 5) / timeMin);
-					setP2WPM(String.format("%.2f", botwpm));
-				}
-				p2Attack();
-				if (game.isEnd()) {
-					word.setText("");
-					timer.stop();
-				}
+		timer.addActionListener((e) -> {
+			int result = r.nextInt(SLOWEST - FASTEST) + FASTEST;
+			timer.setDelay(result);
+			botAttackCount++;
+			stopwatch.start();
+			if (botAttackCount % 6 == 0) {
+				double timeMin = stopwatch.getElapsed() / 60;
+				double botwpm = ((botAttackCount / 5) / timeMin);
+				setP2WPM(String.format("%.2f", botwpm));
+			}
+			p2Attack();
+			if (game.isEnd()) {
+				word.setText("");
+				timer.stop();
 			}
 		});
 		timer.start();
@@ -292,28 +317,25 @@ public class GameUI {
 			}, 100);
 
 			javax.swing.Timer timer2 = new javax.swing.Timer(10, null);
-			timer2.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					weapon.setLocation(weapon.getX() + 30, weapon.getY());
-					if (weapon.getX() >= p2.getX() - weapon.getWidth()) {
-						HP2.setValue(game.getP2().getHP());
-						playing.remove(weapon);
-						timer2.stop();
-						p2.setVisible(false);
-						if (game.isP2Lose()) {
-							p2Lose();
-						} else {
-							Timer timer3 = new Timer();
-							timer3.schedule(new TimerTask() {
+			timer2.addActionListener((e) -> {
+				weapon.setLocation(weapon.getX() + 30, weapon.getY());
+				if (weapon.getX() >= p2.getX() - weapon.getWidth()) {
+					HP2.setValue(game.getP2().getHP());
+					playing.remove(weapon);
+					timer2.stop();
+					p2.setVisible(false);
+					if (game.isP2Lose()) {
+						p2Lose();
+					} else {
+						Timer timer3 = new Timer();
+						timer3.schedule(new TimerTask() {
 
-								@Override
-								public void run() {
-									p2.setVisible(true);
-									timer.cancel();
-								}
-							}, 100);
-						}
+							@Override
+							public void run() {
+								p2.setVisible(true);
+								timer.cancel();
+							}
+						}, 100);
 					}
 				}
 			});
@@ -381,28 +403,25 @@ public class GameUI {
 			}, 100);
 
 			javax.swing.Timer timer2 = new javax.swing.Timer(10, null);
-			timer2.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					weapon.setLocation(weapon.getX() - 30, weapon.getY());
-					if (weapon.getX() <= p1.getX() + p1.getWidth()) {
-						HP1.setValue(game.getP1().getHP());
-						playing.remove(weapon);
-						timer2.stop();
-						p1.setVisible(false);
-						if (game.isP1Lose()) {
-							p1Lose();
-						} else {
-							Timer timer3 = new Timer();
-							timer3.schedule(new TimerTask() {
+			timer2.addActionListener((e) -> {
+				weapon.setLocation(weapon.getX() - 30, weapon.getY());
+				if (weapon.getX() <= p1.getX() + p1.getWidth()) {
+					HP1.setValue(game.getP1().getHP());
+					playing.remove(weapon);
+					timer2.stop();
+					p1.setVisible(false);
+					if (game.isP1Lose()) {
+						p1Lose();
+					} else {
+						Timer timer3 = new Timer();
+						timer3.schedule(new TimerTask() {
 
-								@Override
-								public void run() {
-									p1.setVisible(true);
-									timer.cancel();
-								}
-							}, 100);
-						}
+							@Override
+							public void run() {
+								p1.setVisible(true);
+								timer.cancel();
+							}
+						}, 100);
 					}
 				}
 			});
