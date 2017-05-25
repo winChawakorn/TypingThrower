@@ -95,7 +95,7 @@ public class MainFrame {
 	public MainFrame() {
 		Controller ctrl = Controller.getInstance();
 		ctrl.setClient(new Client("35.185.188.93", 3007));
-		initialize();	
+		initialize();
 	}
 
 	/**
@@ -111,7 +111,7 @@ public class MainFrame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.getGlassPane().addKeyListener(new KeyAdapter() {
-			
+
 			@Override
 			public void keyReleased(KeyEvent e) {
 				super.keyReleased(e);
@@ -119,6 +119,7 @@ public class MainFrame {
 					MainFrame.setFrame(new LoginUI().getLoginPanel());
 				}
 			}
+
 			@Override
 			public void keyTyped(KeyEvent e) {
 				super.keyTyped(e);
@@ -126,6 +127,7 @@ public class MainFrame {
 					MainFrame.setFrame(new LoginUI().getLoginPanel());
 				}
 			}
+
 			@Override
 			public void keyPressed(KeyEvent e) {
 				super.keyPressed(e);
