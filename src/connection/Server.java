@@ -11,35 +11,46 @@ import java.util.Scanner;
 import com.lloseng.ocsf.server.AbstractServer;
 import com.lloseng.ocsf.server.ConnectionToClient;
 
+/**
+ * A server for this game. This server can manage all data that send through
+ * this server to other clients.
+ * 
+ * @author Chawakorn Suphepre
+ *
+ */
 public class Server extends AbstractServer {
-	// private List<Thread> ipChecker;
-	// private List<ConnectionToClient> room;
 	private List<GameRoom> rooms;
-	// private Map<ConnectionToClient, String> users;
 	private Map<ConnectionToClient, UserTable> users;
 	private List<String> usernames;
 
-	// private GameRoom room;
-
-	// private List<Player> player = new ArrayList<>();
-
+	/**
+	 * Initialize new Server with the specific port.
+	 * 
+	 * @param port
+	 *            is the port number to open
+	 */
 	public Server(int port) {
 		super(port);
 		this.setBacklog(3);
-		// this.ipChecker = new ArrayList<Thread>();
-		// this.room = new ArrayList<ConnectionToClient>();
 		this.rooms = new ArrayList<GameRoom>();
-		// this.users = new HashMap<ConnectionToClient, String>();
 		this.users = new HashMap<ConnectionToClient, UserTable>();
 		this.usernames = new ArrayList<String>();
 	}
 
+	/**
+	 * Print client's IP when the client connected.
+	 */
 	@Override
 	protected void clientConnected(ConnectionToClient client) {
 		System.out.println();
 		System.out.println(client.getInetAddress() + " has connected");
 	}
 
+	/**
+	 * Print client's IP when the client disconnected,remove the username if
+	 * this user has logged in, and remove the room if this disconnection make
+	 * the room empty.
+	 */
 	@Override
 	protected synchronized void clientDisconnected(ConnectionToClient client) {
 		if (users.containsKey(client)) {
@@ -61,6 +72,11 @@ public class Server extends AbstractServer {
 		}
 	}
 
+	/**
+	 * Handle the message from the client. If the msg is a UserTable, it will
+	 * use this UserTable to login for this user. If the msg is a String, it
+	 * will make an action related with that String.
+	 */
 	@Override
 	protected synchronized void handleMessageFromClient(Object msg,
 			ConnectionToClient client) {
@@ -164,6 +180,13 @@ public class Server extends AbstractServer {
 		}
 	}
 
+	/**
+	 * Find the room that contains this client.
+	 * 
+	 * @param client
+	 *            is the client to find the room for.
+	 * @return the room that contains this client.
+	 */
 	public GameRoom findClientRoom(ConnectionToClient client) {
 		for (GameRoom r : rooms) {
 			if (r.getC1() == client || r.getC2() == client)
@@ -172,6 +195,12 @@ public class Server extends AbstractServer {
 		return null;
 	}
 
+	/**
+	 * Main that use to run the server.
+	 * 
+	 * @param args
+	 *            not use
+	 */
 	public static void main(String[] args) {
 		Server s = new Server(3007);
 		try {
@@ -190,16 +219,17 @@ public class Server extends AbstractServer {
 		}
 	}
 
+	/**
+	 * Print the details for this server. The details are number of current
+	 * user, all current user's IP, number of room, number of player in each
+	 * room, each name of the online username.
+	 */
 	public void printDetail() {
 		System.out.println("Current client(s) : " + getNumberOfClients());
 		System.out.println("All users : "
 				+ Arrays.toString(getClientConnections()));
 		System.out.println(rooms.size() + " rooms here : "
 				+ Arrays.toString(rooms.toArray(new GameRoom[0])));
-		// List<String> names = new ArrayList<String>();
-		// for (UserTable user : users.values()) {
-		// names.add(user.getUsername());
-		// }
 		System.out.println("All login users : "
 				+ Arrays.toString(usernames.toArray(new String[0])) + "\n");
 		if (rooms.size() > 0)
