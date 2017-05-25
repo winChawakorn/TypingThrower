@@ -1,5 +1,5 @@
 # TypingThrower
-creating by Chawakorn Suphepre and Vittunyuta Maeprasart
+Creating by Chawakorn Suphepre and Vittunyuta Maeprasart<br>
 TypingThrower project is a game. This typing game can calculate and record your typing speed in WPM (words per minutes). 2 players will fight each other by typing the apparent word.
 Correct typing will damage to your opponent. You will win when HP of the opponent is zero.
 
