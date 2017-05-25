@@ -33,7 +33,6 @@ public class SameUserErrorUI {
 		sameUserErrorPane.setBackground(new Color(0, 0, 0, 190));
 		sameUserErrorPane.setBounds(0, 0, 1280, 768);
 		sameUserErrorPane.setLayout(null);
-		sameUserErrorPane.addKeyListener(new EnterAndTypeLimitKeyAdapter(this));
 
 		lblDetail = new JLabel("Can't Login.");
 		lblDetail.setForeground(Color.WHITE);

@@ -198,6 +198,10 @@ public class LoginUI extends AbstractFont {
 	 * and password to the database.
 	 */
 	public void loginAction() {
+		userField.setFocusable(false);
+		passwordField.setFocusable(false);
+		btnLogin.setEnabled(false);
+		btnSignUp.setEnabled(false);
 		if (getDetailUser == null)
 			getDetailUser = dbConnect.pullAllUserdata();
 
@@ -210,7 +214,6 @@ public class LoginUI extends AbstractFont {
 				String password = new String(passwordField.getPassword());
 				boolean success = false;
 				for (UserTable user : getDetailUser) {
-					System.out.println(user.getCharacterName());
 					if (username.equals(user.getUsername())
 							&& password.equals(user.getPassword())) {
 						lblStatus.setForeground(new Color(17, 178, 19));
@@ -233,12 +236,11 @@ public class LoginUI extends AbstractFont {
 					lblStatus.setForeground(Color.RED);
 					lblStatus.setText("Wrong username/password");
 				}
-
+				userField.setFocusable(true);
+				passwordField.setFocusable(true);
+				btnLogin.setEnabled(true);
+				btnSignUp.setEnabled(true);
 			} catch (IOException e) {
-				userField.setFocusable(false);
-				passwordField.setFocusable(false);
-				btnLogin.setEnabled(false);
-				btnSignUp.setEnabled(false);
 				System.out.println("Can't connect to server while logging in");
 				MainFrame.showConnectionErrorUI();
 			}

@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -57,6 +59,7 @@ public class MainFrame {
 	 */
 	public static void showSameUserErrorUI() {
 		frame.setGlassPane(SameUserErrorUI.getSameUserErrorPane());
+		Controller.getInstance().setIsJoinServer(false);
 		frame.getGlassPane().setVisible(true);
 	}
 
@@ -91,7 +94,7 @@ public class MainFrame {
 	 */
 	public MainFrame() {
 		Controller ctrl = Controller.getInstance();
-		ctrl.setClient(new Client("", 3007));
+		ctrl.setClient(new Client("35.185.188.93", 3007));
 		initialize();
 	}
 
@@ -107,6 +110,30 @@ public class MainFrame {
 				FRAME_HEIGHT);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
+		frame.getGlassPane().addKeyListener(new KeyAdapter() {
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				super.keyReleased(e);
+				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+					MainFrame.setFrame(new LoginUI().getLoginPanel());
+				}
+			}
+			@Override
+			public void keyTyped(KeyEvent e) {
+				super.keyTyped(e);
+				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+					MainFrame.setFrame(new LoginUI().getLoginPanel());
+				}
+			}
+			@Override
+			public void keyPressed(KeyEvent e) {
+				super.keyPressed(e);
+				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+					MainFrame.setFrame(new LoginUI().getLoginPanel());
+				}
+			}
+		});
 		frame.getContentPane().setLayout(null);
 
 		// set the first page

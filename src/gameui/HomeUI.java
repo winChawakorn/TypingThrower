@@ -26,10 +26,11 @@ public class HomeUI extends AbstractFont {
 	private JPanel homePanel;
 	private JButton btnOnline, btnOffline, btnLogout, btnQuit;
 	private JPanel lblScore;
-	private JLabel lblCharacter, lblScoreName, lblWPM, lblWin, lblLose, lblHp,
+	private JLabel lblRobot, lblScoreName, lblWPM, lblWin, lblLose, lblHp,
 			lblAtk;
 	private UserTable currentUser;
 	private JLabel lblWPMNum, lblWinNum, lblLoseNum, lblHpNum, lblAtkNum;
+	private JLabel lblNinja;
 
 	/**
 	 * Create the application.
@@ -152,12 +153,19 @@ public class HomeUI extends AbstractFont {
 		});
 		homePanel.add(btnQuit);
 
-		ImageIcon avatarPic = new ImageIcon(this.getClass().getResource(
-				"/res/ninja1.png"));
-		lblCharacter = new JLabel(avatarPic);
-		lblCharacter.setBounds(593, 340, avatarPic.getIconWidth(),
-				avatarPic.getIconHeight());
-		homePanel.add(lblCharacter);
+		ImageIcon avatarRobot = new ImageIcon(this.getClass().getResource(
+				"/res/robothome.png"));
+		lblRobot = new JLabel(avatarRobot);
+		lblRobot.setBounds(715, 370, avatarRobot.getIconWidth(),
+				avatarRobot.getIconHeight());
+		homePanel.add(lblRobot);
+		
+		ImageIcon avatarNinja = new ImageIcon(this.getClass().getResource(
+				"/res/ninjahome.png"));
+		lblNinja = new JLabel(avatarNinja);
+		lblNinja.setBounds(405, 15, avatarNinja.getIconWidth(),
+				avatarNinja.getIconHeight());
+		homePanel.add(lblNinja);
 
 		lblScore = new JPanel();
 		lblScore.setBackground(new Color(255, 255, 255, 120));

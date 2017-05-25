@@ -32,7 +32,6 @@ public class CantConnectUI {
 		cantConnectPane.setBackground(new Color(0, 0, 0, 190));
 		cantConnectPane.setBounds(0, 0, 1280, 768);
 		cantConnectPane.setLayout(null);
-		cantConnectPane.addKeyListener(new EnterAndTypeLimitKeyAdapter(this));
 
 		lblDetail = new JLabel("Can't connect to the server.");
 		lblDetail.setForeground(Color.WHITE);
