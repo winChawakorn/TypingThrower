@@ -98,7 +98,7 @@ public class HomeUI extends AbstractFont {
 							.getCurrentUser().getCharacterName(), 1000, 20),
 							new Player("CPU", 1000, 20)));
 					ui.initComponent();
-					ui.offlineGame();
+					ui.startGame(1);
 					MainFrame.setFrame(ui.getGamePanel());
 				});
 		btnOffline.addMouseListener(new java.awt.event.MouseAdapter() {

@@ -14,7 +14,6 @@ public class Client extends AbstractClient {
 		if (msg instanceof String) {
 			String message = (String) msg;
 			if (message.equals("login success")) {
-				System.out.println("Success");
 				ctrl.loginSuccess();
 			}
 			if (message.equals("cant login")) {

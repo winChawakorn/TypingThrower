@@ -78,7 +78,7 @@ public class Controller {
 		ui = new GameUI();
 		createGame();
 		ui.initComponent();
-		ui.onlineGame();
+		ui.startGame(2);
 		MainFrame.setFrame(ui.getGamePanel());
 	}
 
