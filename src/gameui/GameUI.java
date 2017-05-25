@@ -506,7 +506,6 @@ public class GameUI {
 							winOrLose.setText("YOU LOSE");
 							if (user != null) {
 								user.setLoseRound(user.getLoseRound() + 1);
-								System.out.println("one");
 							}
 						}
 						detail.append(p1wpm.getText());
@@ -514,7 +513,6 @@ public class GameUI {
 							detail.append("\nPlease login to \nrecord your score");
 						else {
 							user.setTotalWPM(wpm + user.getTotalWPM());
-							// DatabaseConnect.getInstance().updateUserData(user);
 						}
 					} else {
 						if (ctrl.getPlayer().equals("2")) {
@@ -522,7 +520,6 @@ public class GameUI {
 								user.setWinRound(user.getWinRound() + 1);
 								winOrLose.setText("YOU WIN");
 							} else {
-								System.out.println("two");
 								user.setLoseRound(user.getLoseRound() + 1);
 								winOrLose.setText("YOU LOSE");
 							}
@@ -532,14 +529,12 @@ public class GameUI {
 								user.setWinRound(user.getWinRound() + 1);
 								winOrLose.setText("YOU WIN");
 							} else {
-								System.out.println("three");
 								user.setLoseRound(user.getLoseRound() + 1);
 								winOrLose.setText("YOU LOSE");
 							}
 							detail.append(p1wpm.getText());
 						}
 						user.setTotalWPM(wpm + user.getTotalWPM());
-						// DatabaseConnect.getInstance().updateUserData(user);
 					}
 					detail.append(String.format("\nTime : %.2f seconds",
 							watch.getElapsed()));
