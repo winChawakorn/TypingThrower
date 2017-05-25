@@ -91,7 +91,7 @@ public class MainFrame {
 	 */
 	public MainFrame() {
 		Controller ctrl = Controller.getInstance();
-		ctrl.setClient(new Client("35.185.188.93", 3007));
+		ctrl.setClient(new Client("", 3007));
 		initialize();
 	}
 

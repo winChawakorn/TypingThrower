@@ -202,7 +202,7 @@ public class LoginUI extends AbstractFont {
 			getDetailUser = dbConnect.pullAllUserdata();
 
 		if (getDetailUser != null) {
-
+			System.out.println("run check");
 			try {
 				Controller.getInstance().setIsJoinServer(false);
 				Controller.getInstance().joinServer();
@@ -210,11 +210,11 @@ public class LoginUI extends AbstractFont {
 				String password = new String(passwordField.getPassword());
 				boolean success = false;
 				for (UserTable user : getDetailUser) {
+					System.out.println(user.getCharacterName());
 					if (username.equals(user.getUsername())
 							&& password.equals(user.getPassword())) {
 						lblStatus.setForeground(new Color(17, 178, 19));
 						lblStatus.setText("Login successed");
-						// System.err.println("Login successed");
 						success = true;
 						currentUser = user;
 						Controller.getInstance().login();
@@ -232,7 +232,6 @@ public class LoginUI extends AbstractFont {
 					}, 100);
 					lblStatus.setForeground(Color.RED);
 					lblStatus.setText("Wrong username/password");
-					System.err.println("Login failed");
 				}
 
 			} catch (IOException e) {
