@@ -67,7 +67,7 @@ public class LoginUI extends AbstractFont {
 				super.paintComponent(g);
 				try {
 					BufferedImage img = ImageIO.read(this.getClass()
-							.getResourceAsStream("/res/LoginBackground.jpg"));
+							.getResourceAsStream("/res/LoginBackground2.jpg"));
 					g.drawImage(img, 0, 0, 1280, 768, null);
 				} catch (IOException e) {
 					// do nothing
@@ -77,17 +77,19 @@ public class LoginUI extends AbstractFont {
 		loginPanel.setPreferredSize(new Dimension(1280, 768));
 		loginPanel.setLayout(null);
 
-		JLabel label = new JLabel("TypingThrower");
-		label.setForeground(new Color(247, 211, 84));
-		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setFont(getFont("ProFont For Powerline.ttf").deriveFont(
-				Font.BOLD, 100));
-		label.setBounds(6, 22, 1268, 96);
+		// JLabel label = new JLabel("TypingThrower");
+		// label.setForeground(new Color(150, 0, 22));
+		// label.setHorizontalAlignment(SwingConstants.CENTER);
+		// label.setFont(getFont("ProFont For Powerline.ttf").deriveFont(
+		// Font.BOLD, 100));
+		JLabel label = new JLabel(new ImageIcon(this.getClass().getResource(
+				"/res/logo.png")));
+		label.setBounds(6, 22, 1268, 120);
 		loginPanel.add(label);
 
 		panel = new JPanel();
-		panel.setBackground(new Color(211, 211, 211));
-		panel.setBounds(265, 145, 750, 498);
+		panel.setBackground(new Color(211, 211, 211, 190));
+		panel.setBounds(265, 180, 750, 498);
 		panel.setLayout(null);
 		loginPanel.add(panel);
 
@@ -103,7 +105,7 @@ public class LoginUI extends AbstractFont {
 
 		lblUsername = new JLabel("Username");
 		lblUsername.setBounds(115, 64, 183, 57);
-		lblUsername.setFont(new Font("Courier New", Font.PLAIN, 37));
+		lblUsername.setFont(new Font("Courier New", Font.BOLD, 37));
 		panel.add(lblUsername);
 
 		passwordField = new JPasswordField();
@@ -176,7 +178,7 @@ public class LoginUI extends AbstractFont {
 		lblPassword = new JLabel("Password");
 		lblPassword.setBounds(115, 137, 191, 57);
 		panel.add(lblPassword);
-		lblPassword.setFont(new Font("Courier New", Font.PLAIN, 37));
+		lblPassword.setFont(new Font("Courier New", Font.BOLD, 37));
 
 		lblStatus = new JLabel("Welcome");
 		lblStatus.setFont(new Font("Courier New", Font.BOLD, 23));
@@ -206,7 +208,6 @@ public class LoginUI extends AbstractFont {
 			getDetailUser = dbConnect.pullAllUserdata();
 
 		if (getDetailUser != null) {
-			System.out.println("run check");
 			try {
 				Controller.getInstance().setIsJoinServer(false);
 				Controller.getInstance().joinServer();
