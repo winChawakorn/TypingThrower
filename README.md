@@ -6,10 +6,11 @@ Correct typing will damage to your opponent. You will win when HP of the opponen
 ## How to play
 
 1. The first page is login page. You can press **Practice** button to play with bot without recording score.
-![alt text](https://github.com/winChawakorn/TypingThrower/blob/master/mdpic/loginPage.png "login page")
 login page<br>
-![alt text](https://github.com/winChawakorn/TypingThrower/blob/master/mdpic/playWithBot.png "practice page")
+![alt text](https://github.com/winChawakorn/TypingThrower/blob/master/mdpic/loginPage.png "login page")
 play with bot by pressing **Practice** button.<br>
+![alt text](https://github.com/winChawakorn/TypingThrower/blob/master/mdpic/playWithBot.png "practice page") <br>
+![alt text](https://github.com/winChawakorn/TypingThrower/blob/master/mdpic/scorePlayWithBot.png "score play practice") <br>
 
 2. If you don't have any account, you can press **Sign Up** button to create new account.
 ![alt text](https://github.com/winChawakorn/TypingThrower/blob/master/mdpic/signUpPage.png "sign up page")
