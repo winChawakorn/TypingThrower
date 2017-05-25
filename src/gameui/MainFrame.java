@@ -79,7 +79,7 @@ public class MainFrame {
 	 */
 	public MainFrame() {
 		Controller ctrl = Controller.getInstance();
-		ctrl.setClient(new Client("", 3007));
+		ctrl.setClient(new Client("35.185.188.93", 3007));
 		initialize();
 	}
 
@@ -98,7 +98,7 @@ public class MainFrame {
 		frame.getContentPane().setLayout(null);
 
 		// set the first page
-		 setFrame(new LoginUI().getLoginPanel());
+		setFrame(new LoginUI().getLoginPanel());
 	}
 
 }

@@ -507,8 +507,10 @@ public class GameUI {
 								user.setWinRound(user.getWinRound() + 1);
 						} else {
 							winOrLose.setText("YOU LOSE");
-							if (user != null)
+							if (user != null) {
 								user.setLoseRound(user.getLoseRound() + 1);
+								System.out.println("one");
+							}
 						}
 						if (user == null)
 							detail.append("\nPlease login to \nrecord your score");
@@ -522,6 +524,7 @@ public class GameUI {
 								user.setWinRound(user.getWinRound() + 1);
 								winOrLose.setText("YOU WIN");
 							} else {
+								System.out.println("two");
 								user.setLoseRound(user.getLoseRound() + 1);
 								winOrLose.setText("YOU LOSE");
 							}
@@ -530,6 +533,7 @@ public class GameUI {
 								user.setWinRound(user.getWinRound() + 1);
 								winOrLose.setText("YOU WIN");
 							} else {
+								System.out.println("three");
 								user.setLoseRound(user.getLoseRound() + 1);
 								winOrLose.setText("YOU LOSE");
 							}
