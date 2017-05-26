@@ -13,7 +13,7 @@ This is UML Diagram of project:
 1. The first page is login page. You can press **Practice** button to play with bot without recording score.
 
 login page<br>
-![alt text](https://github.com/winChawakorn/TypingThrower/blob/master/mdpic/loginPage.png "login page")
+<a href="https://github.com/winChawakorn/TypingThrower/blob/master/mdpic/loginPage.png" target="_blank"><img border="0" src="https://www.mx7.com/i/be6/3Pohs1.png" /></a>
 play with bot by pressing **Practice** button.<br>
 ![alt text](https://github.com/winChawakorn/TypingThrower/blob/master/mdpic/playWithBot.png "practice page") <br>
 ![alt text](https://github.com/winChawakorn/TypingThrower/blob/master/mdpic/scorePlayWithBot.png "score play practice") <br>
