@@ -1,8 +1,6 @@
 package game;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -10,12 +8,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Typing thrower game class that control the game action.
+ * 
+ * @author Chawakorn Suphepre
+ *
+ */
 public class TypingThrower {
-	private Player p1;
-	private Player p2;
+	private Player p1,p2;
 	private InputStream in;
 	private List<String> words;
-
+	
+	/**
+	 * 
+	 * @param player1
+	 * @param player2
+	 */
 	public TypingThrower(Player player1, Player player2) {
 		this.p1 = player1;
 		this.p2 = player2;

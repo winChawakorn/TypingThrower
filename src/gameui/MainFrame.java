@@ -1,13 +1,9 @@
 package gameui;
 
-import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.Image;
-import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.sql.Date;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -41,18 +37,9 @@ public class MainFrame {
 		frame.repaint();
 		newPane.setBounds(0, 0, 1280, 768);
 		frame.getContentPane().add(newPane);
-
 		newPane.setVisible(true);
 		newPane.setFocusable(true);
 		newPane.requestFocusInWindow();
-
-		// System.out.println("before");
-		// Toolkit toolkit = Toolkit.getDefaultToolkit();
-		// Image image = toolkit.getImage("cursor2.gif");
-		// Cursor c = toolkit.createCustomCursor(image, new Point(0, 0), "");
-		// frame.setCursor(c);
-		// // frame.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		// System.out.println("after");
 	}
 
 	/**
