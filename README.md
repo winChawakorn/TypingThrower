@@ -4,7 +4,7 @@
 TypingThrower project is a game. This typing game can calculate and record your typing speed in WPM (words per minutes). 2 players will fight each other by typing the apparent word.
 Correct typing will damage to your opponent. You will win when HP of the opponent is zero.
 
-<a href="https://github.com/winChawakorn/TypingThrower/blob/master/TypingThrower.jar"> >>>Download this Game</a>
+<a href="https://github.com/winChawakorn/TypingThrower/raw/master/TypingThrower.jar"> >>>Download this Game</a>
 
 This is UML Diagram of project:
 ![UML Diagram](http://i.imgur.com/cDJSst7.jpg)
