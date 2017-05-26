@@ -5,7 +5,7 @@ TypingThrower project is a game. This typing game can calculate and record your 
 Correct typing will damage to your opponent. You will win when HP of the opponent is zero.
 
 This is UML Diagram of project:
-![UML Diagram](https://www.img.in.th/images/af17550f00746fd5a7a806cfa6750f67.gif)
+![UML Diagram](https://www.img.in.th/images/c9ac8f6df97f96b8f11be75732499333.jpg)
 
 
 ## How to play
