@@ -52,6 +52,13 @@ finish race<br>
 showing score on home page<br>
 ![Home Score](http://i.imgur.com/68U8HOS.png)
 
+## Interesting technology
+### SQL Database
+1. Google cloud platform (SQL)
+2. Chrome MySQL Admin
+3. ORMLite
+### OCSF for game server
+
 Picture from : <a href="http://www.gameart2d.com/">http://www.gameart2d.com/</a>
 
 Documentation : <a href="https://winchawakorn.github.io/TypingThrower/">https://winchawakorn.github.io/TypingThrower/</a>
