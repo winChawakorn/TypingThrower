@@ -49,3 +49,5 @@ finish race<br>
 
 showing score on home page<br>
 ![alt text](https://github.com/winChawakorn/TypingThrower/blob/master/mdpic/homePagesScore.png "home  page score")
+
+Picture from : http://www.gameart2d.com/
