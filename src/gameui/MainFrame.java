@@ -5,6 +5,7 @@ import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -98,32 +99,8 @@ public class MainFrame {
 				FRAME_HEIGHT);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
-		frame.getGlassPane().addKeyListener(new KeyAdapter() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				super.keyReleased(e);
-				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-					MainFrame.setFrame(new LoginUI().getLoginPanel());
-				}
-			}
-
-			@Override
-			public void keyTyped(KeyEvent e) {
-				super.keyTyped(e);
-				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-					MainFrame.setFrame(new LoginUI().getLoginPanel());
-				}
-			}
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				super.keyPressed(e);
-				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-					MainFrame.setFrame(new LoginUI().getLoginPanel());
-				}
-			}
-		});
+		ImageIcon frameIcon = new ImageIcon(this.getClass().getResource("/res/frameIcon.png"));
+		frame.setIconImage(frameIcon.getImage());
 		frame.getContentPane().setLayout(null);
 
 		// set the first page
