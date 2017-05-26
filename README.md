@@ -50,6 +50,6 @@ finish race<br>
 showing score on home page<br>
 ![Home Score](https://www.img.in.th/images/9f216f6ae7e0b05d41c046ba1d7db5d6.png)
 
-Picture from : http://www.gameart2d.com/
+Picture from : <a href="http://www.gameart2d.com/">http://www.gameart2d.com/</a>
 
-Documentation : https://winchawakorn.github.io/TypingThrower/
+Documentation : <a href="https://winchawakorn.github.io/TypingThrower/">https://winchawakorn.github.io/TypingThrower/</a>
