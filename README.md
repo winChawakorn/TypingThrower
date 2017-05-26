@@ -5,7 +5,7 @@ TypingThrower project is a game. This typing game can calculate and record your 
 Correct typing will damage to your opponent. You will win when HP of the opponent is zero.
 
 This is UML Diagram of project:
-![UML Diagram](https://www.img.in.th/images/c9ac8f6df97f96b8f11be75732499333.jpg)
+![UML Diagram](http://i.imgur.com/cDJSst7.jpg)
 
 
 ## How to play
@@ -13,15 +13,15 @@ This is UML Diagram of project:
 1. The first page is login page. You can press **Practice** button to play with bot without recording score.
 
 login page<br>
-![Login Page](https://www.img.in.th/images/bd669203470ae345d927d663d91cf4f1.png)<br>
+![Login Page](http://i.imgur.com/zYyOD7T.png)<br>
 play with bot by pressing **Practice** button.<br>
-![Practice Page](https://www.img.in.th/images/a6cb400a03e3809102d672e949d8c147.png) <br>
-![Score practice](https://www.img.in.th/images/7d4a8e6e503cb0bf7334d401e1a4935e.png) <br>
+![Practice Page](http://i.imgur.com/JLtBk7y.png) <br>
+![Score practice](http://i.imgur.com/DNrjRSY.png) <br>
 
 2. If you don't have any account, you can press **Sign Up** button to create new account.
 
 sign-up page<br>
-![Sign up Page](https://www.img.in.th/images/786dcb9c23bf146aa0a8a722d593807b.png)
+![Sign up Page](http://i.imgur.com/1fMNHAG.png)
 
 
 3. While logging in please wait half a moment. After login success, you will go to the home page that contains 4 buttons on the left of the screen.
@@ -31,24 +31,24 @@ sign-up page<br>
 * **Quit:** Close the application.
 
 home page<br>
-![Home Page](https://www.img.in.th/images/424c796b095183b656654a7063990661.png)
+![Home Page](http://i.imgur.com/7JvzDb8.png)
 
 
 4. In playing online mode. You will see **Waiting** page while you are waiting another to entry your game room. When another player enter the room, game start!
 
 waiting page<br>
-![Waiting Page](https://www.img.in.th/images/72c5101992425728a299057c751d615e.png)
+![Waiting Page](http://i.imgur.com/TOuj2Uw.png)
 game room<br>
-![Play Online](https://www.img.in.th/images/6dc07a0c7ebeeafbb9386ceb165ff822.png)
+![Play Online](http://i.imgur.com/0JV0J86.png)
 finish race<br>
-![Finish Race](https://www.img.in.th/images/9f3d39e183026ef9900a875eb85ec07f.png)
+![Finish Race](http://i.imgur.com/Gu8YPeM.png)
 
 
 
 5. After playing, your score will update on your home page.
 
 showing score on home page<br>
-![Home Score](https://www.img.in.th/images/9f216f6ae7e0b05d41c046ba1d7db5d6.png)
+![Home Score](http://i.imgur.com/68U8HOS.png)
 
 Picture from : <a href="http://www.gameart2d.com/">http://www.gameart2d.com/</a>
 
