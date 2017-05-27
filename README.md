@@ -1,12 +1,14 @@
 # TypingThrower
 **Creating** by Chawakorn Suphepre(@winChawakorn) and Vittunyuta Maeprasart(@aommoaGitHub)
 
+Documentation : <a href="https://winchawakorn.github.io/TypingThrower/">https://winchawakorn.github.io/TypingThrower/</a>
+
 TypingThrower project is a game. This typing game can calculate and record your typing speed in WPM (words per minutes). 2 players will fight with each other by typing the apparent word.
 Correct typing will damage to your opponent. You will win when your opponent lost all HP. This game can improve your typing skill.
 
 <a href="https://github.com/winChawakorn/TypingThrower/raw/master/TypingThrower.jar"> >>>Download this Game</a> Run `TypingThrower.jar` and have fun!</br></br>
 If our server is closed or you would like to open your own server, you can  
-<a href="https://github.com/winChawakorn/TypingThrower/raw/master/Server.jar"> >>>Download the Server.jar for Typing Thrower</a></br>
+<a href="https://github.com/winChawakorn/TypingThrower/raw/master/Server.jar"> >>>Download the server for Typing Thrower</a> and run `Server.jar` in the terminal or cmd.</br>
 To change the server, you have to change the IP address in `MainFrame` to your server's IP address.</br>
 
 ## UML Diagram for this project:
@@ -23,36 +25,36 @@ play with bot by pressing **Practice** button.<br>
 ![Practice Page](http://i.imgur.com/JLtBk7y.png) <br>
 ![Score practice](http://i.imgur.com/DNrjRSY.png) <br>
 
-2. If you don't have any account, you can press **Sign Up** button to create new account.
+2. If you don't have any account, you can press **Sign Up** button to create a new account.
 
-sign-up page<br>
+**sign up page**<br>
 ![Sign up Page](http://i.imgur.com/1fMNHAG.png)
 
 
-3. While logging in please wait half a moment. After login success, you will go to the home page that contains 4 buttons on the left of the screen.
-* **Online:** Playing online mode with another player who is onlining. This mode enable record score.
-* **Offline:** Playing with bot and record score.
-* **Logout:** Going back to login page.
+3. While logging in, please wait half a moment. After logging in is success, you will go to the home page that contains 4 buttons on the left of the screen.
+* **Online:** Play in online mode with another player who is finding a game room like you. This mode will record your score in the end of the game.
+* **Offline:** Play in offline mode with a robot and record the score.
+* **Logout:** Logout from this account and go back to login page.
 * **Quit:** Close the application.
 
-home page<br>
+**home page**<br>
 ![Home Page](http://i.imgur.com/7JvzDb8.png)
 
 
-4. In playing online mode. You will see **Waiting** page while you are waiting another to entry your game room. When another player enter the room, game start!
+4. In online mode. You will see **Waiting** page while you are waiting for another player to join your game. When another player enter your game, the game will start!
 
-waiting page<br>
+**waiting page**<br>
 ![Waiting Page](http://i.imgur.com/TOuj2Uw.png)
-game room<br>
+**In online game**<br>
 ![Play Online](http://i.imgur.com/0JV0J86.png)
-finish race<br>
+**Finish race**<br>
 ![Finish Race](http://i.imgur.com/Gu8YPeM.png)
 
 
 
-5. After playing, your score will update on your home page.
+5. After playing, your score will be updated.
 
-showing score on home page<br>
+The score is showed on the right side of the home page.<br>
 ![Home Score](http://i.imgur.com/68U8HOS.png)
 
 ## Interesting technology
@@ -64,5 +66,3 @@ showing score on home page<br>
 We use OCSF to send the object between server and client to update the detail in the game.
 
 Picture from : <a href="http://www.gameart2d.com/">http://www.gameart2d.com/</a>
-
-Documentation : <a href="https://winchawakorn.github.io/TypingThrower/">https://winchawakorn.github.io/TypingThrower/</a>
