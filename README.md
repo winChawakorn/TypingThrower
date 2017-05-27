@@ -1,10 +1,12 @@
 # TypingThrower
-**Creating** by Chawakorn Suphepre(@winChawakorn) and Vittunyuta(@aommoaGitHub)
+**Creating** by Chawakorn Suphepre(@winChawakorn) and Vittunyuta Maeprasart(@aommoaGitHub)
 
-TypingThrower project is a game. This typing game can calculate and record your typing speed in WPM (words per minutes). 2 players will fight each other by typing the apparent word.
-Correct typing will damage to your opponent. You will win when HP of the opponent is zero.
+TypingThrower project is a game. This typing game can calculate and record your typing speed in WPM (words per minutes). 2 players will fight with each other by typing the apparent word.
+Correct typing will damage to your opponent. You will win when your opponent lost all HP. This game can improve your typing skill.
 
 <a href="https://github.com/winChawakorn/TypingThrower/raw/master/TypingThrower.jar"> >>>Download this Game</a> Run TypingThrower.jar and have fun!
+If our server is closed or you would like to open your own server, you can  
+<a href="https://github.com/winChawakorn/TypingThrower/raw/master/Server.jar"> >>>Download the server for Typing Thrower</a>
 
 This is UML Diagram of project:
 ![UML Diagram](http://i.imgur.com/cDJSst7.jpg)
@@ -58,6 +60,7 @@ showing score on home page<br>
 2. Chrome MySQL Admin
 3. ORMLite
 ### OCSF for game server
+We use OCSF to send the object between server and client to update the detail in the game.
 
 Picture from : <a href="http://www.gameart2d.com/">http://www.gameart2d.com/</a>
 
