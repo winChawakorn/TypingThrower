@@ -4,19 +4,20 @@
 TypingThrower project is a game. This typing game can calculate and record your typing speed in WPM (words per minutes). 2 players will fight with each other by typing the apparent word.
 Correct typing will damage to your opponent. You will win when your opponent lost all HP. This game can improve your typing skill.
 
-<a href="https://github.com/winChawakorn/TypingThrower/raw/master/TypingThrower.jar"> >>>Download this Game</a> Run TypingThrower.jar and have fun!
+<a href="https://github.com/winChawakorn/TypingThrower/raw/master/TypingThrower.jar"> >>>Download this Game</a> Run `TypingThrower.jar` and have fun!</br></br>
 If our server is closed or you would like to open your own server, you can  
-<a href="https://github.com/winChawakorn/TypingThrower/raw/master/Server.jar"> >>>Download the server for Typing Thrower</a>
+<a href="https://github.com/winChawakorn/TypingThrower/raw/master/Server.jar"> >>>Download the Server.jar for Typing Thrower</a></br>
+To change the server, you have to change the IP address in `MainFrame` to your server's IP address.</br>
 
-This is UML Diagram of project:
+## UML Diagram for this project:
 ![UML Diagram](http://i.imgur.com/cDJSst7.jpg)
 
 
 ## How to play
 
-1. The first page is login page. You can press **Practice** button to play with bot without recording score.
+1. The first page is a login page. You can press **Practice** button to play with a robot. (YOUR SCORE WILL NOT RECORDED)
 
-login page<br>
+**login page**<br>
 ![Login Page](http://i.imgur.com/zYyOD7T.png)<br>
 play with bot by pressing **Practice** button.<br>
 ![Practice Page](http://i.imgur.com/JLtBk7y.png) <br>
