@@ -1,5 +1,6 @@
 # TypingThrower
-**Creating** by Chawakorn Suphepre(@winChawakorn) and Vittunyuta Maeprasart(@aommoaGitHub)
+### Author
+**Created** by Chawakorn Suphepre(@winChawakorn) and Vittunyuta Maeprasart(@aommoaGitHub)
 
 Documentation : <a href="https://winchawakorn.github.io/TypingThrower/">https://winchawakorn.github.io/TypingThrower/</a>
 
