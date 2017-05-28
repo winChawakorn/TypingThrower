@@ -47,7 +47,7 @@ public class GameUI extends AbstractFont {
 	/**
 	 * Return this UI JPanel.
 	 * 
-	 * @return JPanel displying this playing UI.
+	 * @return JPanel that display this playing UI.
 	 */
 	public JPanel getGamePanel() {
 		return pane;
@@ -70,31 +70,34 @@ public class GameUI extends AbstractFont {
 		playing.add(resultPane);
 
 		HP1 = new JProgressBar();
-		HP1.setBounds(pane.getWidth() / 18, pane.getHeight() - pane.getHeight() / 7, (int) (pane.getWidth() / 2.7),
-				pane.getHeight() / 43);
+		HP1.setBounds(pane.getWidth() / 18, pane.getHeight() - pane.getHeight()
+				/ 7, (int) (pane.getWidth() / 2.7), pane.getHeight() / 43);
 		HP1.setMaximum(game.getP1().getHP());
 		HP1.setValue(HP1.getMaximum());
 		HP1.setForeground(Color.RED);
 		HP1.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 		playing.add(HP1);
 
-		ImageIcon p1Pic = new ImageIcon(this.getClass().getResource("/res/ninja1.png"));
+		ImageIcon p1Pic = new ImageIcon(this.getClass().getResource(
+				"/res/ninja1.png"));
 		p1 = new JLabel(p1Pic);
 		p1.setLocation(pane.getWidth() / 8, (int) (pane.getHeight() / 2.75));
 		p1.setSize(p1Pic.getIconWidth(), p1Pic.getIconHeight());
 		playing.add(p1);
 
-		ImageIcon p2Pic = new ImageIcon(this.getClass().getResource("/res/robot1.png"));
+		ImageIcon p2Pic = new ImageIcon(this.getClass().getResource(
+				"/res/robot1.png"));
 		p2 = new JLabel(p2Pic);
-		p2.setLocation((pane.getWidth() - (int) (pane.getWidth() / 8)) - p2Pic.getIconWidth(),
-				(int) (pane.getHeight() / 2.75));
+		p2.setLocation(
+				(pane.getWidth() - (int) (pane.getWidth() / 8))
+						- p2Pic.getIconWidth(), (int) (pane.getHeight() / 2.75));
 		p2.setSize(p2Pic.getIconWidth(), p2Pic.getIconHeight());
 		playing.add(p2);
 
 		p1Name = new JLabel(game.getP1().toString());
 		p1Name.setFont(new Font("Trebuchet MS", Font.BOLD, 47));
-		p1Name.setBounds((int) pane.getWidth() / 15, (int) pane.getHeight() - (pane.getHeight() / 4), HP1.getWidth(),
-				pane.getHeight() / 10);
+		p1Name.setBounds((int) pane.getWidth() / 15, (int) pane.getHeight()
+				- (pane.getHeight() / 4), HP1.getWidth(), pane.getHeight() / 10);
 
 		playing.add(p1Name);
 
@@ -103,35 +106,42 @@ public class GameUI extends AbstractFont {
 		HP2.setValue(HP2.getMaximum());
 		HP2.setForeground(Color.RED);
 		HP2.setBorder(BorderFactory.createLineBorder(Color.WHITE));
-		HP2.setBounds((pane.getWidth() - (pane.getWidth() / 18) - (int) (pane.getWidth() / 2.7)),
-				pane.getHeight() - pane.getHeight() / 7, (int) (pane.getWidth() / 2.7), pane.getHeight() / 43);
+		HP2.setBounds((pane.getWidth() - (pane.getWidth() / 18) - (int) (pane
+				.getWidth() / 2.7)), pane.getHeight() - pane.getHeight() / 7,
+				(int) (pane.getWidth() / 2.7), pane.getHeight() / 43);
 		playing.add(HP2);
 		currentWord = game.getWord();
 		word = new JLabel(currentWord, SwingConstants.CENTER);
 		word.setAlignmentX(Component.CENTER_ALIGNMENT);
 		word.setFont(new Font("Tahoma", Font.BOLD, 99));
-		word.setBounds(0, 65, (int) pane.getSize().getWidth(), word.getFont().getSize() * 2);
+		word.setBounds(0, 65, (int) pane.getSize().getWidth(), word.getFont()
+				.getSize() * 2);
 		playing.add(word);
 
 		p2Name = new JLabel(game.getP2().toString(), SwingConstants.RIGHT);
 		p2Name.setFont(new Font("Trebuchet MS", Font.BOLD, 47));
 		p2Name.setSize(HP2.getWidth(), pane.getHeight() / 10);
-		p2Name.setLocation((int) (pane.getWidth() - (pane.getWidth() / 15) - p2Name.getWidth()),
+		p2Name.setLocation(
+				(int) (pane.getWidth() - (pane.getWidth() / 15) - p2Name
+						.getWidth()),
 				(int) pane.getHeight() - (pane.getHeight() / 4));
 		playing.add(p2Name);
 
 		p1wpm = new JLabel("WPM : 0.00");
 		p1wpm.setFont(new Font("Trebuchet MS", Font.BOLD, 40));
-		p1wpm.setBounds(pane.getWidth() / 15, 0, pane.getWidth() / 4, pane.getHeight() / 5);
+		p1wpm.setBounds(pane.getWidth() / 15, 0, pane.getWidth() / 4,
+				pane.getHeight() / 5);
 		p2wpm = new JLabel("WPM : 0.00");
 		p2wpm.setFont(new Font("Trebuchet MS", Font.BOLD, 40));
 		p2wpm.setLocation(pane.getWidth(), 0);
-		p2wpm.setBounds((pane.getWidth() - (pane.getWidth() / 15)) - pane.getWidth() / 5, 0, pane.getWidth() / 4,
-				pane.getHeight() / 5);
+		p2wpm.setBounds(
+				(pane.getWidth() - (pane.getWidth() / 15)) - pane.getWidth()
+						/ 5, 0, pane.getWidth() / 4, pane.getHeight() / 5);
 		playing.add(p1wpm);
 		playing.add(p2wpm);
 
-		JLabel background = new JLabel(new ImageIcon(this.getClass().getResource("/res/BG2.png")));
+		JLabel background = new JLabel(new ImageIcon(this.getClass()
+				.getResource("/res/BG2.png")));
 		background.setSize(playing.getSize());
 		pane.setLayout(null);
 		pane.add(playing);
@@ -169,7 +179,8 @@ public class GameUI extends AbstractFont {
 								ctrl.attack();
 							else
 								p1Attack();
-							currentWord = currentWord.substring(1, currentWord.length());
+							currentWord = currentWord.substring(1,
+									currentWord.length());
 							if (currentWord.length() == 0) {
 								currentWord = game.getWord();
 								double timeMin = stopwatch.getElapsed() / 60;
@@ -198,7 +209,8 @@ public class GameUI extends AbstractFont {
 		JLabel number = new JLabel("3", SwingConstants.CENTER);
 		number.setFont(getFont("28 Days Later.ttf").deriveFont(Font.BOLD, 300));
 		number.setSize(playing.getWidth(), playing.getHeight() / 2);
-		number.setLocation((word.getWidth() - number.getWidth()) / 2, ((playing.getHeight() - number.getHeight()) / 2));
+		number.setLocation((word.getWidth() - number.getWidth()) / 2,
+				((playing.getHeight() - number.getHeight()) / 2));
 		number.setForeground(Color.YELLOW);
 		playing.add(number);
 		Timer timer = new Timer();
@@ -215,7 +227,8 @@ public class GameUI extends AbstractFont {
 							@Override
 							public void run() {
 								number.setText("TYPE");
-								number.setFont(getFont("28 Days Later.ttf").deriveFont(Font.BOLD, 230));
+								number.setFont(getFont("28 Days Later.ttf")
+										.deriveFont(Font.BOLD, 230));
 								timer.schedule(new TimerTask() {
 									@Override
 									public void run() {
@@ -295,13 +308,16 @@ public class GameUI extends AbstractFont {
 	public void p1Attack() {
 		if (!(game.isEnd())) {
 			game.P1Attack();
-			ImageIcon weaponPic = new ImageIcon(this.getClass().getResource("/res/Kunai.png"));
+			ImageIcon weaponPic = new ImageIcon(this.getClass().getResource(
+					"/res/Kunai.png"));
 			JLabel weapon = new JLabel(weaponPic);
 			weapon.setSize(weaponPic.getIconWidth(), weaponPic.getIconHeight());
-			weapon.setLocation(pane.getWidth() / 7, (int) (pane.getHeight() / 1.9));
+			weapon.setLocation(pane.getWidth() / 7,
+					(int) (pane.getHeight() / 1.9));
 			playing.add(weapon);
 
-			JLabel p1Throw = new JLabel(new ImageIcon(this.getClass().getResource("/res/ninja2.png")));
+			JLabel p1Throw = new JLabel(new ImageIcon(this.getClass()
+					.getResource("/res/ninja2.png")));
 			p1Throw.setSize(p1.getSize());
 			p1Throw.setLocation(p1.getLocation());
 			p1Throw.setVisible(false);
@@ -350,7 +366,8 @@ public class GameUI extends AbstractFont {
 	 * Make player2 dead.
 	 */
 	public void p2Lose() {
-		ImageIcon p2LosePic1 = new ImageIcon(this.getClass().getResource("/res/robotDead1.png"));
+		ImageIcon p2LosePic1 = new ImageIcon(this.getClass().getResource(
+				"/res/robotDead1.png"));
 		JLabel p2Lose1 = new JLabel(p2LosePic1);
 		p2Lose1.setSize(p2LosePic1.getIconWidth(), p2LosePic1.getIconHeight());
 		p2Lose1.setLocation(p2.getX() - 150, p2.getY() + 75);
@@ -358,7 +375,8 @@ public class GameUI extends AbstractFont {
 		p2.setVisible(false);
 		p2Lose1.setVisible(true);
 
-		ImageIcon p2LosePic2 = new ImageIcon(this.getClass().getResource("/res/robotDead2.png"));
+		ImageIcon p2LosePic2 = new ImageIcon(this.getClass().getResource(
+				"/res/robotDead2.png"));
 		JLabel p2Lose2 = new JLabel(p2LosePic2);
 		p2Lose2.setSize(p2LosePic2.getIconWidth(), p2LosePic2.getIconHeight());
 		p2Lose2.setLocation(p2Lose1.getX() - 150, p2Lose1.getY());
@@ -383,13 +401,15 @@ public class GameUI extends AbstractFont {
 	public void p2Attack() {
 		if (!(game.isEnd())) {
 			game.P2Attack();
-			ImageIcon weaponPic = new ImageIcon(this.getClass().getResource("/res/fire.png"));
+			ImageIcon weaponPic = new ImageIcon(this.getClass().getResource(
+					"/res/fire.png"));
 			JLabel weapon = new JLabel(weaponPic);
 			weapon.setSize(weaponPic.getIconWidth(), weaponPic.getIconHeight());
-			weapon.setLocation(pane.getWidth() - (int) (pane.getWidth() / 7) - weaponPic.getIconWidth(),
-					(int) (pane.getHeight() / 1.9));
+			weapon.setLocation(pane.getWidth() - (int) (pane.getWidth() / 7)
+					- weaponPic.getIconWidth(), (int) (pane.getHeight() / 1.9));
 			playing.add(weapon);
-			JLabel p2Throw = new JLabel(new ImageIcon(this.getClass().getResource("/res/robot2.png")));
+			JLabel p2Throw = new JLabel(new ImageIcon(this.getClass()
+					.getResource("/res/robot2.png")));
 			p2Throw.setSize(p2.getSize());
 			p2Throw.setLocation(p2.getLocation());
 			p2Throw.setVisible(false);
@@ -438,7 +458,8 @@ public class GameUI extends AbstractFont {
 	 * Make player1 dead.
 	 */
 	public void p1Lose() {
-		ImageIcon p2LosePic1 = new ImageIcon(this.getClass().getResource("/res/ninjaDead1.png"));
+		ImageIcon p2LosePic1 = new ImageIcon(this.getClass().getResource(
+				"/res/ninjaDead1.png"));
 		JLabel p2Lose1 = new JLabel(p2LosePic1);
 		p2Lose1.setSize(p2LosePic1.getIconWidth(), p2LosePic1.getIconHeight());
 		p2Lose1.setLocation(p1.getX() + 150, p1.getY() + 75);
@@ -446,7 +467,8 @@ public class GameUI extends AbstractFont {
 		p1.setVisible(false);
 		p2Lose1.setVisible(true);
 
-		ImageIcon p2LosePic2 = new ImageIcon(this.getClass().getResource("/res/ninjaDead2.png"));
+		ImageIcon p2LosePic2 = new ImageIcon(this.getClass().getResource(
+				"/res/ninjaDead2.png"));
 		JLabel p2Lose2 = new JLabel(p2LosePic2);
 		p2Lose2.setSize(p2LosePic2.getIconWidth(), p2LosePic2.getIconHeight());
 		p2Lose2.setLocation(p2Lose1.getX() + 100, p2Lose1.getY() + 75);
@@ -489,15 +511,18 @@ public class GameUI extends AbstractFont {
 				public void run() {
 					resultPane.setLayout(new BorderLayout());
 					resultPane.setBackground(new Color(0, 0, 0, 120));
-					resultPane.setSize(
-							new Dimension((int) (playing.getWidth() / 1.6), (int) (playing.getHeight() / 1.6)));
-					resultPane.setLocation(playing.getWidth() / 5, playing.getHeight() / 5);
+					resultPane.setSize(new Dimension(
+							(int) (playing.getWidth() / 1.6), (int) (playing
+									.getHeight() / 1.6)));
+					resultPane.setLocation(playing.getWidth() / 5,
+							playing.getHeight() / 5);
 					Font font = new Font(Font.MONOSPACED, Font.BOLD, 60);
 
 					JButton btnOK = new JButton("OK");
 					btnOK.setBackground(new Color(135, 245, 255));
 					btnOK.setFont(font);
-					btnOK.setSize(resultPane.getWidth() / 4, resultPane.getHeight() / 6);
+					btnOK.setSize(resultPane.getWidth() / 4,
+							resultPane.getHeight() / 6);
 					UserTable user = ctrl.getUser();
 					btnOK.addActionListener((e) -> {
 						if (ctrl.getUser() == null)
@@ -567,7 +592,8 @@ public class GameUI extends AbstractFont {
 						}
 						user.setTotalWPM(wpm + user.getTotalWPM());
 					}
-					detail.append(String.format("\nTime : %.0f seconds", Math.floor(watch.getElapsed())));
+					detail.append(String.format("\nTime : %.0f seconds",
+							Math.floor(watch.getElapsed())));
 					resultPane.setVisible(true);
 					playing.repaint();
 				}

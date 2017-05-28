@@ -46,7 +46,7 @@ public class WaitingUI extends AbstractFont {
 		panel.setSize(1280, 768);
 		panel.setLocation(0, 0);
 		panel.setLayout(null);
-		message = new JTextArea("Game has been created\nWaiting for other player...");
+		message = new JTextArea("Game has been created\nWaiting for another player.");
 		message.setFont(getFont("Berlin Sans FB Bold.ttf").deriveFont(Font.BOLD, 90));
 		message.setLocation(50, panel.getHeight() / 4);
 		message.setSize(panel.getWidth(), (int) (message.getFont().getSize() * 1.25 * 2));

@@ -99,7 +99,8 @@ public class MainFrame {
 				FRAME_HEIGHT);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
-		ImageIcon frameIcon = new ImageIcon(this.getClass().getResource("/res/frameIcon.png"));
+		ImageIcon frameIcon = new ImageIcon(this.getClass().getResource(
+				"/res/frameIcon.png"));
 		frame.setIconImage(frameIcon.getImage());
 		frame.getContentPane().setLayout(null);
 
