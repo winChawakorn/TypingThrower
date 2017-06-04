@@ -145,7 +145,7 @@ public class Controller {
 		createGame();
 		ui.initComponent();
 		ui.startGame(2);
-		MainFrame.setFrame(ui.getGamePanel());
+		MainFrame.setPane(ui.getGamePanel());
 	}
 
 	/**
@@ -283,7 +283,7 @@ public class Controller {
 	 */
 	public void CancelfindGame() {
 		player = "";
-		MainFrame.setFrame(new HomeUI(p1User).getHomePanel());
+		MainFrame.setPane(new HomeUI(p1User).getHomePanel());
 	}
 
 	/**
@@ -301,7 +301,7 @@ public class Controller {
 	 * Change the UI to Home page when the login is successful.
 	 */
 	public void loginSuccess() {
-		MainFrame.setFrame(new HomeUI(p1User).getHomePanel());
+		MainFrame.setPane(new HomeUI(p1User).getHomePanel());
 	}
 
 	/**

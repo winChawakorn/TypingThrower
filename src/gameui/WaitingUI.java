@@ -14,11 +14,12 @@ import javax.swing.JButton;
  * @author Chawakorn Suphepre
  *
  */
-public class WaitingUI extends AbstractFont {
+public class WaitingUI {
 
 	private JTextArea message;
 	private JPanel panel;
 	private JButton btnCancel;
+	private Font messageFont = CreatedFont.fontOfWaitMessage();
 
 	/**
 	 * Create the application.
@@ -47,7 +48,7 @@ public class WaitingUI extends AbstractFont {
 		panel.setLocation(0, 0);
 		panel.setLayout(null);
 		message = new JTextArea("Game has been created\nWaiting for other player...");
-		message.setFont(getFont("Berlin Sans FB Bold.ttf").deriveFont(Font.BOLD, 90));
+		message.setFont(messageFont);
 		message.setLocation(50, panel.getHeight() / 4);
 		message.setSize(panel.getWidth(), (int) (message.getFont().getSize() * 1.25 * 2));
 		message.setForeground(Color.BLUE);

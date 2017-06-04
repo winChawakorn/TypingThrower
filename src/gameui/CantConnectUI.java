@@ -82,6 +82,6 @@ public class CantConnectUI {
 	 */
 	public void closeCantConnectPane() {
 		cantConnectPane.setVisible(false);
-		MainFrame.setFrame(new LoginUI().getLoginPanel());
+		MainFrame.setPane(new LoginUI().getLoginPanel());
 	}
 }

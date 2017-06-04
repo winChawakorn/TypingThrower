@@ -26,7 +26,7 @@ import java.awt.event.KeyEvent;
  * @author Vittunyuta Maeprasart
  *
  */
-public class LoginUI extends AbstractFont {
+public class LoginUI {
 
 	private JTextField userField;
 	private JPasswordField passwordField;
@@ -39,7 +39,8 @@ public class LoginUI extends AbstractFont {
 	private DatabaseConnect dbConnect;
 	private JButton btnPractice;
 	private JButton btnQuit;
-
+	private Font fontForBtn = CreatedFont.fontForBtn();
+	private Font fontInField = CreatedFont.fontInField();
 	/**
 	 * Create the application.
 	 */
@@ -94,8 +95,7 @@ public class LoginUI extends AbstractFont {
 		loginPanel.add(panel);
 
 		userField = new JTextField();
-		userField.setFont(getFont("ProFont For Powerline.ttf").deriveFont(
-				Font.PLAIN, 20));
+		userField.setFont(fontInField);
 		userField.setBounds(304, 64, 300, 50);
 
 		userField.setColumns(10);
@@ -114,8 +114,7 @@ public class LoginUI extends AbstractFont {
 				passwordField, this));
 		panel.add(passwordField);
 
-		Font fontForBtn = getFont("ProFont For Powerline.ttf").deriveFont(
-				Font.PLAIN, 40);
+		
 		btnLogin = new JButton("Login");
 		btnLogin.setBounds(296, 227, 161, 66);
 		btnLogin.setFont(fontForBtn);
@@ -153,20 +152,19 @@ public class LoginUI extends AbstractFont {
 					new Player("CPU", 1500, 10)));
 			ui.initComponent();
 			ui.startGame(1);
-			MainFrame.setFrame(ui.getGamePanel());
+			MainFrame.setPane(ui.getGamePanel());
 		});
 		panel.add(btnPractice);
 
 		btnSignUp = new JButton("Sign Up");
 		btnSignUp.setBounds(428, 437, 135, 44);
-		btnSignUp.setFont(getFont("ProFont For Powerline.ttf").deriveFont(
-				Font.PLAIN, 25));
+		btnSignUp.setFont(CreatedFont.getFont("ProFont For Powerline.ttf").deriveFont(Font.PLAIN, 25));
 		btnSignUp.setBackground(new Color(237, 80, 104));
 		btnSignUp.setBorderPainted(false);
 		btnSignUp.setOpaque(true);
 		btnSignUp.addActionListener((e) -> {
 			getDetailUser = null;
-			MainFrame.setFrame(new SignUpUI().getSignUpPanel());
+			MainFrame.setPane(new SignUpUI().getSignUpPanel());
 		});
 		panel.add(btnSignUp);
 

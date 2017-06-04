@@ -81,6 +81,6 @@ public class SameUserErrorUI {
 	 */
 	public void closeSameUserErrorPane() {
 		sameUserErrorPane.setVisible(false);
-		MainFrame.setFrame(new LoginUI().getLoginPanel());
+		MainFrame.setPane(new LoginUI().getLoginPanel());
 	}
 }

@@ -23,7 +23,7 @@ import connection.UserTable;
  * @author Chawakorn Suphepre
  *
  */
-public class GameUI extends AbstractFont {
+public class GameUI {
 	private final int WIDTH = 1280;
 	private final int HEIGHT = 768;
 
@@ -196,7 +196,7 @@ public class GameUI extends AbstractFont {
 	 */
 	public void countDown() {
 		JLabel number = new JLabel("3", SwingConstants.CENTER);
-		number.setFont(getFont("28 Days Later.ttf").deriveFont(Font.BOLD, 300));
+		number.setFont(CreatedFont.fontCountNum());
 		number.setSize(playing.getWidth(), playing.getHeight() / 2);
 		number.setLocation((word.getWidth() - number.getWidth()) / 2, ((playing.getHeight() - number.getHeight()) / 2));
 		number.setForeground(Color.YELLOW);
@@ -215,7 +215,7 @@ public class GameUI extends AbstractFont {
 							@Override
 							public void run() {
 								number.setText("TYPE");
-								number.setFont(getFont("28 Days Later.ttf").deriveFont(Font.BOLD, 230));
+								number.setFont(CreatedFont.fontCountType());
 								timer.schedule(new TimerTask() {
 									@Override
 									public void run() {
@@ -501,11 +501,11 @@ public class GameUI extends AbstractFont {
 					UserTable user = ctrl.getUser();
 					btnOK.addActionListener((e) -> {
 						if (ctrl.getUser() == null)
-							MainFrame.setFrame(new LoginUI().getLoginPanel());
+							MainFrame.setPane(new LoginUI().getLoginPanel());
 						else {
 							ctrl.endGame();
 							DatabaseConnect.getInstance().updateUserData(user);
-							MainFrame.setFrame(new HomeUI(user).getHomePanel());
+							MainFrame.setPane(new HomeUI(user).getHomePanel());
 						}
 					});
 					resultPane.add(btnOK, BorderLayout.SOUTH);

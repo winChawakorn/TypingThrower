@@ -18,7 +18,7 @@ import connection.UserTable;
  * @author Vittunyuta Maeprasart
  *
  */
-public class SignUpUI extends AbstractFont {
+public class SignUpUI {
 
 	private JPanel signUpPanel;
 	private JPasswordField passwordField, ConfirmPasswordField;
@@ -26,7 +26,10 @@ public class SignUpUI extends AbstractFont {
 	private JLabel lblUsername, lblCharacter, lblPass, lblConfirmPass, status;
 	private JButton btnConfirm, btnCancel;
 	private DatabaseConnect dbConnect;
-
+	private Font fontForBtn = CreatedFont.fontForBtn();
+	private Font fontForlbl = new Font("Courier New", Font.BOLD, 30);
+	private Font fontForfield = CreatedFont.fontInField();
+	
 	/**
 	 * Create the panel.
 	 */
@@ -71,9 +74,6 @@ public class SignUpUI extends AbstractFont {
 		lblTitle.setFont(new Font("Courier New", Font.BOLD, 35));
 		lblTitle.setBounds(6, 6, 749, 50);
 		panel.add(lblTitle);
-
-		Font fontForlbl = new Font("Courier New", Font.BOLD, 30);
-		Font fontForfield = getFont("ProFont For Powerline.ttf").deriveFont(Font.PLAIN, 25);
 		
 		lblCharacter = new JLabel("Character name");
 		lblCharacter.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -130,8 +130,6 @@ public class SignUpUI extends AbstractFont {
 		panel.add(status);
 
 		signUpPanel.add(panel);
-
-		Font fontForBtn = getFont("ProFont For Powerline.ttf").deriveFont(Font.PLAIN, 40);
 
 		btnConfirm = new JButton("Confirm");
 		btnConfirm.setBounds(343, 414, 174, 66);
@@ -219,7 +217,7 @@ public class SignUpUI extends AbstractFont {
 		passwordField.setText("");
 		ConfirmPasswordField.setText("");
 		status.setText("");
-		MainFrame.setFrame(new LoginUI().getLoginPanel());
+		MainFrame.setPane(new LoginUI().getLoginPanel());
 
 	}
 

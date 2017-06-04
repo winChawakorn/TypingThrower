@@ -21,7 +21,7 @@ import connection.UserTable;
  * @author Vittunyuta Maeprasart
  *
  */
-public class HomeUI extends AbstractFont {
+public class HomeUI {
 
 	private JPanel homePanel;
 	private JButton btnOnline, btnOffline, btnLogout, btnQuit;
@@ -31,6 +31,8 @@ public class HomeUI extends AbstractFont {
 	private UserTable currentUser;
 	private JLabel lblWPMNum, lblWinNum, lblLoseNum, lblHpNum, lblAtkNum;
 	private JLabel lblNinja;
+	private Font detailFont = CreatedFont.fontOfDetailOfScore();
+	private Font nameFont = CreatedFont.fontOfNameOfScore();
 
 	/**
 	 * Create the application.
@@ -62,8 +64,7 @@ public class HomeUI extends AbstractFont {
 		homePanel.setLayout(null);
 
 		// create 4 important buttons
-		Font fontForBtn = getFont("planet benson 2.ttf").deriveFont(Font.BOLD,
-				60);
+		Font fontForBtn = CreatedFont.fontOf4HomeBtn();
 
 		btnOnline = new JButton("Online");
 		btnOnline.setFont(fontForBtn);
@@ -72,7 +73,7 @@ public class HomeUI extends AbstractFont {
 		btnOnline.setBorderPainted(false);
 		btnOnline.setBounds(100, 25, 360, 137);
 		btnOnline.addActionListener((e) -> {
-			MainFrame.setFrame(new WaitingUI().getWaitingPanel());
+			MainFrame.setPane(new WaitingUI().getWaitingPanel());
 		});
 		btnOnline.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -99,7 +100,7 @@ public class HomeUI extends AbstractFont {
 							new Player("CPU", 1000, 20)));
 					ui.initComponent();
 					ui.startGame(1);
-					MainFrame.setFrame(ui.getGamePanel());
+					MainFrame.setPane(ui.getGamePanel());
 				});
 		btnOffline.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -129,7 +130,7 @@ public class HomeUI extends AbstractFont {
 		});
 		btnLogout.addActionListener((e) -> {
 			Controller.getInstance().logout();
-			MainFrame.setFrame(new LoginUI().getLoginPanel());
+			MainFrame.setPane(new LoginUI().getLoginPanel());
 		});
 		homePanel.add(btnLogout);
 
@@ -177,12 +178,10 @@ public class HomeUI extends AbstractFont {
 		lblScoreName.setLocation(0, 15);
 		lblScoreName.setHorizontalAlignment(SwingConstants.CENTER);
 		lblScoreName.setSize(324, 70);
-		lblScoreName.setFont(getFont("ProFont For Powerline.ttf").deriveFont(
-				Font.PLAIN, 60));
+		lblScoreName.setFont(nameFont);
 		lblScore.add(lblScoreName);
 
-		Font detailFont = getFont("ProFont For Powerline.ttf").deriveFont(
-				Font.BOLD, 40);
+		
 
 		lblWPM = new JLabel("WPM: ");
 		lblWPM.setHorizontalAlignment(SwingConstants.RIGHT);

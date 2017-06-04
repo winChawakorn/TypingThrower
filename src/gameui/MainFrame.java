@@ -33,7 +33,7 @@ public class MainFrame {
 	 * @param newPane
 	 *            is current panel to be showed
 	 */
-	public static void setFrame(JPanel newPane) {
+	public static void setPane(JPanel newPane) {
 		frame.getContentPane().removeAll();
 		frame.repaint();
 		newPane.setBounds(0, 0, 1280, 768);
@@ -104,7 +104,7 @@ public class MainFrame {
 		frame.getContentPane().setLayout(null);
 
 		// set the first page
-		setFrame(new LoginUI().getLoginPanel());
+		setPane(new LoginUI().getLoginPanel());
 	}
 
 }
