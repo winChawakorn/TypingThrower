@@ -1,13 +1,18 @@
 # TypingThrower
 ### Author
-**Created** by Chawakorn Suphepre(@winChawakorn) and Vittunyuta Maeprasart(@aommoaGitHub)
+**Chawakorn Suphepre(@winChawakorn) and Vittunyuta Maeprasart(@aommoaGitHub)**
 
 Documentation : <a href="https://winchawakorn.github.io/TypingThrower/">https://winchawakorn.github.io/TypingThrower/</a>
 
 TypingThrower project is a game. This typing game can calculate and record your typing speed in WPM (words per minutes). 2 players will fight with each other by typing the apparent word.
 Correct typing will damage to your opponent. You will win when your opponent lost all HP. This game can improve your typing skill.
 
+## *** NEW GAME VERSION HAS RELEASED, PLEASE UPDATE THE GAME.  2017/06/05 ***
 <a href="https://github.com/winChawakorn/TypingThrower/raw/master/TypingThrower.jar"> >>>Download this Game</a> Run `TypingThrower.jar` and have fun!</br></br>
+### What's new
+- Server and client will communicate each others by using `char` for most case. So that you can't play the online mode in the old version. This can increase the communication speed.<br>
+
+## *** NEW SERVER VERSION HAS RELEASED. THE SERVER MUST BE THE SAME VERSION AS THE GAME.  2017/06/05 ***
 If our server is closed or you would like to open your own server, you can  
 <a href="https://github.com/winChawakorn/TypingThrower/raw/master/Server.jar"> >>>Download the server for Typing Thrower</a> and run `Server.jar` in the terminal or cmd.</br>
 To change the server, you have to change the IP address in `MainFrame` to your server's IP address.</br>
