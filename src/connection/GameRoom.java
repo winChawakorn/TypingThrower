@@ -12,7 +12,7 @@ import com.lloseng.ocsf.server.ConnectionToClient;
 public class GameRoom {
 	private ConnectionToClient c1 = null;
 	private ConnectionToClient c2 = null;
-	private boolean access = true;
+	private boolean isStart = false;
 
 	/**
 	 * Add client to empty slot of this room.
@@ -35,9 +35,9 @@ public class GameRoom {
 	 * 
 	 * @return access which contains the access status.
 	 */
-	public boolean canAccess() {
-		return this.access;
-	}
+	// public boolean canAccess() {
+	// return this.access;
+	// }
 
 	/**
 	 * Return the opponent of c which check by the another ConnectionToClient.
@@ -81,20 +81,19 @@ public class GameRoom {
 		if (c2 != null)
 			count++;
 		if (count == 2)
-			access = false;
+			isStart = true;
 		return count;
 	}
 
 	/**
-	 * Return isFull status. True if this room is full. False if this room is
-	 * not full.
+	 * Return isFull status. True if this room is full or the game is started.
+	 * False if this room is not full.
 	 * 
 	 * @return
 	 */
 	public boolean isFull() {
-		if (count() == 2) {
+		if (count() == 2 || isStart)
 			return true;
-		}
 		return false;
 	}
 

@@ -553,7 +553,7 @@ public class GameUI extends AbstractFont {
 					resultPane.add(space, BorderLayout.WEST);
 					resultPane.add(space2, BorderLayout.EAST);
 					resultPane.add(detail, BorderLayout.CENTER);
-					if (ctrl.getPlayer().equals("")) {
+					if (ctrl.getPlayer() == 'f') {
 						if (game.isP2Lose()) {
 							winOrLose.setText("YOU WIN");
 							if (user != null)
@@ -571,7 +571,7 @@ public class GameUI extends AbstractFont {
 							user.setTotalWPM(wpm + user.getTotalWPM());
 						}
 					} else {
-						if (ctrl.getPlayer().equals("2")) {
+						if (ctrl.getPlayer() == '2') {
 							if (game.isP1Lose()) {
 								user.setWinRound(user.getWinRound() + 1);
 								winOrLose.setText("YOU WIN");
@@ -580,7 +580,7 @@ public class GameUI extends AbstractFont {
 								winOrLose.setText("YOU LOSE");
 							}
 							detail.append(p2wpm.getText());
-						} else if (ctrl.getPlayer().equals("1")) {
+						} else if (ctrl.getPlayer() == '1') {
 							if (game.isP2Lose()) {
 								user.setWinRound(user.getWinRound() + 1);
 								winOrLose.setText("YOU WIN");

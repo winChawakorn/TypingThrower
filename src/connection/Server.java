@@ -1,6 +1,7 @@
 package connection;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -23,6 +24,16 @@ public class Server extends AbstractServer {
 	private Map<ConnectionToClient, UserTable> users;
 	private List<String> usernames;
 
+	public final static char FIND_ROOM = 'r';
+	public final static char CANCEL_FIND_ROOM = 'c';
+	public final static char END = 'e';
+	public final static char ATTACK = 'a';
+	public final static char HURT = 'h';
+	public final static char LOGOUT = 'o';
+	public final static char WAIT = 'w';
+	public final static char LOGIN_FAIL = 'f';
+	public final static char LOGIN_SUCCESS = 's';
+
 	/**
 	 * Initialize new Server with the specific port.
 	 * 
@@ -42,7 +53,9 @@ public class Server extends AbstractServer {
 	 */
 	@Override
 	protected void clientConnected(ConnectionToClient client) {
-		System.out.println();
+		System.out.print("\n"
+				+ new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
+						.format(new java.util.Date()) + "  ");
 		System.out.println(client.getInetAddress() + " has connected");
 	}
 
@@ -53,14 +66,15 @@ public class Server extends AbstractServer {
 	 */
 	@Override
 	protected synchronized void clientDisconnected(ConnectionToClient client) {
+		System.out.print(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
+				.format(new java.util.Date()) + "  ");
 		if (users.containsKey(client)) {
 			System.out.println("user " + users.get(client).getUsername()
-					+ " has disconnected");
+					+ " has disconnected\n");
 			usernames.remove(users.get(client).getUsername());
 			users.remove(client);
 		} else
-			System.out.println("\nSomeone has disconnected");
-		System.out.println();
+			System.out.println("Someone has disconnected\n");
 		for (GameRoom r : rooms) {
 			if (r.getC1() == client) {
 				r.p1Disconnected();
@@ -74,19 +88,19 @@ public class Server extends AbstractServer {
 
 	/**
 	 * Handle the message from the client. If the msg is a UserTable, it will
-	 * use this UserTable to login for this user. If the msg is a String, it
-	 * will make an action related with that String.
+	 * use this UserTable to login for this user. If the msg is a char or a
+	 * String, it will make an action related with that object.
 	 */
 	@Override
 	protected synchronized void handleMessageFromClient(Object msg,
 			ConnectionToClient client) {
-		if (msg instanceof String) {
-			String message = (String) msg;
-			GameRoom findClientRoom = findClientRoom(client);
-			if (message.equals("find room")) {
+		GameRoom findClientRoom = findClientRoom(client);
+		if (msg instanceof Character) {
+			char message = (char) msg;
+			if (message == FIND_ROOM) {
 				if (rooms.size() > 0) {
 					for (GameRoom r : rooms) {
-						if (!r.isFull() && r.canAccess()) {
+						if (!r.isFull()) {
 							r.add(client);
 							if (r.isFull()) {
 								try {
@@ -94,8 +108,11 @@ public class Server extends AbstractServer {
 											.getOpponent(client)));
 									r.getOpponent(client).sendToClient(
 											users.get(client));
+									System.out.print(new SimpleDateFormat(
+											"yyyy/MM/dd HH:mm:ss")
+											.format(new java.util.Date()));
 									System.out
-											.println("room "
+											.println("  room "
 													+ (rooms.indexOf(r) + 1)
 													+ " start");
 									break;
@@ -108,40 +125,75 @@ public class Server extends AbstractServer {
 				}
 				findClientRoom = findClientRoom(client);
 				if (findClientRoom == null) {
-					System.err.println("create new room\n");
+					System.err
+							.print(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
+									.format(new java.util.Date()));
+					System.err.println("  create new room\n");
 					GameRoom r2 = new GameRoom();
 					r2.add(client);
 					rooms.add(r2);
 					try {
-						client.sendToClient("wait");
+						client.sendToClient(WAIT);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
-			} else if (message.equals("Cancel") && findClientRoom != null) {
+			} else if (message == CANCEL_FIND_ROOM && findClientRoom != null) {
 				if (findClientRoom.count() == 1) {
 					rooms.remove(findClientRoom);
 					try {
-						client.sendToClient("Cancel");
+						client.sendToClient(CANCEL_FIND_ROOM);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
-			} else if (message.equals("finish")) {
+			} else if (message == END) {
 				if (findClientRoom != null)
 					if (rooms.contains(findClientRoom))
 						rooms.remove(findClientRoom);
-			} else if (message.equals("attack")) {
+			} else if (message == ATTACK) {
 				if (findClientRoom != null) {
 					try {
-						client.sendToClient("attack");
-						findClientRoom.getOpponent(client).sendToClient(
-								"attacked");
+						client.sendToClient(ATTACK);
+						findClientRoom.getOpponent(client).sendToClient(HURT);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
-			} else if (message.contains("wpm")) {
+			} else if (message == LOGOUT) {
+				System.out
+						.println("\n"
+								+ new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
+										.format(new java.util.Date()) + "  "
+								+ users.get(client).getUsername()
+								+ " has logged out\n");
+				usernames.remove(users.get(client).getUsername());
+				users.remove(client);
+			}
+		} else if (msg instanceof UserTable) {
+			UserTable user = (UserTable) msg;
+			if (usernames.contains(user.getUsername())) {
+				try {
+					client.sendToClient(LOGIN_FAIL);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return;
+			}
+			System.err.println("\n"
+					+ new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
+							.format(new java.util.Date()) + "  +++ Welcome "
+					+ user.getUsername() + " to TypingThrower +++\n");
+			users.put(client, user);
+			usernames.add(user.getUsername());
+			try {
+				client.sendToClient(LOGIN_SUCCESS);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else if (msg instanceof String) {
+			String message = (String) msg;
+			if (message.contains("wpm")) {
 				if (findClientRoom != null) {
 					String wpm = message.substring(4);
 					try {
@@ -152,30 +204,6 @@ public class Server extends AbstractServer {
 						e.printStackTrace();
 					}
 				}
-			} else if (message.equals("logout")) {
-				System.out.println("\n" + users.get(client).getUsername()
-						+ " has logged out\n");
-				usernames.remove(users.get(client).getUsername());
-				users.remove(client);
-			}
-		} else if (msg instanceof UserTable) {
-			UserTable user = (UserTable) msg;
-			if (usernames.contains(user.getUsername())) {
-				try {
-					client.sendToClient("cant login");
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				return;
-			}
-			System.err.println("\n+++ Welcome " + user.getUsername()
-					+ " to TypingThrower +++\n");
-			users.put(client, user);
-			usernames.add(user.getUsername());
-			try {
-				client.sendToClient("login success");
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
 		}
 	}
@@ -205,7 +233,8 @@ public class Server extends AbstractServer {
 		Server s = new Server(3007);
 		try {
 			s.listen();
-			System.out.println("Server started");
+			System.out.println(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
+					.format(new java.util.Date()) + "  Server started");
 			System.out.println();
 			Scanner sc = new Scanner(System.in);
 			while (true) {
@@ -225,6 +254,8 @@ public class Server extends AbstractServer {
 	 * room, each name of the online username.
 	 */
 	public void printDetail() {
+		System.out.println(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
+				.format(new java.util.Date()));
 		System.out.println("Current client(s) : " + getNumberOfClients());
 		System.out.println("All users : "
 				+ Arrays.toString(getClientConnections()));
