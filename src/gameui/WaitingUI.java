@@ -37,7 +37,8 @@ public class WaitingUI {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				try {
-					BufferedImage img = ImageIO.read(this.getClass().getResourceAsStream("/res/waitbg.png"));
+					BufferedImage img = ImageIO.read(this.getClass()
+							.getResourceAsStream("/res/waitbg.png"));
 					g.drawImage(img, 0, 0, 1280, 768, null);
 				} catch (IOException e) {
 					// do nothing
@@ -47,14 +48,17 @@ public class WaitingUI {
 		panel.setSize(1280, 768);
 		panel.setLocation(0, 0);
 		panel.setLayout(null);
-		message = new JTextArea("Game has been created\nWaiting for other player...");
+		message = new JTextArea(
+				"Game has been created\nWaiting for other player...");
 		message.setFont(messageFont);
 		message.setLocation(50, panel.getHeight() / 4);
-		message.setSize(panel.getWidth(), (int) (message.getFont().getSize() * 1.25 * 2));
+		message.setSize(panel.getWidth(),
+				(int) (message.getFont().getSize() * 1.25 * 2));
 		message.setForeground(Color.BLUE);
 		message.setBackground(new Color(150, 190, 255, 190));
 		message.setEditable(false);
-		Icon icon = new ImageIcon(this.getClass().getResource("/res/rabbit2.gif-c200"));
+		Icon icon = new ImageIcon(this.getClass().getResource(
+				"/res/rabbit2.gif-c200"));
 		JLabel pic1 = new JLabel(icon);
 		pic1.setSize(icon.getIconWidth(), icon.getIconHeight());
 		pic1.setLocation(352, 444);
@@ -64,7 +68,8 @@ public class WaitingUI {
 		btnCancel.setBackground(new Color(56, 195, 216));
 		btnCancel.setFont(new Font(Font.MONOSPACED, Font.BOLD, 50));
 		btnCancel.setForeground(Color.WHITE);
-		btnCancel.setBounds(panel.getWidth() / 2, panel.getHeight() - (panel.getHeight() / 3),
+		btnCancel.setBounds(panel.getWidth() / 2,
+				panel.getHeight() - (panel.getHeight() / 3),
 				(int) (panel.getWidth() / 2.5), panel.getHeight() / 8);
 		btnCancel.addActionListener((e) -> {
 			Controller.getInstance().requestForCancel();
@@ -72,6 +77,7 @@ public class WaitingUI {
 		panel.add(btnCancel);
 		Controller.getInstance().findGame();
 	}
+
 	/**
 	 * Return this UI JPanel.
 	 * 

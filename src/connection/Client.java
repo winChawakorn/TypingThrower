@@ -25,38 +25,40 @@ public class Client extends AbstractClient {
 	/**
 	 * Handle the message from the server and make some action. If msg is a
 	 * UserTable(the opponent information), the online game will start. If msg
-	 * is a String, it will make an action as the same meaning with that
-	 * message. Such as "cant login" will make this method invoke loginError()
-	 * from the Controller.
+	 * is a char, it will make an action. Such as 'f' will make this method
+	 * invoke loginError() from the Controller.
 	 */
 	@Override
 	protected synchronized void handleMessageFromServer(Object msg) {
 		Controller ctrl = Controller.getInstance();
-		if (msg instanceof String) {
-			String message = (String) msg;
-			if (message.equals("login success")) {
+		if (msg instanceof Character) {
+			char message = (char) msg;
+			if (message == Server.LOGIN_SUCCESS) {
 				ctrl.loginSuccess();
 			}
-			if (message.equals("cant login")) {
+			if (message == Server.LOGIN_FAIL) {
 				ctrl.loginError();
 			}
-			if (message.equals("Cancel")) {
+			if (message == Server.CANCEL_FIND_ROOM) {
 				ctrl.CancelfindGame();
 			}
-			if (message.equals("attacked")) {
+			if (message == Server.HURT) {
 				ctrl.attackedUI();
-			} else if (message.equals("attack")) {
+			} else if (message == Server.ATTACK) {
 				ctrl.attackUI();
-			} else if (message.equals("wait")) {
+			} else if (message == Server.WAIT) {
 				ctrl.waiting();
-			} else if (message.substring(0, 5).equals("myWPM")) {
-				ctrl.mywpmUI(message.substring(6));
-			} else if (message.substring(0, 7).equals("oppoWPM")) {
-				ctrl.oppowpmUI(message.substring(8));
 			}
 		} else if (msg instanceof UserTable) {
 			UserTable opponent = (UserTable) msg;
 			ctrl.start(opponent);
+		} else if (msg instanceof String) {
+			String message = (String) msg;
+			if (message.substring(0, 5).equals("myWPM")) {
+				ctrl.mywpmUI(message.substring(6));
+			} else if (message.substring(0, 7).equals("oppoWPM")) {
+				ctrl.oppowpmUI(message.substring(8));
+			}
 		}
 	}
 }

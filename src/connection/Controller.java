@@ -18,6 +18,8 @@ import java.io.IOException;
  *
  */
 public class Controller {
+	// Value for offline player
+	private final char OFFLINE = 'f';
 	// Singleton instant
 	private static Controller ctrl = null;
 	// Client that connect to
@@ -28,15 +30,14 @@ public class Controller {
 	private boolean isJoinServer = false;
 	private TypingThrower game;
 	private Player p1, p2;
-	// State for player player one or player two
-	private String player;
+	// State for player (player one,player two, offline player)
+	private char player = OFFLINE;
 	private UserTable p1User, p2User;
 
 	/**
 	 * Initialize new Controller
 	 */
 	private Controller() {
-		player = "";
 	}
 
 	/**
@@ -54,7 +55,7 @@ public class Controller {
 	 * 
 	 * @return player state
 	 */
-	public String getPlayer() {
+	public char getPlayer() {
 		return this.player;
 	}
 
@@ -119,7 +120,7 @@ public class Controller {
 	 */
 	public void findGame() {
 		try {
-			c.sendToServer("find room");
+			c.sendToServer(Server.FIND_ROOM);
 		} catch (IOException e) {
 			MainFrame.showConnectionErrorUI();
 		}
@@ -129,7 +130,7 @@ public class Controller {
 	 * Set this user to a waiting state when this user created a room.
 	 */
 	public void waiting() {
-		player = "1";
+		player = '1';
 	}
 
 	/**
@@ -139,8 +140,8 @@ public class Controller {
 	 */
 	public void start(UserTable opponent) {
 		p2User = opponent;
-		if (player.equals(""))
-			player = "2";
+		if (player == 'f')
+			player = '2';
 		ui = new GameUI();
 		createGame();
 		ui.initComponent();
@@ -156,9 +157,9 @@ public class Controller {
 				p1User.getATK());
 		p2 = new Player(p2User.getCharacterName(), p2User.getHP(),
 				p2User.getATK());
-		if (player.equals("1"))
+		if (player == '1')
 			this.game = new TypingThrower(p1, p2);
-		else if (player.equals("2"))
+		else if (player == '2')
 			this.game = new TypingThrower(p2, p1);
 		ui.setGame(this.game);
 	}
@@ -184,9 +185,9 @@ public class Controller {
 	 *            is the wpm to be set to.
 	 */
 	public void mywpmUI(String value) {
-		if (player.equals("1"))
+		if (player == '1')
 			ui.setP1WPM(value);
-		else if (player.equals("2"))
+		else if (player == '2')
 			ui.setP2WPM(value);
 	}
 
@@ -197,9 +198,9 @@ public class Controller {
 	 *            is the wpm to be set to.
 	 */
 	public void oppowpmUI(String value) {
-		if (player.equals("1"))
+		if (player == '1')
 			ui.setP2WPM(value);
-		else if (player.equals("2"))
+		else if (player == '2')
 			ui.setP1WPM(value);
 	}
 
@@ -208,7 +209,7 @@ public class Controller {
 	 */
 	public void attack() {
 		try {
-			c.sendToServer("attack");
+			c.sendToServer(Server.ATTACK);
 		} catch (IOException e) {
 			MainFrame.showConnectionErrorUI();
 		}
@@ -218,9 +219,9 @@ public class Controller {
 	 * Order the UI to attack this user.
 	 */
 	public void attackedUI() {
-		if (player.equals("1"))
+		if (player == '1')
 			ui.p2Attack();
-		else if (player.equals("2"))
+		else if (player == '2')
 			ui.p1Attack();
 	}
 
@@ -228,9 +229,9 @@ public class Controller {
 	 * Order the UI to attack this user's opponent.
 	 */
 	public void attackUI() {
-		if (player.equals("1"))
+		if (player == '1')
 			ui.p1Attack();
-		else if (player.equals("2"))
+		else if (player == '2')
 			ui.p2Attack();
 	}
 
@@ -240,15 +241,14 @@ public class Controller {
 	 */
 	public void endGame() {
 		try {
-			c.sendToServer("finish");
+			c.sendToServer(Server.END);
 		} catch (IOException e) {
-			System.out.println("end game error");
 			MainFrame.showConnectionErrorUI();
 		}
 		game = null;
 		p1 = null;
 		p2 = null;
-		player = "";
+		player = 'f';
 		p2User = null;
 	}
 
@@ -272,7 +272,7 @@ public class Controller {
 		p1User = null;
 		isJoinServer = false;
 		try {
-			c.sendToServer("logout");
+			c.sendToServer(Server.LOGOUT);
 		} catch (IOException e) {
 			MainFrame.showConnectionErrorUI();
 		}
@@ -282,7 +282,7 @@ public class Controller {
 	 * Order the UI to cancel finding a game and back to Home page.
 	 */
 	public void CancelfindGame() {
-		player = "";
+		player = 'f';
 		MainFrame.setPane(new HomeUI(p1User).getHomePanel());
 	}
 
@@ -291,7 +291,7 @@ public class Controller {
 	 */
 	public void requestForCancel() {
 		try {
-			c.sendToServer("Cancel");
+			c.sendToServer(Server.CANCEL_FIND_ROOM);
 		} catch (IOException e) {
 			MainFrame.showConnectionErrorUI();
 		}
