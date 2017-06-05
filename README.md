@@ -19,7 +19,7 @@ To change the server, you have to change the IP address in `MainFrame` to your s
 - Server can show the time of every activities.
 
 ## UML Diagram for this project:
-![UML Diagram](http://i.imgur.com/cDJSst7.jpg)
+![UML Diagram](http://i.imgur.com/YAQjAF5.jpg)
 
 
 ## How to play
