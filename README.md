@@ -10,13 +10,14 @@ Correct typing will damage to your opponent. You will win when your opponent los
 ## *** NEW GAME VERSION HAS RELEASED, PLEASE UPDATE THE GAME.  2017/06/05 ***
 <a href="https://github.com/winChawakorn/TypingThrower/raw/master/TypingThrower.jar"> >>>Download this Game</a> Run `TypingThrower.jar` and have fun!</br></br>
 
-## *** NEW SERVER VERSION HAS RELEASED. THE SERVER MUST BE THE SAME VERSION AS THE GAME.  2017/06/05 ***
+## *** NEW SERVER VERSION HAS RELEASED. THE SERVER MUST BE THE SAME VERSION AS THE GAME.  2017/06/12 ***
 If our server is closed or you would like to open your own server, you can  
 <a href="https://github.com/winChawakorn/TypingThrower/raw/master/Server.jar"> >>>Download the server for Typing Thrower</a> and run `Server.jar` in the terminal, cmd, or etc.</br>
 To change the server, you have to change the IP address in `MainFrame` to your server's IP address.</br>
 ### What's new
-- Server and client will communicate each others by using `char` for most case. So that you can't play the online mode in the old version. This can increase the communication speed.<br>
-- Server can show the time of every activities.
+- `Server` and `Client` will communicate each others by using `char` for most case. So that you can't play the online mode in the old version. This can increase the communication speed.<br>
+- `Server` can show the time of every activities.
+- `Server` uses `Logger` to log the message instead of `System.out.print`.
 
 ## UML Diagram for this project:
 ![UML Diagram](http://i.imgur.com/YAQjAF5.jpg)
