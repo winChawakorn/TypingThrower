@@ -1,13 +1,13 @@
 package connection;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 import com.lloseng.ocsf.server.AbstractServer;
 import com.lloseng.ocsf.server.ConnectionToClient;
@@ -33,6 +33,12 @@ public class Server extends AbstractServer {
 	public final static char WAIT = 'w';
 	public final static char LOGIN_FAIL = 'f';
 	public final static char LOGIN_SUCCESS = 's';
+	/* Logging the server's event */
+	static final Logger logger = Logger.getLogger("Server");
+	static {
+		System.setProperty("java.util.logging.SimpleFormatter.format",
+				"%1$tF %1$tT %5$s%n");
+	}
 
 	/**
 	 * Initialize new Server with the specific port.
@@ -53,10 +59,7 @@ public class Server extends AbstractServer {
 	 */
 	@Override
 	protected void clientConnected(ConnectionToClient client) {
-		System.out.print("\n"
-				+ new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
-						.format(new java.util.Date()) + "  ");
-		System.out.println(client.getInetAddress() + " has connected");
+		logger.info(client.getInetAddress() + " has connected");
 	}
 
 	/**
@@ -66,15 +69,14 @@ public class Server extends AbstractServer {
 	 */
 	@Override
 	protected synchronized void clientDisconnected(ConnectionToClient client) {
-		System.out.print(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
-				.format(new java.util.Date()) + "  ");
 		if (users.containsKey(client)) {
-			System.out.println("user " + users.get(client).getUsername()
+
+			logger.info("user " + users.get(client).getUsername()
 					+ " has disconnected\n");
 			usernames.remove(users.get(client).getUsername());
 			users.remove(client);
 		} else
-			System.out.println("Someone has disconnected\n");
+			logger.info("Someone has disconnected\n");
 		for (GameRoom r : rooms) {
 			if (r.getC1() == client) {
 				r.p1Disconnected();
@@ -108,13 +110,8 @@ public class Server extends AbstractServer {
 											.getOpponent(client)));
 									r.getOpponent(client).sendToClient(
 											users.get(client));
-									System.out.print(new SimpleDateFormat(
-											"yyyy/MM/dd HH:mm:ss")
-											.format(new java.util.Date()));
-									System.out
-											.println("  room "
-													+ (rooms.indexOf(r) + 1)
-													+ " start");
+									logger.info("room "
+											+ (rooms.indexOf(r) + 1) + " start");
 									break;
 								} catch (IOException e) {
 									e.printStackTrace();
@@ -125,10 +122,8 @@ public class Server extends AbstractServer {
 				}
 				findClientRoom = findClientRoom(client);
 				if (findClientRoom == null) {
-					System.err
-							.print(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
-									.format(new java.util.Date()));
-					System.err.println("  create new room\n");
+					logger.info(users.get(client).getCharacterName()
+							+ " has created new room\n");
 					GameRoom r2 = new GameRoom();
 					r2.add(client);
 					rooms.add(r2);
@@ -161,12 +156,9 @@ public class Server extends AbstractServer {
 					}
 				}
 			} else if (message == LOGOUT) {
-				System.out
-						.println("\n"
-								+ new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
-										.format(new java.util.Date()) + "  "
-								+ users.get(client).getUsername()
-								+ " has logged out\n");
+				System.out.println();
+				logger.info(users.get(client).getUsername()
+						+ " has logged out\n");
 				usernames.remove(users.get(client).getUsername());
 				users.remove(client);
 			}
@@ -180,10 +172,9 @@ public class Server extends AbstractServer {
 				}
 				return;
 			}
-			System.err.println("\n"
-					+ new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
-							.format(new java.util.Date()) + "  +++ Welcome "
-					+ user.getUsername() + " to TypingThrower +++\n");
+			System.out.println();
+			logger.info("+++ Welcome " + user.getUsername()
+					+ " to TypingThrower +++\n");
 			users.put(client, user);
 			usernames.add(user.getUsername());
 			try {
@@ -233,12 +224,10 @@ public class Server extends AbstractServer {
 		Server s = new Server(3007);
 		try {
 			s.listen();
-			System.out.println(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
-					.format(new java.util.Date()) + "  Server started");
-			System.out.println();
+			logger.info("Server started\n");
 			Scanner sc = new Scanner(System.in);
+			System.out.println("Menu : (p)rint detail");
 			while (true) {
-				System.err.println("Menu : (p)rint detail");
 				String ans = sc.nextLine();
 				if (ans.equals("p"))
 					s.printDetail();
@@ -254,8 +243,7 @@ public class Server extends AbstractServer {
 	 * room, each name of the online username.
 	 */
 	public void printDetail() {
-		System.out.println(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
-				.format(new java.util.Date()));
+		logger.info("Print detail");
 		System.out.println("Current client(s) : " + getNumberOfClients());
 		System.out.println("All users : "
 				+ Arrays.toString(getClientConnections()));
@@ -269,5 +257,6 @@ public class Server extends AbstractServer {
 						+ (rooms.indexOf(r) + 1));
 			}
 		System.out.println();
+		System.out.println("Menu : (p)rint detail");
 	}
 }
