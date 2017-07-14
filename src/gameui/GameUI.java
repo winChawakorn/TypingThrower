@@ -171,9 +171,8 @@ public class GameUI {
 				pane.addKeyListener(new KeyAdapter() {
 					@Override
 					public void keyPressed(KeyEvent e) {
-						typeCount++;
-
 						if (e.getKeyChar() == currentWord.charAt(0)) {
+							typeCount++;
 							stopwatch.start();
 							if (mode == 2)
 								ctrl.attack();
