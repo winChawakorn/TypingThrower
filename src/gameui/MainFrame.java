@@ -25,6 +25,7 @@ public class MainFrame {
 
 	private int FRAME_WIDTH = 1280;
 	private int FRAME_HEIGHT = 768;
+	private static String ip = "";
 	private static JFrame frame;
 
 	/**
@@ -65,6 +66,11 @@ public class MainFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		if (args.length > 0) {
+			ip = args[0];
+		} else {
+			ip = "158.108.132.32";
+		}
 		// set
 		PropertyConfigurator.configure("log4j.properties");
 		MainFrame main = new MainFrame();
@@ -83,7 +89,7 @@ public class MainFrame {
 	 */
 	public MainFrame() {
 		Controller ctrl = Controller.getInstance();
-		ctrl.setClient(new Client("35.185.188.93", 3007));
+		ctrl.setClient(new Client(ip, 3007));
 		initialize();
 	}
 
