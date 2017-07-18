@@ -187,6 +187,8 @@ public class Server extends AbstractServer {
 			if (message.contains("wpm")) {
 				if (findClientRoom != null) {
 					String wpm = message.substring(4);
+					if (Double.parseDouble(wpm) > 150)
+						wpm = "10";
 					try {
 						client.sendToClient("myWPM " + wpm);
 						findClientRoom.getOpponent(client).sendToClient(
