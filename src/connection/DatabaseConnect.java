@@ -3,6 +3,7 @@ package connection;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -22,9 +23,11 @@ import gameui.MainFrame;
 public class DatabaseConnect {
 	private static DatabaseConnect databaseConnect = null;
 	private static ConnectionSource connectionSource = null;
-	private final static String USERNAME = "root";
-	private final static String PASSWORD = "WinAom555";
-	private final static String URL = "jdbc:mysql://104.198.173.104:3306/names";
+	
+	private static ResourceBundle bundle = ResourceBundle.getBundle("mystuff");
+	private static final String USERNAME = bundle.getString("jdbc.user");;
+	private static final String PASSWORD = bundle.getString("jdbc.password");
+	private static final String URL = bundle.getString("jdbc.url");
 	private Dao<UserTable, String> userDao;
 	private List<UserTable> getDetailUser;
 	private UpdateBuilder<UserTable, String> updateBuilder;
